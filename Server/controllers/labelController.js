@@ -1,9 +1,9 @@
-const labelModel = require('../models/label');
+const labelModel = require('../models').label;
 
 
 exports.getLabels = async (req, res, next) => {
     try {
-        const labeList = await labelModel.findAll();
+        const labelList = await labelModel.findAll();
         return res.status(200).json({
             success: true,
             labels: labelList,
@@ -20,18 +20,19 @@ exports.getLabels = async (req, res, next) => {
 
 exports.insertLabel = async(req, res, next) => {
     try{
-        const {name, description, color} = req.body();
+        const {name, description, color} = req.body;
         await labelModel.create({
             name,
             description,
             color,
         });
+
         return res.status(200).json({
             success: true,
         });
     }
     catch(e) {
-        res.status(400).json({
+        return res.status(400).json({
             success: false,
             error: e,
         });
@@ -40,12 +41,12 @@ exports.insertLabel = async(req, res, next) => {
 
 exports.updateLabel = async(req, res, next) => {
     try {
-        const {labelId, name, description, color} = req.body();
+        const {labelId, name, description, color} = req.body;
         await labelModel.update({
             name,
             description,
             color,
-        }, {where: {id : {labelId}}} );
+        }, {where: {id : labelId}} );
 
         return res.status(200).json({
             success: true,
