@@ -35,7 +35,19 @@ fs.readdirSync(__dirname)
     db[model.name] = model;
   });
 
+let assignee = sequelize.define("assignee", {}, { timestamps: false });
+db["assignee"] = assignee;
+export const issuelabel = sequelize.define(
+  "issuelabel",
+  {},
+  {
+    timestamps: false,
+  }
+);
+db["issuelabel"] = issuelabel;
+
 Object.keys(db).forEach((modelName) => {
+  console.log(modelName);
   if (db[modelName].associate) {
     db[modelName].associate(db);
   }
@@ -46,27 +58,27 @@ db.Sequelize = Sequelize;
 
 /* 관계 맵핑 */
 // user - issue (N:M)
-const assignee = sequelize.define("assignee", {}, { timestamps: false });
+
 db.user.belongsToMany(db.issue, {
-  foreignKey: "issueId",
+  foreignKey: "userId",
   targetKey: "id",
   through: assignee,
 });
 db.issue.belongsToMany(db.user, {
-  foreignKey: "userId",
+  foreignKey: "issueId",
   targetKey: "id",
   through: assignee,
 });
 
 // label - issue (N:M)
-const issuelabel = sequelize.define("issuelabel", {}, { timestamps: false });
+
 db.label.belongsToMany(db.issue, {
-  foreignKey: "issueId",
+  foreignKey: "labelId",
   targetKey: "id",
   through: issuelabel,
 });
 db.issue.belongsToMany(db.label, {
-  foreignKey: "labelId",
+  foreignKey: "issueId",
   targetKey: "id",
   through: issuelabel,
 });
