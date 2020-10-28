@@ -5,6 +5,8 @@ import cookieParser from "cookie-parser";
 import logger from "morgan";
 
 import indexRouter from "./routes/index.js";
+import passport from "passport";
+import passportConfig from "./config/passport";
 require("dotenv").config();
 
 const models = require("./models");
@@ -22,7 +24,10 @@ models.sequelize
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(cookieParser(process.env.COOKIE_SECRET));
+app.use(passport.initialize());
+passportConfig();
+
 app.use(express.static(path.join(__dirname, "../dist")));
 
 app.use("/api", indexRouter);
