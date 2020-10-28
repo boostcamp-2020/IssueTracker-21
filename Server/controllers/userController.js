@@ -52,7 +52,11 @@ exports.isExist = async (userId) => {
     let user = await userModel.findOne({
       where: { id: userId },
     });
-    return { success: false };
+    return {
+      success: true,
+      userId: user.dataValues.id,
+      profile: user.dataValues.profile,
+    };
   } catch (e) {
     return res.status(400).json({
       success: false,
