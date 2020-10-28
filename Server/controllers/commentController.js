@@ -1,4 +1,4 @@
-const commentModel = require("../models/comment");
+const commentModel = require("../models").comment;
 
 exports.insertComment = async (req, res) => {
     let { authorId, issueId, content, createDate } = req.body;
@@ -24,7 +24,7 @@ exports.insertComment = async (req, res) => {
 exports.updateComment = async (req, res) => {
     let { commentId, authorId, issueId, content, createDate } = req.body;
     try{
-        let comment = await commentModel.find({where: {id: commentId}});
+        let comment = await commentModel.findOne({where: {id: commentId}});
         await comment.update({
             authorId: authorId,
             issueId: issueId,
