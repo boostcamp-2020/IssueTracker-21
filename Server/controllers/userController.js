@@ -3,6 +3,8 @@ const passport = require("passport");
 const jwt = require("jsonwebtoken");
 const userModel = require("../models").user;
 
+/* local 로그인 */
+
 exports.localLogin = (req, res, next) => {
   passport.authenticate("local", { session: false }, (err, user) => {
     if (err || !user) {
@@ -46,6 +48,61 @@ exports.localStrategyLogin = async (userId, password) => {
     });
   }
 };
+
+/* github 로그인 */
+
+exports.githubLogin = passport.authenticate("github");
+
+exports.githubCallback = async (req, res, next) => {
+  passport.authenticate("github", (err, profile) => {
+    if (err || !profile) {
+      return res.status(400).redirect("/login");
+    }
+    req.login(profile, { session: false }, (err) => {
+      if (err) {
+        res.send(err);
+      }
+
+      const token = jwt.sign(profile, process.env.JWT_SECRET);
+      res.cookie("token", token, {
+        maxAge: 1000 * 60 * 60,
+        httpOnly: true,
+        signed: true,
+      });
+      return res.status(200).redirect("/");
+    });
+  })(req, res);
+};
+exports.gitStrategyLogin = async (profiles) => {
+  //git 정보가 db에 있는지 확인
+  let user = await userModel.findOne({
+    where: { id: profiles.username },
+  });
+  //db에 저장이 안 되어있을 경우 새로 db에 저장
+  if (user === null) {
+    try {
+      const id = profiles.username;
+      const profile = profiles.photos[0].value;
+      await userModel.create({
+        id: id,
+        password: "github",
+        salt: "salt",
+        profile: profile,
+      });
+    } catch (e) {
+      return {
+        success: false,
+      };
+    }
+  }
+  return {
+    success: true,
+    userId: profiles.username,
+    profile: profiles.photos[0].value,
+  };
+};
+
+/* 인증 middleware용 db 조회 함수 */
 
 exports.isExist = async (userId) => {
   try {
