@@ -15,13 +15,13 @@ const LocalStrategyOption = {
 };
 async function localVerify(userId, password, done) {
   try {
-    const user = await userController.login(userId, password);
+    const user = await userController.localStrategyLogin(userId, password);
     if (!user.success) {
       return done(null, false, {
         message: "아이디와 패스워드를 다시 확인해주세요",
       });
     }
-    return done(null, [user], { message: "로그인에 성공했습니다." });
+    return done(null, user, { message: "로그인에 성공했습니다." });
   } catch (err) {
     return done(null, false, { message: "local verify err 발생" });
   }
