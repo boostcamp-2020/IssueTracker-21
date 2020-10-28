@@ -25,7 +25,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "../dist")));
 
-app.use("/", indexRouter);
+app.use("/api", indexRouter);
 
 const PORT = process.env.PORT || 80;
 app.listen(PORT, () => {
