@@ -5,7 +5,7 @@ const LocalStrategy = require("passport-local").Strategy;
 const JWTStrategy = passportJWT.Strategy;
 const GitHubStrategy = require("passport-github").Strategy;
 const userController = require("../controllers/userController"); //userDB 연동 controller
-const cookieExtractor = require("../utils/cookieExtractor"); //req.cookies 토큰 추출
+const cookieExtractor = require("../utils/cookieExtractor").cookieExtractor; //req.cookies 토큰 추출
 
 require("dotenv").config();
 
