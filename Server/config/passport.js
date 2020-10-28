@@ -34,15 +34,11 @@ const githubStrategyOption = {
 };
 async function githubVerify(accessToken, refreshToken, profile, done) {
   try {
-    const userId = profile.id;
-    const userName = profile.username;
-    const photoUrl = profile.photos[0].value;
-
-    const result = await userController.gitlogin(userId);
-    const user = { userId, userName, photoUrl };
+    const result = await userController.gitStrategyLogin(profile);
+    const user = { userId: result.userId, profile: result.profile };
 
     // 성공
-    if (result) {
+    if (result.success) {
       return done(null, user);
     }
     // done에 답기는 두번째 인자는 이후 사용 될 user 값
@@ -59,7 +55,7 @@ const jwtStrategyOption = {
 async function jwtVerift(payload, done) {
   try {
     const result = await userController.isExist(payload.userId);
-    if (!result) {
+    if (!result.success) {
       return done(null, false, { message: "JWT 토큰 인증에 실패했습니다." });
     }
     return done(null, [result]);
