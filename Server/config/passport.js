@@ -14,13 +14,17 @@ const LocalStrategyOption = {
   passwordField: "password",
 };
 async function localVerify(userId, password, done) {
-  const user = await userController.login(userId, password);
-  if (!user.success) {
-    return done(null, false, {
-      message: "아이디와 패스워드를 다시 확인해주세요",
-    });
+  try {
+    const user = await userController.login(userId, password);
+    if (!user.success) {
+      return done(null, false, {
+        message: "아이디와 패스워드를 다시 확인해주세요",
+      });
+    }
+    return done(null, [user], { message: "로그인에 성공했습니다." });
+  } catch (err) {
+    return done(null, false, { message: "local verify err 발생" });
   }
-  return done(null, [user], { message: "로그인에 성공했습니다." });
 }
 
 const githubStrategyOption = {
@@ -42,9 +46,9 @@ async function githubVerify(accessToken, refreshToken, profile, done) {
       return done(null, user);
     }
     // done에 답기는 두번째 인자는 이후 사용 될 user 값
-    return done(null, false);
+    return done(null, false, { message: "깃허브 로그인에 실패했습니다." });
   } catch (err) {
-    return done(null, false);
+    return done(null, false, { message: "GitHub verify err 발생" });
   }
 }
 
@@ -53,11 +57,15 @@ const jwtStrategyOption = {
   secretOrKey: process.env.JWT_SECRET,
 };
 async function jwtVerift(payload, done) {
-  const result = await userController.isExist(payload.userId);
-  if (!result) {
-    return done(null, false, { message: "토큰 인증에 실패했습니다." });
+  try {
+    const result = await userController.isExist(payload.userId);
+    if (!result) {
+      return done(null, false, { message: "JWT 토큰 인증에 실패했습니다." });
+    }
+    return done(null, [result]);
+  } catch (err) {
+    return done(null, false, { message: "JWT verify err 발생" });
   }
-  return done(null, [result]);
 }
 
 module.exports = () => {
