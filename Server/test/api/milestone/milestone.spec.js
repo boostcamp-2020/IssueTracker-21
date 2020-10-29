@@ -138,6 +138,74 @@ describe("PUT /api/milestone - 마일스톤 수정", () => {
   });
 });
 
+/* 마일스톤 상태 변경 테스트*/
+describe("PUT /api/milestone/status - 마일스톤 상태 변경", () => {
+  let milestone_id;
+
+  //db에 있는 label id 미리 가져오기
+  before(() => {
+    return new Promise((resolve) => {
+      request(app)
+        .get("/api/milestone")
+        .expect(200)
+        .end((err, res) => {
+          if (err) throw err;
+          milestone_id = res.body.milestones[res.body.milestones.length - 1].id;
+          resolve();
+        });
+    });
+  });
+
+  // 마일스톤 상태 변경
+  it("should return 200 and change data", (done) => {
+    request(app)
+      .put("/api/milestone/status")
+      .send({
+        milestoneId: milestone_id,
+        newStatus: 0,
+      })
+      .expect(200)
+      .end((err, res) => {
+        if (err) throw err;
+        done();
+      });
+  });
+
+  //상태 변경 된 마일스톤이 존재하는지 확인
+  it("should exist data", (done) => {
+    request(app)
+      .get("/api/milestone")
+      .expect(200)
+      .end((err, res) => {
+        if (err) throw err;
+        res.body.milestones.should.matchAny(function (it) {
+          it.should.have.properties({
+            id: milestone_id,
+            isOpened: false,
+          });
+        });
+        done();
+      });
+  });
+
+  //상태 변경 전 마일스톤이 없는지 확인
+  it("should not exist original data", (done) => {
+    request(app)
+      .get("/api/milestone")
+      .expect(200)
+      .end((err, res) => {
+        if (err) throw err;
+        res.body.milestones.should.not.matchAny(function (it) {
+          it.should.have.properties({
+            id: milestone_id,
+            isOpened: true,
+          });
+        });
+        done();
+      });
+  });
+});
+
 /* 마일스톤 삭제 테스트*/
 describe("DELETE /api/milestone - 마일스톤 삭제", () => {
   let milestone_id;
