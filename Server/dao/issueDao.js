@@ -254,7 +254,7 @@ exports.filterIssuesByAuthor = async (authorId) => {
                   authorId: authorId,
                 },
               });
-              resolve({success:true, issues});
+              resolve({success:true, issues:issues});
         }catch(e){
             reject({error:e});
         }

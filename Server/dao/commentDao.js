@@ -1,4 +1,5 @@
 const commentModel = require("../models").comment;
+const issueModel = require("../models").issue;
 
 exports.insertComment = async (authorId, issueId, content) => {
   return new Promise(async (resolve, reject) => {
@@ -32,3 +33,18 @@ exports.updateComment = async (commentId, authorId, issueId, content) => {
     }
   });
 };
+
+exports.getIssuesByCommentId = async (commentId) => {
+  return new Promise(async (resolve, reject) => {
+    try{
+      let issues = await issueModel.findAll({
+        where: {
+          id: commentId
+        }
+      });
+      resolve({success:true, issues});
+    }catch(e){
+      reject({error:e});
+    }
+  });
+}
