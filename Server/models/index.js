@@ -34,7 +34,7 @@ fs.readdirSync(__dirname)
     );
     db[model.name] = model;
   });
-
+/* assignee, issuelabel model 수동 등록 */
 let assignee = sequelize.define("assignee", {}, { timestamps: false });
 db["assignee"] = assignee;
 export const issuelabel = sequelize.define(
@@ -47,7 +47,6 @@ export const issuelabel = sequelize.define(
 db["issuelabel"] = issuelabel;
 
 Object.keys(db).forEach((modelName) => {
-  console.log(modelName);
   if (db[modelName].associate) {
     db[modelName].associate(db);
   }
