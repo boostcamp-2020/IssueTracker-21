@@ -231,6 +231,10 @@ exports.filterIssuesByAssignee = async function (req, res, next) {
   const assigneeId = req.params.assigneeId;
   try {
     const issues = issueDao.filterIssuesByMilestone(assigneeId);
+    if(issues.success){
+      return res.status(200).json(issues);
+    }
+    return res.status(400).json(issues);
   } catch (e) {
     return res
       .status(400)
