@@ -20,6 +20,7 @@ module.exports = (sequelize, Datatypes) => {
       isOpened: {
         type: Datatypes.BOOLEAN, // 0: expenditure & 1: revenue
         allowNull: false,
+        defaultValue: 1,
       },
       dueDate: {
         type: Datatypes.DATE,
