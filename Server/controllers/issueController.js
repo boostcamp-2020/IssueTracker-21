@@ -177,3 +177,63 @@ exports.deleteIssue = async function (req, res, next) {
       .json({ success: false, status: 400, message: e.message });
   }
 };
+
+/* 이슈 filtering - author */
+exports.filterIssuesByAuthor = async function (req, res, next) {
+  const authorId = req.params.authorId;
+  try {
+    const issues = await issueDao.filterIssuesByAuthor(authorId);
+    if(issues.success){
+      return res.status(200).json(issues);
+    }
+    return res.status(400).json(issues);
+  } catch (e) {
+    return res
+      .status(400)
+      .json({ success: false, status: 400, message: e.message });
+  }
+};
+
+/* 이슈 filtering - label */
+exports.filterIssuesByLabel = async function (req, res, next) {
+  const labelId = req.params.labelId;
+  try {
+    const issues = issueDao.filterIssuesByLabel(labelId);
+    if(issues.success){
+      return res.status(200).json(issues);
+    }
+    return res.status(400).json(issues);
+  } catch (e) {
+    return res
+      .status(400)
+      .json({ success: false, status: 400, message: e.message });
+  }
+};
+
+/* 이슈 filtering - milestone */
+exports.filterIssuesByMilestone = async function (req, res, next) {
+  const milestoneId = req.params.milestoneId;
+  try {
+    const issues = issueDao.filterIssuesByMilestone(milestoneId);
+    if(issues.success){
+      return res.status(200).json(issues);
+    }
+    return res.status(400).json(issues);
+  } catch (e) {
+    return res
+      .status(400)
+      .json({ success: false, status: 400, message: e.message });
+  }
+};
+
+/* 이슈 filtering - assignee */
+exports.filterIssuesByAssignee = async function (req, res, next) {
+  const assigneeId = req.params.assigneeId;
+  try {
+    const issues = issueDao.filterIssuesByMilestone(assigneeId);
+  } catch (e) {
+    return res
+      .status(400)
+      .json({ success: false, status: 400, message: e.message });
+  }
+};
