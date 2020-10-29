@@ -1,7 +1,7 @@
 const express = require("express");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
-const userModel = require("../models").user;
+const userDao = require("../dao/userDao");
 
 /* local 로그인 */
 
@@ -30,9 +30,9 @@ exports.localLogin = (req, res, next) => {
 
 exports.localStrategyLogin = async (userId, password) => {
   try {
-    let user = await userModel.findOne({
-      where: { id: userId },
-    });
+    console.log("here");
+    const user = await userDao.getUser({userId});
+    console.log("there");
     if (password === user.dataValues.password) {
       return {
         success: true,
@@ -75,19 +75,17 @@ exports.githubCallback = async (req, res, next) => {
 };
 exports.gitStrategyLogin = async (profiles) => {
   //git 정보가 db에 있는지 확인
-  let user = await userModel.findOne({
-    where: { id: profiles.username },
-  });
+  let user = await userDao.getUser({userId});
   //db에 저장이 안 되어있을 경우 새로 db에 저장
   if (user === null) {
     try {
       const id = profiles.username;
       const profile = profiles.photos[0].value;
-      await userModel.create({
-        id: id,
+      await userDao.insertUser({
+        id,
         password: "github",
         salt: "salt",
-        profile: profile,
+        profile,
       });
     } catch (e) {
       return {
@@ -106,9 +104,7 @@ exports.gitStrategyLogin = async (profiles) => {
 
 exports.isExist = async (userId) => {
   try {
-    let user = await userModel.findOne({
-      where: { id: userId },
-    });
+    let user = await userDao.getUser({ userID });
     return {
       success: true,
       userId: user.dataValues.id,
