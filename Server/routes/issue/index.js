@@ -50,4 +50,13 @@ router.get(
   issueController.filterIssuesByAssignee
 );
 
+/* 이슈 filtering - closed */
+router.get("/filter/closed", issueController.filterClosedIssues);
+
+/* 이슈 filtering - opened */
+router.get("/filter/opened", issueController.filterOpenedIssues);
+
+/* 이슈 filtering - 특정 유저의 issue */
+router.get("/filter/user/:userId", issueController.filterUserIssues);
+
 module.exports = router;

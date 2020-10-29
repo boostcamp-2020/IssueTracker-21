@@ -241,3 +241,61 @@ exports.filterIssuesByAssignee = async function (req, res, next) {
       .json({ success: false, status: 400, message: e.message });
   }
 };
+
+/* 이슈 filtering - closed */
+exports.filterClosedIssues = async function (req, res, next) {
+  try {
+    const issues = await issueDao.getIssuesByStatus(false);
+    if(issues.success){
+      return res.status(200).json({
+        success: true,
+        issues
+      });
+    }
+    return res.status(400).json({
+      success: false,
+      issues
+    })
+  } catch (e) {
+    return res
+      .status(400)
+      .json({ success: false, status: 400, message: e.message });
+  }
+};
+
+/* 이슈 filtering - opened */
+exports.filterOpenedIssues = async function (req, res, next) {
+  try {
+    const issues = await issueDao.getIssuesByStatus(true);
+    if(issues.success){
+      return res.status(200).json({
+        success: true,
+        issues
+      });
+    }
+    return res.status(400).json({
+      success: false,
+      issues
+    })
+  } catch (e) {
+    return res
+      .status(400)
+      .json({ success: false, status: 400, message: e.message });
+  }
+};
+
+/* 이슈 filtering - 특정 유저의 issue */
+exports.filterUserIssues = async function (req, res, next) {
+  const userId = req.params.userId;
+  try {
+    const issues = await issueDao.filterIssuesByAuthor(userId);
+    if(issues.success){
+      return res.status(200).json(issues);
+    }
+    return res.status(400).json(issues);
+  } catch (e) {
+    return res
+      .status(400)
+      .json({ success: false, status: 400, message: e.message });
+  }
+};
