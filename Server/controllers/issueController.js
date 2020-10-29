@@ -198,7 +198,7 @@ exports.filterIssuesByAuthor = async function (req, res, next) {
 exports.filterIssuesByLabel = async function (req, res, next) {
   const labelId = req.params.labelId;
   try {
-    const issues = issueDao.filterIssuesByLabel(labelId);
+    const issues = await issueDao.filterIssuesByLabel(labelId);
     if(issues.success){
       return res.status(200).json(issues);
     }
@@ -214,7 +214,7 @@ exports.filterIssuesByLabel = async function (req, res, next) {
 exports.filterIssuesByMilestone = async function (req, res, next) {
   const milestoneId = req.params.milestoneId;
   try {
-    const issues = issueDao.filterIssuesByMilestone(milestoneId);
+    const issues = await issueDao.filterIssuesByMilestone(milestoneId);
     if(issues.success){
       return res.status(200).json(issues);
     }
@@ -230,7 +230,7 @@ exports.filterIssuesByMilestone = async function (req, res, next) {
 exports.filterIssuesByAssignee = async function (req, res, next) {
   const assigneeId = req.params.assigneeId;
   try {
-    const issues = issueDao.filterIssuesByMilestone(assigneeId);
+    const issues = await issueDao.filterIssuesByAssignee(assigneeId);
     if(issues.success){
       return res.status(200).json(issues);
     }
