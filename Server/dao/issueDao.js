@@ -359,3 +359,34 @@ exports.filterIssuesByAssignee = async (assigneeId) => {
         }
     });
 }
+
+exports.getIssuesByStatus = async (status) => {
+  return new Promise(async (resolve, reject) => {
+      try{
+          let issues = await issueModel.findAndCountAll({
+              include: [
+                {
+                  model: milestoneModel,
+                  required: false,
+                  attributes: ["title"],
+                },
+                {
+                  model: userModel,
+                  as: "users",
+                  attributes: ["id", "profile"],
+                },
+                {
+                  model: labelModel,
+                  as: "labels",
+                },
+              ],
+              where: {
+                isOpened: status,
+              },
+            });
+          resolve({success:true, issues});
+      }catch(e){
+          reject({error:e});
+      }
+  })
+}
