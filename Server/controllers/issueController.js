@@ -3,16 +3,16 @@ import issueDao from "../dao/issueDao";
 /* 모든 이슈 조회 */
 exports.getAllIssues = async function (req, res, next) {
   try {
-    const allIssues = await issueDao.getAllIssues();
-    if(allIssues.success){
+    const issues = await issueDao.getAllIssues();
+    if(issues.success){
       return res.status(200).json({
         success: true,
-        allIssues
+        issues
       });
     }
     return res.status(400).json({
       success: false,
-      allIssues
+      issues
     })
   } catch (e) {
     return res
@@ -289,6 +289,22 @@ exports.filterUserIssues = async function (req, res, next) {
   const userId = req.params.userId;
   try {
     const issues = await issueDao.filterIssuesByAuthor(userId);
+    if(issues.success){
+      return res.status(200).json(issues);
+    }
+    return res.status(400).json(issues);
+  } catch (e) {
+    return res
+      .status(400)
+      .json({ success: false, status: 400, message: e.message });
+  }
+};
+
+/* 이슈 filtering - 특정 유저가 assignee로 지정된 이슈 */
+exports.filterUserAssignedIssue = async function (req, res, next) {
+  const userId = req.params.userId;
+  try {
+    const issues = await issueDao.filterIssuesByAssignee(userId);
     if(issues.success){
       return res.status(200).json(issues);
     }
