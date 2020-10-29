@@ -7,7 +7,8 @@
 		"start": "concurrently \"cp ./.env.prod ./.env\" \"npm run build-dev\" \"babel-node --config-file ./Server/.babelrc ./Server/app.js\"",
 		"dev": "concurrently \"cp ./.env.dev ./.env\" \"npm run build-dev\" \"nodemon\"",
 		"build-prod": "webpack --config webpack.config.prod.js",
-		"build-dev": "webpack --config webpack.config.dev.js"
+		"build-dev": "webpack --config webpack.config.dev.js",
+		"test": "node_modules/.bin/mocha --require=@babel/register ./server/test/apiTest.spec.js"
 	},
 	"repository": {
 		"type": "git",
@@ -44,6 +45,7 @@
 		"@babel/core": "^7.11.6",
 		"@babel/node": "^7.10.5",
 		"@babel/preset-env": "^7.11.5",
+		"@babel/register": "^7.12.1",
 		"babel-loader": "^8.1.0",
 		"css-loader": "^4.3.0",
 		"eslint": "^7.2.0",
@@ -57,9 +59,12 @@
 		"file-loader": "^6.1.0",
 		"html-webpack-plugin": "^4.5.0",
 		"i": "^0.3.6",
+		"mocha": "^8.2.0",
 		"prettier": "^2.1.2",
 		"sequelize-cli": "^6.2.0",
+		"should": "^13.2.3",
 		"style-loader": "^1.2.1",
+		"supertest": "^6.0.0",
 		"webpack": "^4.44.2",
 		"webpack-cli": "^3.3.12"
 	}

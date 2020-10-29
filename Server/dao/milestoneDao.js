@@ -60,7 +60,7 @@ exports.updateMilestoneStatus = async (milestoneId, newStatus) => {
   return new Promise(async (resolve, reject) => {
     try {
       await milestoneModel.update(
-        { newStatus },
+        { isOpened: newStatus },
         { where: { id: milestoneId } }
       );
 
