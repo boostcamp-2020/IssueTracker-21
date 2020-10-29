@@ -13,11 +13,6 @@ module.exports = (sequelize, Datatypes) => {
         type: Datatypes.STRING(255),
         allowNull: true,
       },
-      createDate: {
-        type: Datatypes.DATE,
-        allowNull: false,
-        defaultValue: Datatypes.NOW,
-      },
     },
     {
       timestamps: true,
