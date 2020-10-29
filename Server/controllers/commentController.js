@@ -1,5 +1,6 @@
 const commentModel = require("../models").comment;
 
+/* 새로운 코멘트 생성 */
 exports.insertComment = async (req, res) => {
     let { authorId, issueId, content, createDate } = req.body;
     try{
@@ -18,19 +19,20 @@ exports.insertComment = async (req, res) => {
             error: e
         });
     }
-
 }
 
+/* 코멘트 수정 */
 exports.updateComment = async (req, res) => {
     let { commentId, authorId, issueId, content, createDate } = req.body;
     try{
-        let comment = await commentModel.findOne({where: {id: commentId}});
-        await comment.update({
+        await commentModel.update({
             authorId: authorId,
             issueId: issueId,
             content: content,
             createDate: createDate
-        });
+        },  {
+            where: {id: commentId}
+        } );
         return res.status(200).json({
             success:true
         });
