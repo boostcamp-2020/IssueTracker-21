@@ -21,11 +21,10 @@ module.exports = (sequelize, Datatypes) => {
         type: Datatypes.BOOLEAN, // 0: expenditure & 1: revenue
         allowNull: false,
       },
-      createDate: {
-        type: Datatypes.DATE,
+      lastStatusChanger: {
+        type: Datatypes.STRING(255),
         allowNull: false,
-        defaultValue: Datatypes.NOW,
-      },
+      }
     },
     {
       timestamps: true,
