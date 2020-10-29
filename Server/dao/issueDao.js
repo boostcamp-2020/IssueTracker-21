@@ -10,10 +10,12 @@ const sequelize = require("sequelize");
 const { Op } = require("sequelize");
 const { resolveConfigFile } = require("prettier");
 
+/* 모든 이슈 조회 */
 exports.getAllIssues = async () => {
     return new Promise(async (resolve, reject) => {
         try{
-            let allIssues = await issueModel.findAndCountAll({
+            let { count, rows } = await issueModel.findAndCountAll({
+              distinct: true,
                 include: [
                   {
                     model: milestoneModel,
@@ -23,21 +25,24 @@ exports.getAllIssues = async () => {
                   {
                     model: userModel,
                     as: "users",
+                    required: false,
                     attributes: ["id", "profile"],
                   },
                   {
                     model: labelModel,
+                    required: false,
                     as: "labels",
                   },
                 ],
               });
-            resolve({success:true, allIssues});
+            resolve({success:true, count, rows});
         }catch(e){
             reject({error:e});
         }
     })
 }
 
+/* 이슈 상세 페이지 조회 */
 exports.getIssueDetail = async (issueId) => {
     return new Promise(async (resolve, reject) =>{
         try{
@@ -74,6 +79,7 @@ exports.getIssueDetail = async (issueId) => {
     });
 }
 
+/* 새로운 이슈 생성 */
 exports.insertNewIssue = async (authorId,milestoneId,title,description,assignees,labels) => {
     return new Promise(async (resolve, reject) => {
         try{
@@ -102,6 +108,7 @@ exports.insertNewIssue = async (authorId,milestoneId,title,description,assignees
     });
 }
 
+/* 이슈 수정 - 제목 */
 exports.updateIssueTitle = async (title,authorId,issueId) => {
     return new Promise(async (resolve, reject) => {
         try{
@@ -123,6 +130,7 @@ exports.updateIssueTitle = async (title,authorId,issueId) => {
     });
 }
 
+/* 이슈 수정 - 내용 */
 exports.updateIssueDescription = async (description,authorId, issueId) => {
     return new Promise(async (resolve, reject) => {
         try{
@@ -144,6 +152,7 @@ exports.updateIssueDescription = async (description,authorId, issueId) => {
     });
 }
 
+/* 이슈 수정- status */
 exports.updateIssueStatus = async (newStatus,userId,issueId) => {
     return new Promise(async (resolve, reject) => {
         try{
@@ -165,6 +174,7 @@ exports.updateIssueStatus = async (newStatus,userId,issueId) => {
     });
 }
 
+/* 이슈에 라벨 추가 */
 exports.insertNewLabel = async (issueId, labelId) => {
     return new Promise(async (resolve, reject) => {
         try{
@@ -179,6 +189,7 @@ exports.insertNewLabel = async (issueId, labelId) => {
     });
 }
 
+/* 이슈에 담당자 추가 */
 exports.insertNewAssignee = async (issueId,assigneeId) => {
     return new Promise(async (resolve, reject) => {
         try{
@@ -193,6 +204,7 @@ exports.insertNewAssignee = async (issueId,assigneeId) => {
     });
 }
 
+/* 이슈에 마일스톤 추가 */
 exports.insertNewMilestone = async (milestoneId, issueId) => {
     return new Promise(async (resolve, reject) => {
         try{
@@ -213,6 +225,7 @@ exports.insertNewMilestone = async (milestoneId, issueId) => {
     });
 }
 
+/* 이슈 삭제 */
 exports.deleteIssue = async (issueId) => {
     return new Promise(async (resolve, reject) => {
         try{
@@ -228,10 +241,12 @@ exports.deleteIssue = async (issueId) => {
     });
 }
 
+/* 이슈 filtering - author */
 exports.filterIssuesByAuthor = async (authorId) => {
     return new Promise(async (resolve, reject) => {
         try{
             const issues = await issueModel.findAndCountAll({
+              distinct: true,
                 include: [
                   {
                     model: milestoneModel,
@@ -261,10 +276,12 @@ exports.filterIssuesByAuthor = async (authorId) => {
     });
 }
 
+/* 이슈 filtering - label */
 exports.filterIssuesByLabel = async (labelId) => {
     return new Promise(async (resolve, reject) => {
         try{
           const issues = await issueModel.findAndCountAll({
+            distinct: true,
                 include: [
                   {
                     model: milestoneModel,
@@ -294,10 +311,12 @@ exports.filterIssuesByLabel = async (labelId) => {
     });
 }
 
+/* 이슈 filtering - milestone */
 exports.filterIssuesByMilestone = async (milestoneId) => {
     return new Promise(async (resolve, reject) => {
         try{
           const issues = await issueModel.findAndCountAll({
+            distinct: true,
                 include: [
                   {
                     model: milestoneModel,
@@ -327,10 +346,12 @@ exports.filterIssuesByMilestone = async (milestoneId) => {
     });
 }
 
+/* 이슈 filtering - assignee */
 exports.filterIssuesByAssignee = async (assigneeId) => {
     return new Promise(async (resolve, reject) => {
         try{
           const issues = await issueModel.findAndCountAll({
+            distinct: true,
                 include: [
                   {
                     model: milestoneModel,
@@ -360,10 +381,12 @@ exports.filterIssuesByAssignee = async (assigneeId) => {
     });
 }
 
+/* 이슈 filtering - status */
 exports.getIssuesByStatus = async (status) => {
   return new Promise(async (resolve, reject) => {
       try{
           let issues = await issueModel.findAndCountAll({
+            distinct: true,
               include: [
                 {
                   model: milestoneModel,
