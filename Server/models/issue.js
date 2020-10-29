@@ -23,8 +23,8 @@ module.exports = (sequelize, Datatypes) => {
       },
       lastStatusChanger: {
         type: Datatypes.STRING(255),
-        allowNull: false,
-      }
+        allowNull: true,
+      },
     },
     {
       timestamps: true,
