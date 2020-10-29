@@ -41,7 +41,7 @@ exports.getAllIssues = async () => {
 exports.getIssueDetail = async (issueId) => {
     return new Promise(async (resolve, reject) =>{
         try{
-            await issueModel.findOne({
+            const issueDetail = await issueModel.findOne({
                 include: [
                   {
                     model: milestoneModel,
@@ -231,7 +231,7 @@ exports.deleteIssue = async (issueId) => {
 exports.filterIssuesByAuthor = async (authorId) => {
     return new Promise(async (resolve, reject) => {
         try{
-            await issueModel.findAndCountAll({
+            const issues = await issueModel.findAndCountAll({
                 include: [
                   {
                     model: milestoneModel,
@@ -264,7 +264,7 @@ exports.filterIssuesByAuthor = async (authorId) => {
 exports.filterIssuesByLabel = async (labelId) => {
     return new Promise(async (resolve, reject) => {
         try{
-            await issueModel.findAndCountAll({
+          const issues = await issueModel.findAndCountAll({
                 include: [
                   {
                     model: milestoneModel,
@@ -297,7 +297,7 @@ exports.filterIssuesByLabel = async (labelId) => {
 exports.filterIssuesByMilestone = async (milestoneId) => {
     return new Promise(async (resolve, reject) => {
         try{
-            await issueModel.findAndCountAll({
+          const issues = await issueModel.findAndCountAll({
                 include: [
                   {
                     model: milestoneModel,
@@ -330,7 +330,7 @@ exports.filterIssuesByMilestone = async (milestoneId) => {
 exports.filterIssuesByAssignee = async (assigneeId) => {
     return new Promise(async (resolve, reject) => {
         try{
-            await issueModel.findAndCountAll({
+          const issues = await issueModel.findAndCountAll({
                 include: [
                   {
                     model: milestoneModel,
