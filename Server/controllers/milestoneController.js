@@ -1,5 +1,6 @@
 const milestoneDao = require("../dao/milestoneDao");
 
+/* 모든 마일스톤 조회 */
 exports.getMilestone = async (req, res) => {
   try {
     let milestones = await milestoneDao.getMilestone();
@@ -15,6 +16,7 @@ exports.getMilestone = async (req, res) => {
   }
 };
 
+/* 마일스톤 생성 */
 exports.insertMilestone = async (req, res) => {
   try {
     let { title, description, dueDate } = req.body;
@@ -30,6 +32,7 @@ exports.insertMilestone = async (req, res) => {
   }
 };
 
+/* 마일스톤 수정 */
 exports.updateMilestone = async (req, res) => {
   try {
     let { milestoneId, title, description, dueDate } = req.body;
@@ -50,6 +53,7 @@ exports.updateMilestone = async (req, res) => {
   }
 };
 
+/* 마일스톤 삭제 */
 exports.deleteMilestone = async (req, res) => {
   try {
     let { milestoneId } = req.body;
@@ -65,6 +69,7 @@ exports.deleteMilestone = async (req, res) => {
   }
 };
 
+/* 마일스톤 상태 수정 */
 exports.updateMilestoneStatus = async (req, res) => {
   try {
     let { milestoneId, newStatus } = req.body;

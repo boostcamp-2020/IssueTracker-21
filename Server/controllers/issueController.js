@@ -1,20 +1,19 @@
-const models = require("../models");
-const issueModel = models.issue;
-const commentModel = models.comment;
-const assigneeModel = models.assignee;
-const labelModel = models.label;
-const issueLabelModel = models.issuelabel;
-const sequelize = require("sequelize");
-const { Op } = require("sequelize");
+import issueDao from "../dao/issueDao";
 
 /* 모든 이슈 조회 */
 exports.getAllIssues = async function (req, res, next) {
   try {
-    const allIssues = await issueModel.findAll({});
-    return res.status(200).json({
-      success: true,
-      issues: allIssues,
-    });
+    const allIssues = await issueDao.getAllIssues();
+    if(allIssues.success){
+      return res.status(200).json({
+        success: true,
+        allIssues
+      });
+    }
+    return res.status(400).json({
+      success: false,
+      allIssues
+    })
   } catch (e) {
     return res
       .status(400)
@@ -26,21 +25,17 @@ exports.getAllIssues = async function (req, res, next) {
 exports.getIssueDetail = async function (req, res, next) {
   const issueId = req.params.issueId;
   try {
-    const issueDetail = await issueModel.findOne({
-      where: {
-        id: issueId,
-      },
-    });
-    const comments = await commentModel.findAll({
-      where: {
-        issueId: issueId,
-      },
-    });
-    return res.status(200).json({
-      success: true,
-      issue: issueDetail,
-      comment: comments,
-    });
+    const issueDetail = await issueDao.getIssueDetail(issueId);
+    if(issueDetail.success){
+      return res.status(200).json({
+        success:true,
+        issueDetail
+      });
+    }
+    return res.status(400).json({
+      success:false,
+      issueDetail
+    })
   } catch (e) {
     return res
       .status(400)
@@ -54,35 +49,16 @@ exports.insertNewIssue = async function (req, res, next) {
     title,
     authorId,
     description,
-    createDate,
     milestoneId,
     assignees,
     labels,
   } = req.body;
   try {
-    const newIssue = await issueModel.create({
-      authorId: authorId,
-      milestoneId: milestoneId,
-      title: title,
-      description: description,
-      createDate: createDate,
-    });
-    assignees.forEach((element) => {
-      assigneeModel.create({
-        issueId: newIssue.dataValues.id,
-        userId: element,
-      });
-    });
-    labels.forEach((element) => {
-      issueLabelModel.create({
-        issueId: newIssue.dataValues.id,
-        labelId: element,
-      });
-    });
-
-    return res.status(200).json({
-      success: true,
-    });
+    const newIssue = await issueDao.insertNewIssue(authorId,milestoneId,title,description,assignees,labels);
+    if(newIssue.success){
+      return res.status(200).json({success:true});
+    }
+    return res.status(400).json(newIssue);
   } catch (e) {
     return res
       .status(400)
@@ -92,23 +68,13 @@ exports.insertNewIssue = async function (req, res, next) {
 
 /* 이슈 수정 - 제목 */
 exports.updateIssueTitle = async function (req, res, next) {
-  const { issueId, title, authorId, createDate } = req.body;
+  const { issueId, title, authorId } = req.body;
   try {
-    await issueModel.update(
-      {
-        title: title,
-        authorId: authorId,
-        createDate: createDate,
-      },
-      {
-        where: {
-          id: issueId,
-        },
-      }
-    );
-    return res.status(200).json({
-      success: true,
-    });
+    let updateIssue = await issueDao.updateIssueTitle(title,authorId,issueId);
+    if(updateIssue.success){
+      return res.status(200).json({success:true});
+    }
+    return res.status(400).json(updateIssue);
   } catch (e) {
     return res
       .status(400)
@@ -118,23 +84,13 @@ exports.updateIssueTitle = async function (req, res, next) {
 
 /* 이슈 수정 - 내용 */
 exports.updateIssueDescription = async function (req, res, next) {
-  const { issueId, description, authorId, createDate } = req.body;
+  const { issueId, description, authorId } = req.body;
   try {
-    await issueModel.update(
-      {
-        description: description,
-        authorId: authorId,
-        createDate: createDate,
-      },
-      {
-        where: {
-          id: issueId,
-        },
-      }
-    );
-    return res.status(200).json({
-      success: true,
-    });
+    let updateIssue = await issueDao.updateIssueDescription(description, authorId, issueId);
+    if(updateIssue.success){
+      return res.status(200).json({success:true});
+    }
+    return res.status(400).json(updateIssue);
   } catch (e) {
     return res
       .status(400)
@@ -144,23 +100,13 @@ exports.updateIssueDescription = async function (req, res, next) {
 
 /* 이슈 수정- status */
 exports.updateIssueStatus = async function (req, res, next) {
-  const { issueId, newStatus, userId, createDate } = req.body;
+  const { issueId, newStatus, userId } = req.body;
   try {
-    await issueModel.update(
-      {
-        isOpened: newStatus,
-        authorId: userId,
-        createDate: createDate,
-      },
-      {
-        where: {
-          id: issueId,
-        },
-      }
-    );
-    return res.status(200).json({
-      success: true,
-    });
+    let updatedStatus = await issueDao.updateIssueStatus(newStatus,userId,issueId);
+    if(updatedStatus.success){
+      return res.status(200).json({success:true});
+    }
+    return res.status(400).json(updatedStatus);
   } catch (e) {
     return res
       .status(400)
@@ -172,13 +118,11 @@ exports.updateIssueStatus = async function (req, res, next) {
 exports.insertNewLabel = async function (req, res, next) {
   const { issueId, labelId } = req.body;
   try {
-    await issueLabelModel.create({
-      issueId: issueId,
-      labelId: labelId,
-    });
-    return res.status(200).json({
-      success: true,
-    });
+    let insertedLabelResult = await issueDao.insertNewLabel(issueId, labelId);
+    if(insertedLabelResult.success){
+      return res.status(200).json({success:true});
+    }
+    return res.status(400).json(insertedLabelResult);
   } catch (e) {
     return res
       .status(400)
@@ -190,13 +134,11 @@ exports.insertNewLabel = async function (req, res, next) {
 exports.insertNewAssignee = async function (req, res, next) {
   const { issueId, assigneeId } = req.body;
   try {
-    await assigneeModel.create({
-      issueId: issueId,
-      userId: assigneeId,
-    });
-    return res.status(200).json({
-      success: true,
-    });
+    let insertAssigneeResult = await issueDao.insertNewAssignee(issueId, assigneeId);
+    if(insertAssigneeResult.success){
+      return res.status(200).json({success:true});
+    }
+    return res.status(400).json(insertAssigneeResult);
   } catch (e) {
     return res
       .status(400)
@@ -208,19 +150,11 @@ exports.insertNewAssignee = async function (req, res, next) {
 exports.insertNewMilestone = async function (req, res, next) {
   const { issueId, milestoneId } = req.body;
   try {
-    await issueModel.update(
-      {
-        milestoneId: milestoneId,
-      },
-      {
-        where: {
-          id: issueId,
-        },
-      }
-    );
-    return res.status(200).json({
-      success: true,
-    });
+    let insertMilestoneResult = await issueDao.insertNewMilestone(milestoneId, issueId);
+    if(insertMilestoneResult.success){
+      return res.status(200).json({success:true});
+    }
+    return res.status(400).json(insertMilestoneResult);
   } catch (e) {
     return res
       .status(400)
@@ -232,14 +166,133 @@ exports.insertNewMilestone = async function (req, res, next) {
 exports.deleteIssue = async function (req, res, next) {
   const { issueId } = req.body;
   try {
-    await issueModel.destroy({
-      where: {
-        id: issueId,
-      },
-    });
-    return res.status(200).json({
-      success: true,
-    });
+    let deleteIssueResult = await issueDao.deleteIssue(issueId);
+    if(deleteIssueResult.success){
+      return res.status(200).json({success:true});
+    }
+    return res.status(400).json(deleteIssueResult);
+  } catch (e) {
+    return res
+      .status(400)
+      .json({ success: false, status: 400, message: e.message });
+  }
+};
+
+/* 이슈 filtering - author */
+exports.filterIssuesByAuthor = async function (req, res, next) {
+  const authorId = req.params.authorId;
+  try {
+    const issues = await issueDao.filterIssuesByAuthor(authorId);
+    if(issues.success){
+      return res.status(200).json(issues);
+    }
+    return res.status(400).json(issues);
+  } catch (e) {
+    return res
+      .status(400)
+      .json({ success: false, status: 400, message: e.message });
+  }
+};
+
+/* 이슈 filtering - label */
+exports.filterIssuesByLabel = async function (req, res, next) {
+  const labelId = req.params.labelId;
+  try {
+    const issues = await issueDao.filterIssuesByLabel(labelId);
+    if(issues.success){
+      return res.status(200).json(issues);
+    }
+    return res.status(400).json(issues);
+  } catch (e) {
+    return res
+      .status(400)
+      .json({ success: false, status: 400, message: e.message });
+  }
+};
+
+/* 이슈 filtering - milestone */
+exports.filterIssuesByMilestone = async function (req, res, next) {
+  const milestoneId = req.params.milestoneId;
+  try {
+    const issues = await issueDao.filterIssuesByMilestone(milestoneId);
+    if(issues.success){
+      return res.status(200).json(issues);
+    }
+    return res.status(400).json(issues);
+  } catch (e) {
+    return res
+      .status(400)
+      .json({ success: false, status: 400, message: e.message });
+  }
+};
+
+/* 이슈 filtering - assignee */
+exports.filterIssuesByAssignee = async function (req, res, next) {
+  const assigneeId = req.params.assigneeId;
+  try {
+    const issues = await issueDao.filterIssuesByAssignee(assigneeId);
+    if(issues.success){
+      return res.status(200).json(issues);
+    }
+    return res.status(400).json(issues);
+  } catch (e) {
+    return res
+      .status(400)
+      .json({ success: false, status: 400, message: e.message });
+  }
+};
+
+/* 이슈 filtering - closed */
+exports.filterClosedIssues = async function (req, res, next) {
+  try {
+    const issues = await issueDao.getIssuesByStatus(false);
+    if(issues.success){
+      return res.status(200).json({
+        success: true,
+        issues
+      });
+    }
+    return res.status(400).json({
+      success: false,
+      issues
+    })
+  } catch (e) {
+    return res
+      .status(400)
+      .json({ success: false, status: 400, message: e.message });
+  }
+};
+
+/* 이슈 filtering - opened */
+exports.filterOpenedIssues = async function (req, res, next) {
+  try {
+    const issues = await issueDao.getIssuesByStatus(true);
+    if(issues.success){
+      return res.status(200).json({
+        success: true,
+        issues
+      });
+    }
+    return res.status(400).json({
+      success: false,
+      issues
+    })
+  } catch (e) {
+    return res
+      .status(400)
+      .json({ success: false, status: 400, message: e.message });
+  }
+};
+
+/* 이슈 filtering - 특정 유저의 issue */
+exports.filterUserIssues = async function (req, res, next) {
+  const userId = req.params.userId;
+  try {
+    const issues = await issueDao.filterIssuesByAuthor(userId);
+    if(issues.success){
+      return res.status(200).json(issues);
+    }
+    return res.status(400).json(issues);
   } catch (e) {
     return res
       .status(400)

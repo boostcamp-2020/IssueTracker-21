@@ -111,5 +111,9 @@ db.milestone.hasMany(db.issue, {
   foreignKey: { name: "milestoneId", allowNull: false },
   onDelete: "cascade",
 });
+db.issue.belongsTo(db.milestone, {
+  foreignKey: "milestoneId",
+  targetKey: "id",
+});
 
 module.exports = db;
