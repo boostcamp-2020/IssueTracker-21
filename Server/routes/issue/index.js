@@ -56,7 +56,14 @@ router.get("/filter/closed", issueController.filterClosedIssues);
 /* 이슈 filtering - opened */
 router.get("/filter/opened", issueController.filterOpenedIssues);
 
-/* 이슈 filtering - 특정 유저의 issue */
+/* 이슈 filtering - 특정 유저의 이슈 */
 router.get("/filter/user/:userId", issueController.filterUserIssues);
+
+/* 이슈 filtering - 특정 유저가 assignee로 지정된 이슈 */
+router.get(
+  "/filter/userAssigned/:userId",
+  issueController.filterUserAssignedIssue
+);
+
 
 module.exports = router;
