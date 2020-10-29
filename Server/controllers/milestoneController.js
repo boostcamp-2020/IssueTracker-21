@@ -5,12 +5,12 @@ exports.getMilestone = async (req, res) => {
     let milestones = await milestoneDao.getMilestone();
     return res.status(200).json({
       success: true,
-      milestones: milestones,
+      milestones: milestones.milestones,
     });
   } catch (e) {
     return res.status(400).json({
       success: false,
-      error: e,
+      e,
     });
   }
 };
@@ -25,7 +25,7 @@ exports.insertMilestone = async (req, res) => {
   } catch (e) {
     return res.status(400).json({
       success: false,
-      error: e,
+      e,
     });
   }
 };
@@ -45,7 +45,7 @@ exports.updateMilestone = async (req, res) => {
   } catch (e) {
     return res.status(400).json({
       success: false,
-      error: e,
+      e,
     });
   }
 };
@@ -71,12 +71,11 @@ exports.updateMilestoneStatus = async (req, res) => {
     await milestoneDao.updateMilestoneStatus(milestoneId, newStatus);
     return res.status(200).json({
       success: true,
-      error: e,
     });
   } catch (e) {
     return res.status(400).json({
       success: false,
-      error: e,
+      e,
     });
   }
 };
