@@ -278,10 +278,27 @@ exports.filterIssuesByAuthor = async (authorId) => {
 
 /* 이슈 filtering - label */
 exports.filterIssuesByLabel = async (labelId) => {
-    return new Promise(async (resolve, reject) => {
-        try{
-          const issues = await issueModel.findAndCountAll({
-            distinct: true,
+  return new Promise(async (resolve, reject) => {
+      try{
+        const issues = await issueModel.findAndCountAll({
+          distinct: true,
+          attributes: ['id'],
+              include: [
+                {
+                  model: labelModel,
+                  required: false,
+                  as: "labels",
+                  attributes: ["id"],
+                },
+              ],
+              where: {
+                "$labels.id$": labelId,
+              },
+            });
+            const issueRows = issues.rows;
+            const issueIdArr = issueRows.map(e => e.id);
+            let { count, rows } = await issueModel.findAndCountAll({
+              distinct: true,
                 include: [
                   {
                     model: milestoneModel,
@@ -290,8 +307,8 @@ exports.filterIssuesByLabel = async (labelId) => {
                   },
                   {
                     model: userModel,
-                    required: false,
                     as: "users",
+                    required: false,
                     attributes: ["id", "profile"],
                   },
                   {
@@ -300,16 +317,51 @@ exports.filterIssuesByLabel = async (labelId) => {
                     as: "labels",
                   },
                 ],
-                where: {
-                  "$labels.id$": labelId,
-                },
+                where: {    
+                  id: {
+                  [Op.or]: issueIdArr
+                }}
               });
-            resolve({success:true, issues});
-        }catch(e){
-            reject({error:e});
-        }
-    });
+
+          resolve({success:true, count, rows});
+      }catch(e){
+          reject({error:e});
+      }
+  });
 }
+// exports.filterIssuesByLabel = async (labelId) => {
+//     return new Promise(async (resolve, reject) => {
+//         try{
+//           const issues = await issueModel.findAndCountAll({
+//             distinct: true,
+//                 include: [
+//                   {
+//                     model: milestoneModel,
+//                     required: false,
+//                     attributes: ["title"],
+//                   },
+//                   {
+//                     model: userModel,
+//                     required: false,
+//                     as: "users",
+//                     attributes: ["id", "profile"],
+//                   },
+//                   {
+//                     model: labelModel,
+//                     required: false,
+//                     as: "labels",
+//                   },
+//                 ],
+//                 where: {
+//                   "$labels.id$": labelId,
+//                 },
+//               });
+//             resolve({success:true, issues});
+//         }catch(e){
+//             reject({error:e});
+//         }
+//     });
+// }
 
 /* 이슈 filtering - milestone */
 exports.filterIssuesByMilestone = async (milestoneId) => {
@@ -348,10 +400,27 @@ exports.filterIssuesByMilestone = async (milestoneId) => {
 
 /* 이슈 filtering - assignee */
 exports.filterIssuesByAssignee = async (assigneeId) => {
-    return new Promise(async (resolve, reject) => {
-        try{
-          const issues = await issueModel.findAndCountAll({
-            distinct: true,
+  return new Promise(async (resolve, reject) => {
+      try{
+        const issues = await issueModel.findAndCountAll({
+          distinct: true,
+          attributes: ['id'],
+              include: [
+                {
+                  model: userModel,
+                  as: "users",
+                  required: false,
+                  attributes: ["id"],
+                },
+              ],
+              where: {
+                "$users.id$": assigneeId,
+              },
+            });
+            const issueRows = issues.rows;
+            const issueIdArr = issueRows.map(e => e.id);
+            let { count, rows } = await issueModel.findAndCountAll({
+              distinct: true,
                 include: [
                   {
                     model: milestoneModel,
@@ -360,8 +429,8 @@ exports.filterIssuesByAssignee = async (assigneeId) => {
                   },
                   {
                     model: userModel,
-                    required: false,
                     as: "users",
+                    required: false,
                     attributes: ["id", "profile"],
                   },
                   {
@@ -370,16 +439,51 @@ exports.filterIssuesByAssignee = async (assigneeId) => {
                     as: "labels",
                   },
                 ],
-                where: {
-                  "$users.id$": assigneeId,
-                },
+                where: {    
+                  id: {
+                  [Op.or]: issueIdArr
+                }}
               });
-            resolve({success:true, issues});
-        }catch(e){
-            reject({error:e});
-        }
-    });
+
+          resolve({success:true, count, rows});
+      }catch(e){
+          reject({error:e});
+      }
+  });
 }
+// exports.filterIssuesByAssignee = async (assigneeId) => {
+//     return new Promise(async (resolve, reject) => {
+//         try{
+//           const issues = await issueModel.findAndCountAll({
+//             distinct: true,
+//                 include: [
+//                   {
+//                     model: milestoneModel,
+//                     required: false,
+//                     attributes: ["title"],
+//                   },
+//                   {
+//                     model: userModel,
+//                     required: false,
+//                     as: "users",
+//                     attributes: ["id", "profile"],
+//                   },
+//                   {
+//                     model: labelModel,
+//                     required: false,
+//                     as: "labels",
+//                   },
+//                 ],
+//                 where: {
+//                   "$users.id$": assigneeId,
+//                 },
+//               });
+//             resolve({success:true, issues});
+//         }catch(e){
+//             reject({error:e});
+//         }
+//     });
+// }
 
 /* 이슈 filtering - status */
 exports.getIssuesByStatus = async (status) => {
