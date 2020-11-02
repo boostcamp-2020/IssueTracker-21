@@ -1,0 +1,18 @@
+#filterArea {
+  width: 70%;
+  padding: 15px 10px;
+  background-color: #fafbfc;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  justify-items: center;
+  border: 1px solid rgb(225, 228, 232);
+  border-radius: 6px 6px 0 0;
+
+  #rightMenu {
+    width: 60%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+}
