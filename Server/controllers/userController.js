@@ -110,7 +110,14 @@ exports.gitStrategyLogin = async (profiles) => {
         success: false,
       };
     }
+  } else if (user !== null && user.password !== "github") {
+    console.log("깃헙아님", user.password);
+    //깃헙으로 가입하지 않은 아이디로 이미 가입되어져 있는 경우 오류 처리
+    return {
+      success: false,
+    };
   }
+
   return {
     success: true,
     userId: profiles.username,

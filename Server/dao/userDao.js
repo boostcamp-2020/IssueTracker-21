@@ -1,7 +1,7 @@
 const userModel = require("../models").user;
 
 /* 유저 정보 가져오기 */
-exports.getUser = async ({ userId }) => {
+exports.getUser = async (userId) => {
   return new Promise(async (resolve, reject) => {
     try {
       const user = await userModel.findOne({
@@ -16,18 +16,18 @@ exports.getUser = async ({ userId }) => {
 };
 
 /* 유저 생성  */
-exports.insertUser = async ({ id, password, salt, profile }) => {
+exports.insertUser = async (id, password, profile) => {
   return new Promise(async (resolve, reject) => {
     try {
       await userModel.create({
         id,
         password,
-        salt,
+        salt: "salt",
         profile,
       });
-      return resolve();
+      return resolve({ success: true });
     } catch (e) {
-      reject(e);
+      reject({ success: false, error: e });
     }
   });
 };
