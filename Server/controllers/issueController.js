@@ -4,16 +4,16 @@ import issueDao from "../dao/issueDao";
 exports.getAllIssues = async function (req, res, next) {
   try {
     const issues = await issueDao.getAllIssues();
-    if(issues.success){
+    if (issues.success) {
       return res.status(200).json({
         success: true,
-        issues
+        issues,
       });
     }
     return res.status(400).json({
       success: false,
-      issues
-    })
+      issues,
+    });
   } catch (e) {
     return res
       .status(400)
@@ -26,16 +26,16 @@ exports.getIssueDetail = async function (req, res, next) {
   const issueId = req.params.issueId;
   try {
     const issueDetail = await issueDao.getIssueDetail(issueId);
-    if(issueDetail.success){
+    if (issueDetail.success) {
       return res.status(200).json({
-        success:true,
-        issueDetail
+        success: true,
+        issueDetail,
       });
     }
     return res.status(400).json({
-      success:false,
-      issueDetail
-    })
+      success: false,
+      issueDetail,
+    });
   } catch (e) {
     return res
       .status(400)
@@ -54,9 +54,16 @@ exports.insertNewIssue = async function (req, res, next) {
     labels,
   } = req.body;
   try {
-    const newIssue = await issueDao.insertNewIssue(authorId,milestoneId,title,description,assignees,labels);
-    if(newIssue.success){
-      return res.status(200).json({success:true});
+    const newIssue = await issueDao.insertNewIssue(
+      authorId,
+      milestoneId,
+      title,
+      description,
+      assignees,
+      labels
+    );
+    if (newIssue.success) {
+      return res.status(200).json({ success: true });
     }
     return res.status(400).json(newIssue);
   } catch (e) {
@@ -70,9 +77,9 @@ exports.insertNewIssue = async function (req, res, next) {
 exports.updateIssueTitle = async function (req, res, next) {
   const { issueId, title, authorId } = req.body;
   try {
-    let updateIssue = await issueDao.updateIssueTitle(title,authorId,issueId);
-    if(updateIssue.success){
-      return res.status(200).json({success:true});
+    let updateIssue = await issueDao.updateIssueTitle(title, authorId, issueId);
+    if (updateIssue.success) {
+      return res.status(200).json({ success: true });
     }
     return res.status(400).json(updateIssue);
   } catch (e) {
@@ -86,9 +93,13 @@ exports.updateIssueTitle = async function (req, res, next) {
 exports.updateIssueDescription = async function (req, res, next) {
   const { issueId, description, authorId } = req.body;
   try {
-    let updateIssue = await issueDao.updateIssueDescription(description, authorId, issueId);
-    if(updateIssue.success){
-      return res.status(200).json({success:true});
+    let updateIssue = await issueDao.updateIssueDescription(
+      description,
+      authorId,
+      issueId
+    );
+    if (updateIssue.success) {
+      return res.status(200).json({ success: true });
     }
     return res.status(400).json(updateIssue);
   } catch (e) {
@@ -102,9 +113,13 @@ exports.updateIssueDescription = async function (req, res, next) {
 exports.updateIssueStatus = async function (req, res, next) {
   const { issueId, newStatus, userId } = req.body;
   try {
-    let updatedStatus = await issueDao.updateIssueStatus(newStatus,userId,issueId);
-    if(updatedStatus.success){
-      return res.status(200).json({success:true});
+    let updatedStatus = await issueDao.updateIssueStatus(
+      newStatus,
+      userId,
+      issueId
+    );
+    if (updatedStatus.success) {
+      return res.status(200).json({ success: true });
     }
     return res.status(400).json(updatedStatus);
   } catch (e) {
@@ -119,8 +134,8 @@ exports.insertNewLabel = async function (req, res, next) {
   const { issueId, labelId } = req.body;
   try {
     let insertedLabelResult = await issueDao.insertNewLabel(issueId, labelId);
-    if(insertedLabelResult.success){
-      return res.status(200).json({success:true});
+    if (insertedLabelResult.success) {
+      return res.status(200).json({ success: true });
     }
     return res.status(400).json(insertedLabelResult);
   } catch (e) {
@@ -134,9 +149,12 @@ exports.insertNewLabel = async function (req, res, next) {
 exports.insertNewAssignee = async function (req, res, next) {
   const { issueId, assigneeId } = req.body;
   try {
-    let insertAssigneeResult = await issueDao.insertNewAssignee(issueId, assigneeId);
-    if(insertAssigneeResult.success){
-      return res.status(200).json({success:true});
+    let insertAssigneeResult = await issueDao.insertNewAssignee(
+      issueId,
+      assigneeId
+    );
+    if (insertAssigneeResult.success) {
+      return res.status(200).json({ success: true });
     }
     return res.status(400).json(insertAssigneeResult);
   } catch (e) {
@@ -150,9 +168,12 @@ exports.insertNewAssignee = async function (req, res, next) {
 exports.insertNewMilestone = async function (req, res, next) {
   const { issueId, milestoneId } = req.body;
   try {
-    let insertMilestoneResult = await issueDao.insertNewMilestone(milestoneId, issueId);
-    if(insertMilestoneResult.success){
-      return res.status(200).json({success:true});
+    let insertMilestoneResult = await issueDao.insertNewMilestone(
+      milestoneId,
+      issueId
+    );
+    if (insertMilestoneResult.success) {
+      return res.status(200).json({ success: true });
     }
     return res.status(400).json(insertMilestoneResult);
   } catch (e) {
@@ -167,8 +188,8 @@ exports.deleteIssue = async function (req, res, next) {
   const { issueId } = req.body;
   try {
     let deleteIssueResult = await issueDao.deleteIssue(issueId);
-    if(deleteIssueResult.success){
-      return res.status(200).json({success:true});
+    if (deleteIssueResult.success) {
+      return res.status(200).json({ success: true });
     }
     return res.status(400).json(deleteIssueResult);
   } catch (e) {
@@ -183,7 +204,7 @@ exports.filterIssuesByAuthor = async function (req, res, next) {
   const authorId = req.params.authorId;
   try {
     const issues = await issueDao.filterIssuesByAuthor(authorId);
-    if(issues.success){
+    if (issues.success) {
       return res.status(200).json(issues);
     }
     return res.status(400).json(issues);
@@ -199,7 +220,7 @@ exports.filterIssuesByLabel = async function (req, res, next) {
   const labelId = req.params.labelId;
   try {
     const issues = await issueDao.filterIssuesByLabel(labelId);
-    if(issues.success){
+    if (issues.success) {
       return res.status(200).json(issues);
     }
     return res.status(400).json(issues);
@@ -215,7 +236,7 @@ exports.filterIssuesByMilestone = async function (req, res, next) {
   const milestoneId = req.params.milestoneId;
   try {
     const issues = await issueDao.filterIssuesByMilestone(milestoneId);
-    if(issues.success){
+    if (issues.success) {
       return res.status(200).json(issues);
     }
     return res.status(400).json(issues);
@@ -231,7 +252,7 @@ exports.filterIssuesByAssignee = async function (req, res, next) {
   const assigneeId = req.params.assigneeId;
   try {
     const issues = await issueDao.filterIssuesByAssignee(assigneeId);
-    if(issues.success){
+    if (issues.success) {
       return res.status(200).json(issues);
     }
     return res.status(400).json(issues);
@@ -246,16 +267,16 @@ exports.filterIssuesByAssignee = async function (req, res, next) {
 exports.filterClosedIssues = async function (req, res, next) {
   try {
     const issues = await issueDao.getIssuesByStatus(false);
-    if(issues.success){
+    if (issues.success) {
       return res.status(200).json({
         success: true,
-        issues
+        issues,
       });
     }
     return res.status(400).json({
       success: false,
-      issues
-    })
+      issues,
+    });
   } catch (e) {
     return res
       .status(400)
@@ -267,16 +288,16 @@ exports.filterClosedIssues = async function (req, res, next) {
 exports.filterOpenedIssues = async function (req, res, next) {
   try {
     const issues = await issueDao.getIssuesByStatus(true);
-    if(issues.success){
+    if (issues.success) {
       return res.status(200).json({
         success: true,
-        issues
+        issues,
       });
     }
     return res.status(400).json({
       success: false,
-      issues
-    })
+      issues,
+    });
   } catch (e) {
     return res
       .status(400)
@@ -289,7 +310,7 @@ exports.filterUserIssues = async function (req, res, next) {
   const userId = req.params.userId;
   try {
     const issues = await issueDao.filterIssuesByAuthor(userId);
-    if(issues.success){
+    if (issues.success) {
       return res.status(200).json(issues);
     }
     return res.status(400).json(issues);
@@ -305,7 +326,23 @@ exports.filterUserAssignedIssue = async function (req, res, next) {
   const userId = req.params.userId;
   try {
     const issues = await issueDao.filterIssuesByAssignee(userId);
-    if(issues.success){
+    if (issues.success) {
+      return res.status(200).json(issues);
+    }
+    return res.status(400).json(issues);
+  } catch (e) {
+    return res
+      .status(400)
+      .json({ success: false, status: 400, message: e.message });
+  }
+};
+
+/* 이슈 filtering - commentor */
+exports.filterIssuesByCommentor = async function (req, res, next) {
+  const commentorId = req.params.commentorId;
+  try {
+    const issues = await issueDao.filterIssuesByCommentor(commentorId);
+    if (issues.success) {
       return res.status(200).json(issues);
     }
     return res.status(400).json(issues);
