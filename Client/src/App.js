@@ -1,12 +1,14 @@
 import React from "react";
-import { Switch, Route } from "react-router-dom";
-import LandingPage from "./views/LandingPage";
+import { Router, Switch, Route } from "react-router-dom";
+import LandingPage from "./views/LandingPage/LandingPage";
 
 const App = () => {
   return (
-    <div className="App">
-      <LandingPage />
-    </div>
+    <Router>
+      <Switch>
+        <Route exact path="/" component={LandingPage} />
+      </Switch>
+    </Router>
   );
 };
 export default App;
