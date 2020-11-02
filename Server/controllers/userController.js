@@ -30,8 +30,8 @@ exports.localLogin = (req, res, next) => {
 
 exports.localStrategyLogin = async (userId, password) => {
   try {
-    const user = await userDao.getUser({userId});
-    
+    const user = await userDao.getUser({ userId });
+
     if (password === user.dataValues.password) {
       return {
         success: true,
@@ -44,6 +44,28 @@ exports.localStrategyLogin = async (userId, password) => {
     return res.status(400).json({
       success: false,
       error: e,
+    });
+  }
+};
+
+/* local 회원가입*/
+
+exports.localRegister = async (req, res, next) => {
+  try {
+    const { id, password, profile } = req.body;
+    const user = await userDao.insertUser(id, password, profile);
+    if (user.success) {
+      return res.status(200).json({
+        success: true,
+      });
+    }
+    return res.status(400).json({
+      success: false,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      error: error.error,
     });
   }
 };
@@ -74,18 +96,15 @@ exports.githubCallback = async (req, res, next) => {
 };
 exports.gitStrategyLogin = async (profiles) => {
   //git 정보가 db에 있는지 확인
-  let user = await userDao.getUser({userId});
+  let user = await userDao.getUser(profiles.username);
   //db에 저장이 안 되어있을 경우 새로 db에 저장
   if (user === null) {
     try {
       const id = profiles.username;
       const profile = profiles.photos[0].value;
-      await userDao.insertUser({
-        id,
-        password: "github",
-        salt: "salt",
-        profile,
-      });
+      const password = "github";
+
+      const result = await userDao.insertUser(id, password, profile);
     } catch (e) {
       return {
         success: false,

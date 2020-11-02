@@ -4,6 +4,8 @@ const router = express.Router();
 
 router.post("/login", userController.localLogin);
 
+router.post("/register", userController.localRegister);
+
 router.get("/github", userController.githubLogin);
 router.get("/github/callback", userController.githubCallback);
 
