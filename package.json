@@ -8,7 +8,8 @@
 		"dev": "concurrently \"cp ./.env.dev ./.env\" \"npm run build-dev\" \"nodemon\"",
 		"build-prod": "webpack --config webpack.config.prod.js",
 		"build-dev": "webpack --config webpack.config.dev.js",
-		"test": "node_modules/.bin/mocha --require=@babel/register ./server/test/apiTest.spec.js"
+		"test": "node_modules/.bin/mocha --require=@babel/register ./server/test/apiTest.spec.js",
+		"dev-server": "webpack-dev-server --config webpack.config.dev.js"
 	},
 	"repository": {
 		"type": "git",
@@ -38,13 +39,17 @@
 		"passport-github": "^1.1.0",
 		"passport-jwt": "^4.0.0",
 		"passport-local": "^1.0.0",
+		"react": "^17.0.1",
+		"react-dom": "^17.0.1",
+		"react-router-dom": "^5.2.0",
 		"sequelize": "^6.3.5"
 	},
 	"devDependencies": {
 		"@babel/cli": "^7.11.6",
-		"@babel/core": "^7.11.6",
+		"@babel/core": "^7.12.3",
 		"@babel/node": "^7.10.5",
-		"@babel/preset-env": "^7.11.5",
+		"@babel/preset-env": "^7.12.1",
+		"@babel/preset-react": "^7.12.1",
 		"@babel/register": "^7.12.1",
 		"babel-loader": "^8.1.0",
 		"css-loader": "^4.3.0",
@@ -66,6 +71,7 @@
 		"style-loader": "^1.2.1",
 		"supertest": "^6.0.0",
 		"webpack": "^4.44.2",
-		"webpack-cli": "^3.3.12"
+		"webpack-cli": "^3.3.12",
+		"webpack-dev-server": "^3.11.0"
 	}
 }
