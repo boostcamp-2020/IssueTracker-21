@@ -65,5 +65,10 @@ router.get(
   issueController.filterUserAssignedIssue
 );
 
+/* 이슈 filtering - commentor */
+router.get(
+  "/filter/commentor/:commentorId",
+  issueController.filterIssuesByCommentor
+);
 
 module.exports = router;
