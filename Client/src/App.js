@@ -1,6 +1,6 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
-import LandingPage from "./components/LandingPage";
+import LandingPage from "./views/LandingPage";
 
 const App = () => {
   return (
