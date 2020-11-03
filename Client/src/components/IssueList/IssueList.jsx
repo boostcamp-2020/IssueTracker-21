@@ -27,8 +27,15 @@ function IssueList() {
   }, []);
 
   const renderLoading = (
-    <div id="loading">
+    <div className="emptyList" id="loading">
       <img id="loadingImg" src={loadingImg} alt="loading..." />
+    </div>
+  );
+
+  const renderNoResult = (
+    <div className="emptyList" id="noResult">
+      <div id="noResultIcon">❕</div>
+      <div id="noResultmsg">No results matched your search.</div>
     </div>
   );
 
@@ -89,7 +96,13 @@ function IssueList() {
           </div>
         </div>
       </MenuStyle>
-      <div id="issueCardArea">{Loading ? renderLoading : renderIssueCards}</div>
+      <div id="issueCardArea">
+        {Loading
+          ? renderLoading
+          : Issues.length === 0
+          ? renderNoResult
+          : renderIssueCards}
+      </div>
     </div>
   );
 }

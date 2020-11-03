@@ -46,7 +46,8 @@
 #issueCardArea {
   width: 80%;
   min-height: 200px;
-  #loading {
+
+  .emptyList {
     width: 100%;
     min-height: 200px;
     padding: 7px 10px;
@@ -56,6 +57,31 @@
     border: 1px solid rgb(225, 228, 232);
     border-top: 0;
     align-items: center;
+  }
+
+  #noResult {
+    display: flex;
+    flex-direction: column;
+
+    #noResultIcon {
+      width: 40px;
+      height: 40px;
+      text-align: center;
+      line-height: 48px;
+      padding-left: 2px;
+      font-size: 40px;
+      margin-bottom: 20px;
+      border: 7px solid #e6e6e6;
+      border-radius: 40px;
+    }
+
+    #noResultmsg {
+      font-size: 25px;
+      font-weight: 800;
+    }
+  }
+
+  #loading {
     #loadingImg {
       width: 50px;
       height: 50px;
