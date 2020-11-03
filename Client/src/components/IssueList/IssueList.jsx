@@ -4,6 +4,7 @@ import axios from "axios";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "./IssueList.scss";
 import IssueCard from "../IssueCard";
+import loadingImg from "../../../public/loading.gif";
 
 const MenuStyle = styled.div`
   color: black;
@@ -12,16 +13,24 @@ const MenuStyle = styled.div`
 function IssueList() {
   const [ChkBox, setChkBox] = useState(0);
   const [Issues, setIssues] = useState([]);
+  const [Loading, setLoading] = useState(true);
 
   useEffect(() => {
     axios.get("/api/issue").then((response) => {
       if (response.data.success) {
+        setLoading(false);
         setIssues(response.data.issues.rows);
       } else {
         alert("Failed to get issues");
       }
     });
   }, []);
+
+  const renderLoading = (
+    <div id="loading">
+      <img id="loadingImg" src={loadingImg} alt="loading..." />
+    </div>
+  );
 
   const renderIssueCards = Issues.map((issue, index) => {
     //임시로 4개 카드만 렌더링 되도록 설정
@@ -42,7 +51,7 @@ function IssueList() {
     );
   });
 
-  function chkBox(box) {
+  function chkBox() {
     if (ChkBox.condition) {
       setChkBox({
         condition: undefined,
@@ -56,7 +65,6 @@ function IssueList() {
 
   return (
     <div>
-      <Link to="/login">sss</Link>
       <MenuStyle id="filterArea">
         <div id="leftMenu">
           <div
@@ -81,7 +89,7 @@ function IssueList() {
           </div>
         </div>
       </MenuStyle>
-      <div id="issueCardArea">{renderIssueCards}</div>
+      <div id="issueCardArea">{Loading ? renderLoading : renderIssueCards}</div>
     </div>
   );
 }

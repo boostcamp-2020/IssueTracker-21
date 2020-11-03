@@ -42,3 +42,23 @@
     }
   }
 }
+
+#issueCardArea {
+  width: 80%;
+  min-height: 200px;
+  #loading {
+    width: 100%;
+    min-height: 200px;
+    padding: 7px 10px;
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    border: 1px solid rgb(225, 228, 232);
+    border-top: 0;
+    align-items: center;
+    #loadingImg {
+      width: 50px;
+      height: 50px;
+    }
+  }
+}
