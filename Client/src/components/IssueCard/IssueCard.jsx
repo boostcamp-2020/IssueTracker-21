@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Router } from "react-router-dom";
 import { Link } from "react-router-dom";
 import calcTime from "../../utils/calcTime";
+import LabelTag from "../LabelTag";
 import "./issueCard.scss";
 
 function IssueCard(props) {
@@ -44,6 +45,12 @@ function IssueCard(props) {
     }
   };
 
+  const labelTags = labels.map((label, index) => {
+    return (
+      <LabelTag key={label.id} labelName={label.name} color={label.color} />
+    );
+  });
+
   return (
     <Link className="issueLink" to={"/" + id}>
       <div className="issueCard" data-issueid={id}>
@@ -53,6 +60,7 @@ function IssueCard(props) {
           <div className="mainInfo">
             <div className="icon">{isOpen ? "✅" : "❌"}</div>
             <div className="issueTitle">{title}</div>
+            <div className="issueLabel">{labelTags}</div>
           </div>
           <div className="subInfo">
             <div className="issueSubTitle">

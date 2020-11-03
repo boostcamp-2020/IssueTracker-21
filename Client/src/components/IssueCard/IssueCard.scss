@@ -49,9 +49,19 @@
       flex-direction: row;
       justify-items: center;
       line-height: 22px;
+      align-items: center;
 
       .icon {
         margin-right: 10px;
+      }
+
+      .issueTitle {
+        margin-right: 20px;
+      }
+
+      .issueLabel {
+        display: flex;
+        flex-direction: row;
       }
     }
 
