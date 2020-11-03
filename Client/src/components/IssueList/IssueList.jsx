@@ -23,6 +23,25 @@ function IssueList() {
     });
   }, []);
 
+  const renderIssueCards = Issues.map((issue, index) => {
+    //임시로 4개 카드만 렌더링 되도록 설정
+    if (index > 3) {
+      return "";
+    }
+
+    return (
+      <IssueCard
+        key={issue.id}
+        id={issue.id}
+        title={issue.title}
+        isOpen={issue.isOpened ? "true" : null}
+        time={issue.updatedAt}
+        authorId={issue.authorId}
+        milestoneTitle={issue.milestone.title}
+      />
+    );
+  });
+
   function chkBox(box) {
     if (ChkBox.condition) {
       setChkBox({
@@ -62,16 +81,7 @@ function IssueList() {
           </div>
         </div>
       </MenuStyle>
-      <div id="issueCardArea">
-        <IssueCard
-          title="hello world"
-          isOpen="true"
-          id="8"
-          time="2020-11-01"
-          authorId="tester1"
-          milestoneTitle="milestone Back-end"
-        />
-      </div>
+      <div id="issueCardArea">{renderIssueCards}</div>
     </div>
   );
 }

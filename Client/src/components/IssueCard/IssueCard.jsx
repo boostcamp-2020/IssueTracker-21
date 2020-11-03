@@ -10,7 +10,7 @@ function IssueCard(props) {
   const timeData = calcTime(time);
 
   return (
-    <Link className="issueLink" to={id}>
+    <Link className="issueLink" to={"/" + id}>
       <div className="issueCard" data-issueid={id}>
         <div className="issueChkBox">
           <input type="checkbox" id="issueAllChkBox" />
