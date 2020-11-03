@@ -10,16 +10,14 @@ const MenuStyle = styled.div`
   color: black;
 `;
 
+let items = new Map();
+
 function IssueList() {
-  const [ChkBox, setChkBox] = useState(0);
   const [ChkNum, setChkNum] = useState(0);
   const [Issues, setIssues] = useState([]);
   const [Loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setChkBox({
-      condition: "chkBox",
-    });
     setChkNum({
       condition: "chkBox",
       num: 0,
@@ -74,6 +72,26 @@ function IssueList() {
     }
   };
 
+  const cardItemList = (id, handler) => {
+    items.set(id, handler);
+  };
+
+  function useStateHandler(state) {
+    if (state) {
+      for (let [key, value] of items) {
+        value({
+          condition: "chkBox checked",
+        });
+      }
+    } else {
+      for (let [key, value] of items) {
+        value({
+          condition: "chkBox",
+        });
+      }
+    }
+  }
+
   //issue card 렌더링 부분
   const renderIssueCards = Issues.map((issue, index) => {
     //임시로 4개 카드만 렌더링 되도록 설정
@@ -91,20 +109,25 @@ function IssueList() {
         authorId={issue.authorId}
         milestoneTitle={issue.milestone.title}
         checkHandler={cardsCheckHandler}
+        checkedAll={cardItemList}
       />
     );
   });
 
   //issue list에서 사용할 checkBox handler
   function chkBox() {
-    if (ChkBox.condition !== "chkBox") {
-      setChkBox({
+    if (ChkNum.condition !== "chkBox") {
+      setChkNum({
         condition: "chkBox",
+        num: 0,
       });
+      useStateHandler(false);
     } else {
-      setChkBox({
-        condition: "chkBox checked",
+      setChkNum({
+        condition: "chkBox checkedAll",
+        num: Issues.length - 1,
       });
+      useStateHandler(true);
     }
   }
 

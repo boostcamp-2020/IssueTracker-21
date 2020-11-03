@@ -13,6 +13,7 @@ function IssueCard(props) {
     time,
     authorId,
     checkHandler,
+    checkedAll,
   } = props;
 
   const [ChkBox, setChkBox] = useState(0);
@@ -22,6 +23,7 @@ function IssueCard(props) {
     setChkBox({
       condition: "chkBox",
     });
+    checkedAll(title, setChkBox.bind());
   }, []);
 
   const chkBox = (e) => {
