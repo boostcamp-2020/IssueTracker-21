@@ -2,6 +2,7 @@ const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+
 module.exports = {
   mode: "development",
   entry: {
@@ -49,6 +50,9 @@ module.exports = {
   ],
   devServer: {
     port: 3000,
+    proxy: {
+      "/api": "http://localhost:5000",
+    },
   },
   optimization: {},
   resolve: {
