@@ -30,7 +30,7 @@ exports.localLogin = (req, res, next) => {
 
 exports.localStrategyLogin = async (userId, password) => {
   try {
-    const user = await userDao.getUser({ userId });
+    const user = await userDao.getUser(userId);
 
     if (password === user.dataValues.password) {
       return {

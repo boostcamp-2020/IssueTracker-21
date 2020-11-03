@@ -1,0 +1,14 @@
+.top {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+  color: white;
+  font-size: 9px;
+  padding: 0.5%;
+}
+
+.imogi {
+  font-size: 15px;
+  margin: 0;
+}
