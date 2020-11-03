@@ -12,10 +12,18 @@ const MenuStyle = styled.div`
 
 function IssueList() {
   const [ChkBox, setChkBox] = useState(0);
+  const [ChkNum, setChkNum] = useState(0);
   const [Issues, setIssues] = useState([]);
   const [Loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setChkBox({
+      condition: "chkBox",
+    });
+    setChkNum({
+      condition: "chkBox",
+      num: 0,
+    });
     axios.get("/api/issue").then((response) => {
       if (response.data.success) {
         setLoading(false);
@@ -26,12 +34,14 @@ function IssueList() {
     });
   }, []);
 
+  // issue 로딩시 보여질 로딩 이미지
   const renderLoading = (
     <div className="emptyList" id="loading">
       <img id="loadingImg" src={loadingImg} alt="loading..." />
     </div>
   );
 
+  // issue 결과 값이 없을때 보여질 화면
   const renderNoResult = (
     <div className="emptyList" id="noResult">
       <div id="noResultIcon">❕</div>
@@ -39,6 +49,32 @@ function IssueList() {
     </div>
   );
 
+  // issue cards에게 넘겨줄 checkBox handler
+  const cardsCheckHandler = (id, bool) => {
+    if (bool && ChkNum.num + 1 === Issues.length - 1) {
+      setChkNum({
+        condition: "chkBox checkedAll",
+        num: ChkNum.num + 1,
+      });
+    } else if (!bool && ChkNum.num - 1 === 0) {
+      setChkNum({
+        condition: "chkBox",
+        num: ChkNum.num - 1,
+      });
+    } else if (bool) {
+      setChkNum({
+        condition: "chkBox checked",
+        num: ChkNum.num + 1,
+      });
+    } else if (!bool) {
+      setChkNum({
+        condition: "chkBox checked",
+        num: ChkNum.num - 1,
+      });
+    }
+  };
+
+  //issue card 렌더링 부분
   const renderIssueCards = Issues.map((issue, index) => {
     //임시로 4개 카드만 렌더링 되도록 설정
     if (index > 3) {
@@ -54,18 +90,20 @@ function IssueList() {
         time={issue.updatedAt}
         authorId={issue.authorId}
         milestoneTitle={issue.milestone.title}
+        checkHandler={cardsCheckHandler}
       />
     );
   });
 
+  //issue list에서 사용할 checkBox handler
   function chkBox() {
-    if (ChkBox.condition) {
+    if (ChkBox.condition !== "chkBox") {
       setChkBox({
-        condition: undefined,
+        condition: "chkBox",
       });
     } else {
       setChkBox({
-        condition: "checked",
+        condition: "chkBox checked",
       });
     }
   }
@@ -77,7 +115,7 @@ function IssueList() {
           <div
             id="issueAllChkBox"
             onClick={chkBox}
-            className={ChkBox.condition ? ChkBox.condition : ""}
+            className={ChkNum.condition}
           />
         </div>
 
