@@ -168,6 +168,7 @@ function IssueList() {
             onClick={chkBox}
             className={ChkNum.condition}
           />
+          {ChkNum.num !== 0 && <div>{ChkNum.num} selected</div>}
         </div>
         {ChkNum.num === 0 ? filterOpt : markAsOpt}
       </MenuStyle>
