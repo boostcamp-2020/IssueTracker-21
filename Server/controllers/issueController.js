@@ -352,3 +352,18 @@ exports.filterIssuesByCommentor = async function (req, res, next) {
       .json({ success: false, status: 400, message: e.message });
   }
 };
+
+/* 이슈 filtering - 여러 조건 */
+exports.filterIssues = async function (req, res, next) {
+  try {
+    const issues = await issueDao.filterIssues(req.params);
+    if (issues.success) {
+      return res.status(200).json(issues);
+    }
+    return res.status(400).json(issues);
+  } catch (e) {
+    return res
+      .status(400)
+      .json({ success: false, status: 400, message: e.message });
+  }
+};

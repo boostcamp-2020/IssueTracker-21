@@ -32,6 +32,12 @@ router.put("/milestone", issueController.insertNewMilestone);
 /* 이슈 삭제 */
 router.delete("/", issueController.deleteIssue);
 
+/* 이슈 filtering */
+router.get(
+  "/filter/author/:authorId/label/:labelId/milestone/:milestoneId/assignee/:assigneeId/filter/:status/commentor/:commentorId",
+  issueController.filterIssues
+);
+
 /* 이슈 filtering - author */
 router.get("/filter/author/:authorId", issueController.filterIssuesByAuthor);
 
