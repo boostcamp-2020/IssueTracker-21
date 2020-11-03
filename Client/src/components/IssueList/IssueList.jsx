@@ -131,6 +131,31 @@ function IssueList() {
     }
   }
 
+  const markAsOpt = (
+    <div id="rightMenu">
+      <div className="optBtn" id="markAs">
+        Mark as ▾
+      </div>
+    </div>
+  );
+
+  const filterOpt = (
+    <div id="rightMenu">
+      <div className="optBtn" id="authorOpt">
+        Author ▾
+      </div>
+      <div className="optBtn" id="labelOpt">
+        Label ▾
+      </div>
+      <div className="optBtn" id="milestonesOpt">
+        Milestones ▾
+      </div>
+      <div className="optBtn" id="assigneeOpt">
+        Assignee ▾
+      </div>
+    </div>
+  );
+
   return (
     <div>
       <MenuStyle id="filterArea">
@@ -141,21 +166,7 @@ function IssueList() {
             className={ChkNum.condition}
           />
         </div>
-
-        <div id="rightMenu">
-          <div className="optBtn" id="authorOpt">
-            Author ▾
-          </div>
-          <div className="optBtn" id="labelOpt">
-            Label ▾
-          </div>
-          <div className="optBtn" id="milestonesOpt">
-            Milestones ▾
-          </div>
-          <div className="optBtn" id="assigneeOpt">
-            Assignee ▾
-          </div>
-        </div>
+        {ChkNum.num === 0 ? filterOpt : markAsOpt}
       </MenuStyle>
       <div id="issueCardArea">
         {Loading
