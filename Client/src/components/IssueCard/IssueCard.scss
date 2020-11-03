@@ -77,6 +77,14 @@
     justify-items: center;
     align-items: center;
 
+    .assigneeInfo {
+      min-width: 70px;
+    }
+
+    .commentsInfo {
+      width: 70px;
+    }
+
     div {
       display: flex;
       justify-items: center;

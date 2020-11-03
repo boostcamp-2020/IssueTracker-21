@@ -12,6 +12,9 @@ function IssueCard(props) {
     milestoneTitle,
     time,
     authorId,
+    comments,
+    assignee,
+    labels,
     checkHandler,
     checkedAll,
   } = props;
@@ -59,8 +62,12 @@ function IssueCard(props) {
           </div>
         </div>
         <div className="sideContents">
-          <div className="assigneeInfo">⚽⚽⚽</div>
-          <div className="commentsInfo">✉ 3</div>
+          <div className="assigneeInfo">
+            {assignee.length !== 0 && `⚽ ${assignee.length}`}
+          </div>
+          <div className="commentsInfo">
+            {comments.length !== 0 && `✉ ${comments.length}`}
+          </div>
         </div>
       </div>
     </Link>

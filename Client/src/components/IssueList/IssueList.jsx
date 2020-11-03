@@ -95,7 +95,7 @@ function IssueList() {
   //issue card 렌더링 부분
   const renderIssueCards = Issues.map((issue, index) => {
     //임시로 4개 카드만 렌더링 되도록 설정
-    if (index > 3) {
+    if (index > 10) {
       return "";
     }
 
@@ -108,6 +108,9 @@ function IssueList() {
         time={issue.updatedAt}
         authorId={issue.authorId}
         milestoneTitle={issue.milestone.title}
+        comments={issue.comments}
+        assignee={issue.users}
+        labels={issue.labels}
         checkHandler={cardsCheckHandler}
         checkedAll={cardItemList}
       />
