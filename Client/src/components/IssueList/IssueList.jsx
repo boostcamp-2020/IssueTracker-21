@@ -13,6 +13,16 @@ function IssueList() {
   const [ChkBox, setChkBox] = useState(0);
   const [Issues, setIssues] = useState([]);
 
+  useEffect(() => {
+    axios.get("/api/issue").then((response) => {
+      if (response.data.success) {
+        setIssues(response.data.issues.rows);
+      } else {
+        alert("Failed to get issues");
+      }
+    });
+  }, []);
+
   function chkBox(box) {
     if (ChkBox.condition) {
       setChkBox({
