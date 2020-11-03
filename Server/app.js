@@ -12,6 +12,9 @@ require("dotenv").config();
 const models = require("./models");
 
 const app = express();
+
+const cors = require("cors");
+
 models.sequelize
   .sync()
   .then(() => {
@@ -23,6 +26,7 @@ models.sequelize
   });
 
 //models.sequelize.sync({ force: true }); // 테이블을 모두 재생성. 데이터는 모두 삭제됨
+app.use(cors());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
