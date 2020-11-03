@@ -1,20 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import "./style.css";
 import logo from "../../../public/img/github.png";
 import axios from "axios";
 
-function LoginPage() {
+function LoginPage(props) {
+  const [inputId, setInputId] = useState("");
+  const [inputPassword, setInputPassword] = useState("");
+
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    const params = new URLSearchParams([...new FormData(e.target).entries()]);
+    let data = {
+      userId: inputId,
+      password: inputPassword,
+    };
     try {
-      let loginInfo = axios
-        .post("http://118.67.132.17:5000/api/user/login", { body: params })
-        .then((res) => {
-          //url수정필요
-          console.log(res);
-        });
-      console.log(loginInfo);
+      axios.post("http://localhost:5000/api/user/login", data).then((res) => {
+        //url수정필요, cookie가 추가가 안됨.
+        props.history.push("/");
+      });
     } catch (e) {
       alert(e);
     }
@@ -30,9 +33,19 @@ function LoginPage() {
           onSubmit={(event) => onSubmitHandler(event)}
         >
           <label className="idLabel">아이디</label>
-          <input type="text" className="id" name="id" />
+          <input
+            type="text"
+            className="id"
+            name="id"
+            onChange={(e) => setInputId(e.target.value)}
+          />
           <label className="passwordLabel">비밀번호</label>
-          <input type="password" className="password" name="password" />
+          <input
+            type="password"
+            className="password"
+            name="password"
+            onChange={(e) => setInputPassword(e.target.value)}
+          />
           <div className="buttons">
             <input type="submit" className="submit" value="로그인" />
             <input type="text" className="register" value="회원가입" />
