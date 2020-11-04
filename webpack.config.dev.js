@@ -21,7 +21,6 @@ module.exports = {
         options: {
           cacheDirectory: true,
           configFile: "./Client/.babelrc",
-          presets: ["@babel/env", "@babel/preset-react"],
         },
       },
       {

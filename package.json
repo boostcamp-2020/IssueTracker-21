@@ -10,7 +10,7 @@
 		"build-dev": "webpack --config webpack.config.dev.js",
 		"test": "node_modules/.bin/mocha --require=@babel/register ./server/test/apiTest.spec.js",
 		"front-dev-server": "webpack-dev-server --config webpack.config.dev.js",
-		"back-dev-server": "nodemon",
+		"back-dev-server": "nodemon --config ./nodemon.json",
 		"dev-server": "concurrently \"npm run back-dev-server\" \"npm run front-dev-server\""
 	},
 	"repository": {
