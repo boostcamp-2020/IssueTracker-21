@@ -2,6 +2,7 @@ const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+
 module.exports = {
   mode: "development",
   entry: {
@@ -20,7 +21,6 @@ module.exports = {
         options: {
           cacheDirectory: true,
           configFile: "./Client/.babelrc",
-          presets: ["@babel/env", "@babel/preset-react"],
         },
       },
       {
@@ -32,8 +32,8 @@ module.exports = {
         ],
       },
       {
-        test: /\.css$/,
-        use: ["style-loader", "css-loader"],
+        test: /\.(s[ac]ss)|css$/,
+        use: ["style-loader", "css-loader", "sass-loader"],
       },
       {
         test: /\.(png|svg|jpg|gif|ico)$/,
@@ -49,6 +49,9 @@ module.exports = {
   ],
   devServer: {
     port: 3000,
+    proxy: {
+      "/api": "http://localhost:5000",
+    },
     historyApiFallback: true,
   },
   optimization: {},

@@ -145,7 +145,8 @@ exports.isExist = async (userId) => {
 };
 
 exports.authCheck = (req, res) => {
-  let token = req.cookies.user;
+  let token = req.signedCookies.token;
+  console.log("cookie", req.signedCookies.token, req.cookies);
   if (token != null) {
     let decode = false;
     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {

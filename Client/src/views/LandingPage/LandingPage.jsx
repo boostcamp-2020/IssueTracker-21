@@ -1,9 +1,12 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import IssueList from "../../components/IssueList";
 
-function LandingPage(props) {
+function LandingPage() {
   return (
     <div>
-      <a href="/login">매롱</a>
+      LandingPage
+      <IssueList></IssueList>
     </div>
   );
 }

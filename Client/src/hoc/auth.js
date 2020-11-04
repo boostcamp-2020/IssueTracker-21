@@ -1,38 +1,38 @@
 import React, { useEffect } from "react";
 import axios from "axios";
-import LoginPage from "../views/LoginPage";
-import LandingPage from "../views/LandingPage";
 import { useState } from "react";
+
+function fetchData(setVerify) {
+  return new Promise((resolve) => {
+    axios.get("http://localhost:5000/api/user/auth").then((res) => {
+      setVerify(res.data.verify);
+      resolve(res.data.verify);
+    });
+  });
+}
 
 export default function (SpecificComponent, option, adminRoute = null) {
   function AuthenticationCheck(props) {
     const [verify, setVerify] = useState(true);
-
+    console.log();
     //back에 req날리기
-    useEffect(() => {
-      console.log("fetch");
-      async function fetchData() {
-        await axios.get("http://localhost:5000/api/user/auth").then((res) => {
-          console.log(res.data);
-          setVerify(res.data.verify);
-        });
+    useEffect(async () => {
+      const response = await fetchData(setVerify);
+      if (!response) {
+        //로그인 안된 상태
+        if (option) {
+          props.history.push("/login");
+        }
+      } else {
+        //로그인 상태
+        if (option === false) {
+          props.history.push("/");
+        }
       }
-      fetchData();
+      return <SpecificComponent {...props} />;
     }, []);
 
-    return option == null ? (
-      <SpecificComponent />
-    ) : option ? (
-      verify ? (
-        <SpecificComponent />
-      ) : (
-        <LoginPage />
-      )
-    ) : verify ? (
-      <LandingPage />
-    ) : (
-      <SpecificComponent />
-    );
+    return <SpecificComponent {...props} />;
   }
 
   return AuthenticationCheck;

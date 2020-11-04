@@ -46,6 +46,10 @@ passportConfig();
 app.use(express.static(path.join(__dirname, "../dist")));
 
 app.use("/api", indexRouter);
+/* support client-side routing */
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "./../dist/index.html"));
+});
 
 const PORT = process.env.PORT || 80;
 app.listen(PORT, () => {

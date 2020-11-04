@@ -9,7 +9,9 @@
 		"build-prod": "webpack --config webpack.config.prod.js",
 		"build-dev": "webpack --config webpack.config.dev.js",
 		"test": "node_modules/.bin/mocha --require=@babel/register ./server/test/apiTest.spec.js",
-		"dev-server": "webpack-dev-server --config webpack.config.dev.js"
+		"front-dev-server": "webpack-dev-server --config webpack.config.dev.js",
+		"back-dev-server": "nodemon --config ./nodemon.json",
+		"dev-server": "concurrently \"npm run back-dev-server\" \"npm run front-dev-server\""
 	},
 	"repository": {
 		"type": "git",
@@ -77,7 +79,9 @@
 		"html-webpack-plugin": "^4.5.0",
 		"i": "^0.3.6",
 		"mocha": "^8.2.0",
+		"node-sass": "^5.0.0",
 		"prettier": "^2.1.2",
+		"sass-loader": "^10.0.5",
 		"sequelize-cli": "^6.2.0",
 		"should": "^13.2.3",
 		"style-loader": "^1.2.1",

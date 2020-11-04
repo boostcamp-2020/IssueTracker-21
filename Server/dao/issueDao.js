@@ -16,11 +16,18 @@ exports.getAllIssues = async () => {
     try {
       let { count, rows } = await issueModel.findAndCountAll({
         distinct: true,
+        //order: [["id", "ASC"]],
+        order: [["id", "DESC"]],
         include: [
           {
             model: milestoneModel,
             required: false,
-            attributes: ["title"],
+            attributes: ["id", "title"],
+          },
+          {
+            model: commentModel,
+            required: false,
+            attributes: ["authorId"],
           },
           {
             model: commentModel,
@@ -37,6 +44,11 @@ exports.getAllIssues = async () => {
             model: labelModel,
             required: false,
             as: "labels",
+          },
+          {
+            model: commentModel,
+            required: false,
+            as: "comments",
           },
         ],
       });
@@ -247,6 +259,98 @@ exports.deleteIssue = async (issueId) => {
         },
       });
       resolve({ success: true });
+    } catch (e) {
+      reject({ error: e });
+    }
+  });
+};
+
+/* 이슈 filtering - 여러 조건 */
+exports.filterIssues = async (filters) => {
+  console.log(filters);
+  const {
+    authorId,
+    labelId,
+    milestoneId,
+    assigneeId,
+    status,
+    commentorId,
+  } = filters;
+  return new Promise(async (resolve, reject) => {
+    try {
+      const issues = await issueModel.findAndCountAll({
+        distinct: true,
+        attributes: ["id"],
+        include: [
+          {
+            model: milestoneModel,
+            required: false,
+            attributes: ["id", "title"],
+          },
+          {
+            model: commentModel,
+            required: false,
+            attributes: ["authorId"],
+          },
+          {
+            model: userModel,
+            as: "users",
+            required: false,
+            attributes: ["id", "profile"],
+          },
+          {
+            model: labelModel,
+            required: false,
+            as: "labels",
+          },
+        ],
+        where: {
+          authorId: authorId,
+          "$labels.id$": labelId,
+          milestoneId: milestoneId,
+          "$users.id$": assigneeId,
+          isOpened: status,
+          "$comments.authorId$": commentorId,
+        },
+      });
+      const issueRows = issues.rows;
+      const issueIdArr = issueRows.map((e) => e.id);
+      if (issueIdArr.length !== 0) {
+        let { count, rows } = await issueModel.findAndCountAll({
+          distinct: true,
+          include: [
+            {
+              model: milestoneModel,
+              required: false,
+              attributes: ["title"],
+            },
+            {
+              model: commentModel,
+              required: false,
+              attributes: ["authorId"],
+            },
+            {
+              model: userModel,
+              as: "users",
+              required: false,
+              attributes: ["id", "profile"],
+            },
+            {
+              model: labelModel,
+              required: false,
+              as: "labels",
+            },
+          ],
+          where: {
+            id: {
+              [Op.or]: issueIdArr,
+            },
+          },
+        });
+        resolve({ success: true, count, rows });
+      } else {
+        resolve({ success: true, count: 0 });
+      }
     } catch (e) {
       reject({ error: e });
     }
