@@ -25,7 +25,7 @@ function IssueList() {
     axios.get("/api/issue").then((response) => {
       if (response.data.success) {
         setLoading(false);
-        setIssues(response.data.issues.rows);
+        setIssues(response.data.issues);
       } else {
         alert("Failed to get issues");
       }
