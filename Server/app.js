@@ -11,7 +11,12 @@ require("dotenv").config();
 
 const models = require("./models");
 
+const bodyParser = require("body-parser");
+
 const app = express();
+
+const cors = require("cors");
+
 models.sequelize
   .sync()
   .then(() => {
@@ -23,9 +28,12 @@ models.sequelize
   });
 
 //models.sequelize.sync({ force: true }); // 테이블을 모두 재생성. 데이터는 모두 삭제됨
+app.use(cors());
 app.use(logger("dev"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+//application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
+//aplication/json
+app.use(bodyParser.json({ limit: "50mb" }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(passport.initialize());
 passportConfig();
