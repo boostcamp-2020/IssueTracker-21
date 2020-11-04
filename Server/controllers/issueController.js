@@ -10,6 +10,7 @@ import issueDao from "../dao/issueDao";
 exports.getIssues = async function (req, res, next) {
   try {
     const issues = await issueDao.getAllIssues();
+    console.log(issues);
     const {
       isOpened,
       labelId,

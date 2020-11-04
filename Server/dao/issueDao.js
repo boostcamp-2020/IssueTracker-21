@@ -30,11 +30,6 @@ exports.getAllIssues = async () => {
             attributes: ["authorId"],
           },
           {
-            model: commentModel,
-            required: false,
-            attributes: ["authorId"],
-          },
-          {
             model: userModel,
             as: "users",
             required: false,
@@ -44,11 +39,6 @@ exports.getAllIssues = async () => {
             model: labelModel,
             required: false,
             as: "labels",
-          },
-          {
-            model: commentModel,
-            required: false,
-            as: "comments",
           },
         ],
       });
