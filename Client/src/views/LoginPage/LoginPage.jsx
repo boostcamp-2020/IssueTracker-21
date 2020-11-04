@@ -59,10 +59,12 @@ function LoginPage(props) {
             <button className="register">회원가입</button>
           </div>
         </form>
-        <button className="githubLogin">
-          Sign in with GitHub{" "}
-          <img src={logo} alt="github_logo" className="logo" />
-        </button>
+        <form method="GET" action="/api/user/github">
+          <button className="githubLogin">
+            Sign in with GitHub{" "}
+            <img src={logo} alt="github_logo" className="logo" />
+          </button>
+        </form>
       </div>
     </div>
   );
