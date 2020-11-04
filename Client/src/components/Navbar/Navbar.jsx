@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import CustomBtn from "../../components/CustomBtn";
 import { Icon, InlineIcon } from "@iconify/react";
 import tagIcon from "@iconify/icons-octicon/tag";
@@ -6,14 +6,21 @@ import milestone24 from "@iconify/icons-octicon/milestone-24";
 import CustomDropDown from "../../components/CustomDropDown";
 import CustomInput from "../../components/CustomInput";
 import "./style.css";
-function Navbar() {
+function Navbar(props) {
   const [FilterKeyWord, setFilterKeyWord] = useState("");
+
+  const { filterHandler, filter, inputChangeHandler } = props;
+
+  const filterChange = useMemo(() => setFilterKeyWord(filter), [filter]);
 
   return (
     <div className="customNavbar">
       <div className="filter__section">
-        <CustomDropDown />
-        <CustomInput filter={FilterKeyWord} />
+        <CustomDropDown filterHandler={filterHandler} />
+        <CustomInput
+          filter={FilterKeyWord}
+          inputChangeHandler={inputChangeHandler}
+        />
       </div>
       <div className="button__section">
         <CustomBtn

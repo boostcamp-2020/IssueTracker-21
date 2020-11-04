@@ -12,10 +12,12 @@ const MenuStyle = styled.div`
 
 let items = new Map();
 
-function IssueList() {
+function IssueList(props) {
   const [ChkNum, setChkNum] = useState(0);
   const [Issues, setIssues] = useState([]);
   const [Loading, setLoading] = useState(true);
+
+  const { inputData } = props;
 
   useEffect(() => {
     setChkNum({
