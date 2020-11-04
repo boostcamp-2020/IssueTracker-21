@@ -1,0 +1,74 @@
+.loginPage {
+  text-align: center;
+  background-color: #f8f9fa;
+  padding: 10%;
+  height: 400px;
+}
+
+.title {
+  font-size: 20px;
+  padding: 2%;
+}
+
+.loginBody {
+  display: block;
+  width: 50%;
+  background-color: white;
+  padding: 5%;
+  margin: 0 20%;
+}
+
+.loginForm {
+  display: block;
+  text-align: left;
+}
+
+input {
+  width: 94%;
+  padding: 1.5%;
+  display: block;
+  margin-top: 1%;
+}
+
+label {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.submit,
+.register {
+  margin: 2%;
+  width: 47%;
+  text-align: center;
+  background-color: white;
+  color: #3a8fff;
+  font-weight: bold;
+  font-size: 12px;
+  border: none;
+  border-radius: 10px;
+}
+
+.buttons {
+  display: flex;
+}
+
+.githubLogin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10%;
+  width: 100%;
+  padding: 3.5%;
+  background-color: #777777;
+  border: none;
+  color: white;
+  font-weight: bold;
+  font-size: 11px;
+  border-radius: 2.5px;
+}
+
+.logo {
+  display: block;
+  margin-left: 5px;
+  height: 15px;
+}

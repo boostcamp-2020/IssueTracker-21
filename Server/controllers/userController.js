@@ -17,6 +17,7 @@ exports.localLogin = (req, res, next) => {
       if (err) {
         res.send(err);
       }
+      console.log(user);
       const token = jwt.sign(user, process.env.JWT_SECRET);
       res.cookie("token", token, {
         maxAge: 1000 * 60 * 60,
@@ -139,6 +140,30 @@ exports.isExist = async (userId) => {
     return res.status(400).json({
       success: false,
       error: e,
+    });
+  }
+};
+
+exports.authCheck = (req, res) => {
+  let token = req.cookies.user;
+  if (token != null) {
+    let decode = false;
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+      if (err) {
+        decode = false;
+        return res.json({
+          verify: false,
+        });
+      } else {
+        decode = decoded;
+        return res.json({
+          verify: true,
+        });
+      }
+    });
+  } else {
+    return res.json({
+      verify: false,
     });
   }
 };
