@@ -17,6 +17,7 @@ function LoginPage(props) {
       axios //url수정필요
         .post("http://localhost:5000/api/user/login", data, {
           withCredentials: true,
+          credentials: "include",
         })
         .then((res) => {
           props.history.push("/");
@@ -51,7 +52,7 @@ function LoginPage(props) {
           />
           <div className="buttons">
             <input type="submit" className="submit" value="로그인" />
-            <input type="text" className="register" value="회원가입" />
+            <button className="register">회원가입</button>
           </div>
         </form>
         <button className="githubLogin">

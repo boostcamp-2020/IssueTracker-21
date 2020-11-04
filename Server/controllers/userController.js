@@ -148,7 +148,7 @@ exports.authCheck = (req, res) => {
   let token = req.cookies.user;
   if (token != null) {
     let decode = false;
-    jwt.verify(token, secretObj.secret, (err, decoded) => {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
       if (err) {
         decode = false;
         return res.json({
