@@ -1,13 +1,99 @@
 import issueDao from "../dao/issueDao";
+// import {
+//   issueFilter,
+//   issueFilterUsingSome,
+//   issueFilterUsingIncludes,
+// } from "../utils/issueFilter";
 
+//localhost:5000/api/issue?is=open&label=Back-End&label=Bug&assignee=2-one-week&author=mingd1023&label=Feature&mentions=me&milestone=BE+개발
 /* 모든 이슈 조회 */
-exports.getAllIssues = async function (req, res, next) {
+exports.getIssues = async function (req, res, next) {
   try {
     const issues = await issueDao.getAllIssues();
+    const {
+      isOpened,
+      labelId,
+      assigneeId,
+      authorId,
+      commentorId,
+      milestoneId,
+    } = req.query;
+
     if (issues.success) {
+      console.log(issues.rows[0]["authorId"]);
+      let filteredIssues =
+        //issueFilter(authorId, issues.rows);
+        authorId === undefined
+          ? issues.rows
+          : issues.rows.filter((e) => e.authorId === authorId);
+
+      console.log(`author : ${filteredIssues.length}`);
+
+      filteredIssues =
+        //issueFilter(isOpened, filteredIssues);
+        isOpened === undefined
+          ? filteredIssues
+          : filteredIssues.filter((e) => e.isOpened == isOpened);
+
+      console.log(`isOpened : ${filteredIssues.length}`);
+
+      filteredIssues =
+        //issueFilter(milestoneId, filteredIssues);
+        milestoneId === undefined
+          ? filteredIssues
+          : filteredIssues.filter((e) => e.milestoneId == milestoneId);
+
+      console.log(`milestoneId : ${filteredIssues.length}`);
+
+      filteredIssues =
+        // issueFilterUsingSome(
+        //   assigneeId,
+        //   filteredIssues,
+        //   "users",
+        //   "id"
+        // );
+        assigneeId === undefined
+          ? filteredIssues
+          : filteredIssues.filter((e) =>
+              e.users.map((u) => u.id).some((i) => i === assigneeId)
+            );
+
+      console.log(`assigneeId : ${filteredIssues.length}`);
+
+      filteredIssues =
+        // issueFilterUsingSome(
+        //   commentorId,
+        //   filteredIssues,
+        //   "comments",
+        //   "authorId"
+        // );
+        commentorId === undefined
+          ? filteredIssues
+          : filteredIssues.filter((e) =>
+              e.comments.map((u) => u.authorId).some((i) => i === commentorId)
+            );
+
+      console.log(`commentorId : ${filteredIssues.length}`);
+
+      filteredIssues =
+        // issueFilterUsingSome(
+        //   labelId,
+        //   filteredIssues,
+        //   "labels",
+        //   "id"
+        // );
+        labelId === undefined
+          ? filteredIssues
+          : filteredIssues.filter((e) =>
+              e.labels.map((l) => l.id.toString()).includes(...labelId)
+            );
+
+      console.log(`labelId : ${filteredIssues.length}`);
+
       return res.status(200).json({
         success: true,
-        issues,
+        counts: filteredIssues.length,
+        issues: filteredIssues,
       });
     }
     return res.status(400).json({
@@ -342,6 +428,21 @@ exports.filterIssuesByCommentor = async function (req, res, next) {
   const commentorId = req.params.commentorId;
   try {
     const issues = await issueDao.filterIssuesByCommentor(commentorId);
+    if (issues.success) {
+      return res.status(200).json(issues);
+    }
+    return res.status(400).json(issues);
+  } catch (e) {
+    return res
+      .status(400)
+      .json({ success: false, status: 400, message: e.message });
+  }
+};
+
+/* 이슈 filtering - 여러 조건 */
+exports.filterIssues = async function (req, res, next) {
+  try {
+    const issues = await issueDao.filterIssues(req.params);
     if (issues.success) {
       return res.status(200).json(issues);
     }
