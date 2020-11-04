@@ -40,11 +40,6 @@ exports.getAllIssues = async () => {
             required: false,
             as: "labels",
           },
-          {
-            model: commentModel,
-            required: false,
-            as: "comments",
-          },
         ],
       });
       resolve({ success: true, count, rows });
