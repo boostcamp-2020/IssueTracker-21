@@ -3,6 +3,7 @@ import { Router } from "react-router-dom";
 import { Link } from "react-router-dom";
 import calcTime from "../../utils/calcTime";
 import LabelTag from "../LabelTag";
+import Assignee from "../Assignee";
 import "./issueCard.scss";
 
 function IssueCard(props) {
@@ -71,10 +72,10 @@ function IssueCard(props) {
         </div>
         <div className="sideContents">
           <div className="assigneeInfo">
-            {assignee.length !== 0 && `⚽ ${assignee.length}`}
+            {assignee.length !== 0 && <Assignee assignee={assignee}></Assignee>}
           </div>
           <div className="commentsInfo">
-            {comments.length !== 0 && `✉ ${comments.length}`}
+            {comments.length !== 0 && `📧 ${comments.length}`}
           </div>
         </div>
       </div>

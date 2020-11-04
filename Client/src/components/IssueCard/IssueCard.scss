@@ -88,17 +88,12 @@
     align-items: center;
 
     .assigneeInfo {
-      min-width: 70px;
+      position: relative;
+      height: 30px;
     }
 
     .commentsInfo {
       width: 70px;
-    }
-
-    div {
-      display: flex;
-      justify-items: center;
-      line-height: 20px;
     }
   }
 }
