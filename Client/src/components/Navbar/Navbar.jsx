@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CustomBtn from "../../components/CustomBtn";
 import { Icon, InlineIcon } from "@iconify/react";
 import tagIcon from "@iconify/icons-octicon/tag";
@@ -7,11 +7,13 @@ import CustomDropDown from "../../components/CustomDropDown";
 import CustomInput from "../../components/CustomInput";
 import "./style.css";
 function Navbar() {
+  const [FilterKeyWord, setFilterKeyWord] = useState("");
+
   return (
     <div className="customNavbar">
       <div className="filter__section">
         <CustomDropDown />
-        <CustomInput />
+        <CustomInput filter={FilterKeyWord} />
       </div>
       <div className="button__section">
         <CustomBtn
