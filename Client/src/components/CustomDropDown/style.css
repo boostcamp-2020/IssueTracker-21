@@ -1,3 +1,8 @@
+.btn:not(:disabled):not(.disabled) {
+  height: 30px;
+  padding: 0 20px;
+  border-radius: 6px 0 0 6px;
+}
 .dropdown__header {
   display: flex;
   justify-content: space-between;

@@ -160,7 +160,7 @@ function IssueList() {
   );
 
   return (
-    <div>
+    <div id="issueListArea">
       <MenuStyle id="filterArea">
         <div id="leftMenu">
           <div

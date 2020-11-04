@@ -9,10 +9,13 @@ const CustomBtn = styled.button`
   outline: ${(props) => props.outline};
   border-radius: ${(props) => props.borderRad};
   padding: ${(props) => props.padding};
+  font-size: 14px;
+  line-height: 14px;
   display: flex;
+  justify-content: center;
   align-items: center;
   box-sizing: border-box;
-  text-align: right;
+  text-align: center;
 `;
 
 export default CustomBtn;

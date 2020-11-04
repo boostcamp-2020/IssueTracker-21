@@ -4,7 +4,7 @@ import "./style.css";
 function CustomInput() {
   return (
     <>
-      <form>
+      <form id="filterInput">
         <input type="text" className="custom__input" />
       </form>
     </>

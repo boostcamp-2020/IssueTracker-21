@@ -21,10 +21,10 @@ function Navbar() {
           height="30px"
           border="1px solid #e1e4e8"
           borderRad="6px"
-          padding="5px 16px"
+          padding="5px 13px"
         >
-          <Icon width="25" height="25" icon={tagIcon} />
-          Labels
+          <Icon width="18" height="18" icon={tagIcon} />
+          &nbsp;Labels
         </CustomBtn>
 
         <CustomBtn
@@ -34,16 +34,17 @@ function Navbar() {
           height="30px"
           border="1px solid #e1e4e8"
           borderRad="6px"
-          padding="5px 16px"
+          padding="5px 13px"
         >
-          <Icon width="25" height="25" icon={milestone24} />
-          Milestones
+          <Icon width="18" height="18" icon={milestone24} />
+          &nbsp;Milestones
         </CustomBtn>
       </div>
+      &nbsp;&nbsp;
       <CustomBtn
         color="white"
         bgColor="#2ea44f"
-        width="100px"
+        width="110px"
         borderRad="6px"
         height="30px"
         border="0"
