@@ -8,7 +8,7 @@ const userDao = require("../dao/userDao");
 exports.localLogin = (req, res, next) => {
   passport.authenticate("local", { session: false }, (err, user) => {
     if (err || !user) {
-      return res.status(400).json({
+      return res.status(200).json({
         success: false,
         message: "Something is not right",
       });
@@ -42,7 +42,7 @@ exports.localStrategyLogin = async (userId, password) => {
     }
     return { success: false };
   } catch (e) {
-    return res.status(400).json({
+    return res.status(200).json({
       success: false,
       error: e,
     });
@@ -60,11 +60,11 @@ exports.localRegister = async (req, res, next) => {
         success: true,
       });
     }
-    return res.status(400).json({
+    return res.status(200).json({
       success: false,
     });
   } catch (error) {
-    return res.status(400).json({
+    return res.status(200).json({
       success: false,
       error: error.error,
     });
@@ -78,7 +78,7 @@ exports.githubLogin = passport.authenticate("github");
 exports.githubCallback = async (req, res, next) => {
   passport.authenticate("github", (err, profile) => {
     if (err || !profile) {
-      return res.status(400).redirect("/login");
+      return res.status(200).redirect("/login");
     }
     req.login(profile, { session: false }, (err) => {
       if (err) {
@@ -137,7 +137,7 @@ exports.isExist = async (userId) => {
       profile: user.dataValues.profile,
     };
   } catch (e) {
-    return res.status(400).json({
+    return res.status(200).json({
       success: false,
       error: e,
     });
@@ -146,7 +146,6 @@ exports.isExist = async (userId) => {
 
 exports.authCheck = (req, res) => {
   let token = req.signedCookies.token;
-  console.log("cookie", req.signedCookies.token, req.cookies);
   if (token != null) {
     let decode = false;
     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {

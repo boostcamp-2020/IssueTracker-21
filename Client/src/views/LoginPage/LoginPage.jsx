@@ -20,7 +20,11 @@ function LoginPage(props) {
           credentials: "include",
         })
         .then((res) => {
-          props.history.push("/");
+          if (res.data.success) {
+            props.history.push("/");
+          } else {
+            alert(res.data.message);
+          }
         });
     } catch (e) {
       alert(e);
