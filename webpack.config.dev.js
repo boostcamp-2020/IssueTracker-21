@@ -58,5 +58,10 @@ module.exports = {
   resolve: {
     modules: ["node_modules"],
     extensions: [".js", ".json", ".jsx", ".css"],
+    alias: {
+      Components: path.resolve(__dirname, "Client/src/components"),
+      Views: path.resolve(__dirname, "Client/src/views/"),
+      "@": path.resolve(__dirname, "Client/src/"),
+    },
   },
 };
