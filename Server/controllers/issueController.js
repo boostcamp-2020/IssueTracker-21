@@ -10,7 +10,6 @@ import issueDao from "../dao/issueDao";
 exports.getIssues = async function (req, res, next) {
   try {
     const issues = await issueDao.getAllIssues();
-    console.log(issues);
     const {
       isOpened,
       labelId,
@@ -21,14 +20,11 @@ exports.getIssues = async function (req, res, next) {
     } = req.query;
 
     if (issues.success) {
-      console.log(issues.rows[0]["authorId"]);
       let filteredIssues =
         //issueFilter(authorId, issues.rows);
         authorId === undefined
           ? issues.rows
           : issues.rows.filter((e) => e.authorId === authorId);
-
-      console.log(`author : ${filteredIssues.length}`);
 
       filteredIssues =
         //issueFilter(isOpened, filteredIssues);
@@ -36,15 +32,11 @@ exports.getIssues = async function (req, res, next) {
           ? filteredIssues
           : filteredIssues.filter((e) => e.isOpened == isOpened);
 
-      console.log(`isOpened : ${filteredIssues.length}`);
-
       filteredIssues =
         //issueFilter(milestoneId, filteredIssues);
         milestoneId === undefined
           ? filteredIssues
           : filteredIssues.filter((e) => e.milestoneId == milestoneId);
-
-      console.log(`milestoneId : ${filteredIssues.length}`);
 
       filteredIssues =
         // issueFilterUsingSome(
@@ -59,8 +51,6 @@ exports.getIssues = async function (req, res, next) {
               e.users.map((u) => u.id).some((i) => i === assigneeId)
             );
 
-      console.log(`assigneeId : ${filteredIssues.length}`);
-
       filteredIssues =
         // issueFilterUsingSome(
         //   commentorId,
@@ -74,8 +64,6 @@ exports.getIssues = async function (req, res, next) {
               e.comments.map((u) => u.authorId).some((i) => i === commentorId)
             );
 
-      console.log(`commentorId : ${filteredIssues.length}`);
-
       filteredIssues =
         // issueFilterUsingSome(
         //   labelId,
@@ -88,8 +76,6 @@ exports.getIssues = async function (req, res, next) {
           : filteredIssues.filter((e) =>
               e.labels.map((l) => l.id.toString()).includes(...labelId)
             );
-
-      console.log(`labelId : ${filteredIssues.length}`);
 
       return res.status(200).json({
         success: true,
