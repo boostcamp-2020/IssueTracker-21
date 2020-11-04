@@ -14,10 +14,13 @@ function LoginPage(props) {
       password: inputPassword,
     };
     try {
-      axios.post("http://localhost:5000/api/user/login", data).then((res) => {
-        //url수정필요, cookie가 추가가 안됨.
-        props.history.push("/");
-      });
+      axios //url수정필요
+        .post("http://localhost:5000/api/user/login", data, {
+          withCredentials: true,
+        })
+        .then((res) => {
+          props.history.push("/");
+        });
     } catch (e) {
       alert(e);
     }
