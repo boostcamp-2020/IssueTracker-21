@@ -23,6 +23,11 @@ exports.getAllIssues = async () => {
             attributes: ["title"],
           },
           {
+            model: commentModel,
+            required: false,
+            attributes: ["authorId"],
+          },
+          {
             model: userModel,
             as: "users",
             required: false,
