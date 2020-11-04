@@ -1,9 +1,9 @@
 import issueDao from "../dao/issueDao";
-import {
-  issueFilter,
-  issueFilterUsingSome,
-  issueFilterUsingIncludes,
-} from "../utils/issueFilter";
+// import {
+//   issueFilter,
+//   issueFilterUsingSome,
+//   issueFilterUsingIncludes,
+// } from "../utils/issueFilter";
 
 //localhost:5000/api/issue?is=open&label=Back-End&label=Bug&assignee=2-one-week&author=mingd1023&label=Feature&mentions=me&milestone=BE+개발
 /* 모든 이슈 조회 */
