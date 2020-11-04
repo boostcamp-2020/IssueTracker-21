@@ -3,7 +3,7 @@ const router = express.Router();
 const issueController = require("../../controllers/issueController");
 
 /* 모든 이슈 조회 */
-router.get("/", issueController.getAllIssues);
+router.get("/", issueController.getIssues);
 
 /* 이슈 상세 페이지 조회 */
 router.get("/:issueId", issueController.getIssueDetail);

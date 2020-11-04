@@ -16,6 +16,8 @@ exports.getAllIssues = async () => {
     try {
       let { count, rows } = await issueModel.findAndCountAll({
         distinct: true,
+        //order: [["id", "ASC"]],
+        order: [["id", "DESC"]],
         include: [
           {
             model: milestoneModel,
