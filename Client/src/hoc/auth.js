@@ -4,7 +4,7 @@ import { useState } from "react";
 
 function fetchData(setVerify) {
   return new Promise((resolve) => {
-    axios.get("http://localhost:5000/api/user/auth").then((res) => {
+    axios.get("/api/user/auth").then((res) => {
       setVerify(res.data.verify);
       resolve(res.data.verify);
     });

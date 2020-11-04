@@ -14,8 +14,8 @@ function LoginPage(props) {
       password: inputPassword,
     };
     try {
-      axios //url수정필요
-        .post("http://localhost:5000/api/user/login", data, {
+      axios
+        .post("/api/user/login", data, {
           withCredentials: true,
           credentials: "include",
         })
