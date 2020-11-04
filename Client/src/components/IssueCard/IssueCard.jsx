@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import calcTime from "../../utils/calcTime";
 import LabelTag from "../LabelTag";
 import Assignee from "../Assignee";
-import "./issueCard.scss";
+import "./IssueCard.scss";
 
 function IssueCard(props) {
   const {
