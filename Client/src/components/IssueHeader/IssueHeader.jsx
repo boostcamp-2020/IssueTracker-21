@@ -17,7 +17,7 @@ function IssueHeader(props) {
     <div>
       <input type="text" className="title" defaultValue={title} />
       <div className="status">
-        <button className="isopen">{isOpened ? "Open" : "Close"}</button>
+        <button className="isopen">{isOpened ? "Open" : "Closed"}</button>
         <div className="openner">{authorId}</div>
         <p className="openInfo">
           opened this issue {dayDiff(createdAt)} ago {commentCount} comment
