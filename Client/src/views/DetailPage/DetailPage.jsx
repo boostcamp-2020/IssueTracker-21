@@ -21,7 +21,6 @@ function DetailPage(props) {
     axios.get(`/api/issue/${params.issueId}`).then(async (response) => {
       if (response.data.success) {
         setIssueData(response.data.issueDetail);
-        console.log(response.data);
         setHeaderLoading(false);
       } else {
         alert("Failed to get issues");
@@ -37,7 +36,7 @@ function DetailPage(props) {
 
   const renderIssueHeader = (
     <IssueHeader
-      id={issueData.issueDetail.id}
+      issueId={issueData.issueDetail.id}
       title={issueData.issueDetail.title}
       isOpen={issueData.issueDetail.isOpened}
       createdAt={issueData.issueDetail.createdAt}
