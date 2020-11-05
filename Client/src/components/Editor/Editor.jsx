@@ -1,8 +1,18 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
+import styled, { keyframes, css } from "styled-components";
 
 let debounce = null;
-let showingDebounce = null;
+
+const boxFade = keyframes`
+  0% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }`;
 
 const EditorStyle = styled.div`
   position: relative;
@@ -22,37 +32,29 @@ const CountWordStyle = styled.div`
   position: absolute;
   bottom: 5px;
   right: 10px;
-  display: ${(props) => props.display};
+  display: block;
+  opacity: 0%;
+  ${(props) =>
+    props.active &&
+    css`
+      animation: 2s linear ${boxFade};
+      animation-direction: alternate;
+    `}
 `;
 
 function Editor(props) {
   const [CountWord, setCountWord] = useState(0);
   const [Contents, setContents] = useState("");
-  const [ShowNum, setShow] = useState("none");
-
-  function showWordNum(bool) {
-    if (bool) {
-      setShow("flex");
-    } else {
-      setShow("none");
-    }
-    clearTimeout(showingDebounce);
-    showingDebounce = setTimeout(() => {
-      removeWordNum();
-    }, 2000);
-  }
-
-  function removeWordNum() {
-    setShow("none");
-  }
+  const [ShowNum, setShowNum] = useState(false);
 
   function typeHandler(e) {
     const text = e.target.value;
+
     // debounce
     clearTimeout(debounce);
-    showWordNum(false);
+    setShowNum(false);
     debounce = setTimeout(() => {
-      showWordNum(true);
+      setShowNum(true);
     }, 2000);
 
     setCountWord(text.length);
@@ -66,7 +68,7 @@ function Editor(props) {
         onChange={typeHandler}
         placeholder={props.placeholder || "Leave a text"}
       ></TextAreaStyle>
-      <CountWordStyle display={ShowNum} id="countWord">
+      <CountWordStyle active={ShowNum} boxFade={boxFade} id="countWord">
         {CountWord} characters
       </CountWordStyle>
     </EditorStyle>
