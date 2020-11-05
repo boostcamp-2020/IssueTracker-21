@@ -1,18 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { Router } from "react-router-dom";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
 import "./DropDownUserCard.scss";
+
+const DropDownprofilePicture = styled.img`
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+`;
 
 function DropDownUserCard(props) {
   const {id, profile} = props;
 
   return (
-  <div className="dropDownUserCardContainer"  data-userid={id}>
+  <div className="dropDownUserCard"  data-userid={id}>
     <div className="dropDownprofilePictureContainer">
-      <img src={profile}></img>
+      <DropDownprofilePicture src={profile}/>
     </div>
     <div className="dropDownUserIdContainer">
-      <div className="dropDownUserId">{id}</div>
+      {id}
     </div>
   </div>
   );

@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Router } from "react-router-dom";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
 import "./DropDownLabelCard.scss";
+
+const LabelColorBox = styled.div`
+  background-color: ${(props) => props.color};
+  width: 10px;
+  height: 10px;
+  border-radius:1px;
+`;
 
 function DropDownLabelCard(props) {
   const {id, name, description, color} = props;
@@ -10,7 +18,7 @@ function DropDownLabelCard(props) {
     <div className="dropDownLabelCard"  data-labelid={id}>
       <div className="dropDownLabelColorNameContainer">
         <div className="dropDownLabelColorContainer">
-          <div className="dropDownLabelColor"></div>
+          <LabelColorBox color={color}></LabelColorBox>
         </div>
         <div className="dropDownLabelNameContainer">
           <div className="dropDownLabelName">{name}</div>
