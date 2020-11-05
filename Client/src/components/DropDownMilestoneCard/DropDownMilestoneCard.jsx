@@ -4,9 +4,13 @@ import { Link } from "react-router-dom";
 import "./DropDownMilestoneCard.scss";
 
 function DropDownMilestoneCard(props) {
-  const filter = props;
+  const {id, name} = props;
 
-  return <div></div>;
+  return (
+    <div className="dropDownMilestoneCard"  data-milestoneid={id}>
+      <div className="dropDownMilestoneName">{name}</div>
+    </div>
+  );
 }
 
 export default DropDownMilestoneCard;

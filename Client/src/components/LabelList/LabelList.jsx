@@ -5,8 +5,6 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "./LabelList.scss";
 import LabelCard from "../LabelCard";
 
-let items = new Map();
-
 function LabelList() {
   const [Labels, setLabels] = useState([]);
   const [LabelsCount, setLabelsCount] = useState([]);
