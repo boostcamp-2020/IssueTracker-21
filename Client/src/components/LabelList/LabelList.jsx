@@ -46,7 +46,9 @@ function LabelList() {
   return (
     <div id="labelListArea">
       <div id="labelCardCountArea">{LabelsCount} labels</div>
-      <div id="labelCardArea">{renderLabelCards}</div>
+      <div id="labelCardArea">
+        {Labels.length === 0 ? renderNoResult : renderLabelCards}
+      </div>
     </div>
   );
 }
