@@ -1,1 +1,1 @@
-export { default } from "./LandingPage.jsx";
+export { default, LandingPageContext } from "./LandingPage.jsx";

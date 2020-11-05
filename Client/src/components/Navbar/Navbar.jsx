@@ -7,20 +7,12 @@ import CustomDropDown from "../../components/CustomDropDown";
 import CustomInput from "../../components/CustomInput";
 import "./style.css";
 function Navbar(props) {
-  const [FilterKeyWord, setFilterKeyWord] = useState("");
-
-  const { filterHandler, filter, inputChangeHandler } = props;
-
-  const filterChange = useMemo(() => setFilterKeyWord(filter), [filter]);
 
   return (
     <div className="customNavbar">
       <div className="filter__section">
-        <CustomDropDown filterHandler={filterHandler} />
-        <CustomInput
-          filter={FilterKeyWord}
-          inputChangeHandler={inputChangeHandler}
-        />
+        <CustomDropDown  />
+        <CustomInput />
       </div>
       <div className="button__section">
         <CustomBtn
