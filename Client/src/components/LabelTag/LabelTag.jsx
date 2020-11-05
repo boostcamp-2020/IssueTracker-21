@@ -7,7 +7,7 @@ const LabelStyle = styled.div`
   justify-content: center;
   background-color: ${(props) => props.color};
   color: ${(props) => getFontColor(props.color)};
-  border-radius: 4px;
+  border-radius: 2px;
   padding: 0 5px;
   line-height: 20px;
   font-size: 13px;
