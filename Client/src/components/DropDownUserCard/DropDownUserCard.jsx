@@ -4,9 +4,18 @@ import { Link } from "react-router-dom";
 import "./DropDownUserCard.scss";
 
 function DropDownUserCard(props) {
-  const filter = props;
+  const {id, profile} = props;
 
-  return <div></div>;
+  return (
+  <div className="dropDownUserCardContainer"  data-userid={id}>
+    <div className="dropDownprofilePictureContainer">
+      <img src={profile}></img>
+    </div>
+    <div className="dropDownUserIdContainer">
+      <div className="dropDownUserId">{id}</div>
+    </div>
+  </div>
+  );
 }
 
 export default DropDownUserCard;
