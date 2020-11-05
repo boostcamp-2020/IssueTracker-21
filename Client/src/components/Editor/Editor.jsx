@@ -30,8 +30,30 @@ function Editor(props) {
   const [Contents, setContents] = useState("");
   const [ShowNum, setShow] = useState("none");
 
+  function showWordNum(bool) {
+    if (bool) {
+      setShow("flex");
+    } else {
+      setShow("none");
+    }
+    clearTimeout(showingDebounce);
+    showingDebounce = setTimeout(() => {
+      removeWordNum();
+    }, 2000);
+  }
+
+  function removeWordNum() {
+    setShow("none");
+  }
+
   function typeHandler(e) {
     const text = e.target.value;
+    // debounce
+    clearTimeout(debounce);
+    showWordNum(false);
+    debounce = setTimeout(() => {
+      showWordNum(true);
+    }, 2000);
 
     setCountWord(text.length);
     setContents(text);
@@ -44,7 +66,7 @@ function Editor(props) {
         onChange={typeHandler}
         placeholder={props.placeholder || "Leave a text"}
       ></TextAreaStyle>
-      <CountWordStyle display="flex" id="countWord">
+      <CountWordStyle display={ShowNum} id="countWord">
         {CountWord} characters
       </CountWordStyle>
     </EditorStyle>
