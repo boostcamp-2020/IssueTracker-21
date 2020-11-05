@@ -3,8 +3,6 @@
 
 ## 팀원
 
-![수1산시장](https://user-images.githubusercontent.com/48787170/98288985-e33a7700-1fea-11eb-8cd9-ef99aaeff3e0.png)
-
 J037 김민지, J065 류찬규, J128 윤석주, J133 이국신
 
 ## WEEK 별 계획
