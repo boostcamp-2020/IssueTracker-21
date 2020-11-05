@@ -1,5 +1,18 @@
 const userModel = require("../models").user;
 
+/* 모든 유저 정보 가져오기 */
+exports.getAllUsers = async () => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const user = await userModel.findAndCountAll({});
+
+      return resolve(user);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
 /* 유저 정보 가져오기 */
 exports.getUser = async (userId) => {
   return new Promise(async (resolve, reject) => {
