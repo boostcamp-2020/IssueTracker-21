@@ -5,7 +5,7 @@ const labelModel = require("../models").label;
 exports.getLabels = async () => {
   return new Promise(async (resolve, reject) => {
     try {
-      const labelList = await labelModel.findAll();
+      const labelList = await labelModel.findAndCountAll();
       resolve({ labelList });
     } catch (e) {
       reject(e);
