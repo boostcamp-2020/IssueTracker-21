@@ -3,6 +3,24 @@ const passport = require("passport");
 const jwt = require("jsonwebtoken");
 const userDao = require("../dao/userDao");
 
+/* 모든 유저 가져오기 */
+
+exports.getAllUsers = async (req, res, next) => {
+  try {
+    const userDaoResponse = await userDao.getAllUsers();
+
+    return res.status(200).json({
+      success: true,
+      users: userDaoResponse,
+    });
+  } catch (e) {
+    return res.status(400).json({
+      success: false,
+      error: e,
+    });
+  }
+};
+
 /* local 로그인 */
 
 exports.localLogin = (req, res, next) => {
