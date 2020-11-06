@@ -34,7 +34,7 @@ const TextAreaStyle = styled.textarea`
 const CountWordStyle = styled.div`
   color: #888889;
   position: absolute;
-  bottom: 5px;
+  bottom: 40px;
   right: 10px;
   display: block;
   opacity: 0%;
