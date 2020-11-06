@@ -4,35 +4,35 @@ import IssueList from "../../components/IssueList";
 import Navbar from "Components/Navbar";
 import "./LandingPageStyle.scss";
 
+export const LandingPageContext = React.createContext();
+
 function LandingPage() {
-  const [Keyword, setKeyword] = useState("");
-  const [Input, setInput] = useState("");
+  const [inputData, setInputData] = useState("");
 
-  function filterKeywordHandler(keyword) {
-    setKeyword(keyword);
-    setInput(Input + keyword);
-  }
+  const inputOnChangeHandler = (e) => {
+    setInputData(e.target.value);
+  };
 
-  function inputChangeHandler(inputData) {
-    setInput(inputData);
-  }
+  const inputOnClickHandler = (e) => {
+    setInputData(e.target.id);
+  };
 
   return (
-    <div id="landingArea">
-      <br />
-      <h2>이슈잇슈</h2>
-      <br />
-      <Navbar
-        filterHandler={filterKeywordHandler}
-        inputChangeHandler={inputChangeHandler}
-        filter={Keyword}
-      />
-      <br />
-      <IssueList inputData={Input} />
-      <br />
+    <LandingPageContext.Provider
+      value={{ inputOnChangeHandler, inputOnClickHandler, inputData }}
+    >
+      <div id="landingArea">
+        <br />
+        <h2>이슈잇슈</h2>
+        <br />
+        <Navbar />
+        <br />
+        <IssueList inputData={inputData} />
+        <br />
 
-      <br />
-    </div>
+        <br />
+      </div>
+    </LandingPageContext.Provider>
   );
 }
 
