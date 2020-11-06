@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import styled, { keyframes, css } from "styled-components";
 
 let debounce = null;
@@ -83,7 +84,17 @@ function Editor(props) {
   }
 
   function NewImage(e) {
-    console.log(e.target.files);
+    const formData = new FormData();
+    formData.append("file", e.target.files);
+
+    return axios
+      .post("/api/image/upload", formData)
+      .then((res) => {
+        alert("이미지 업로드에 성공했습니다.");
+      })
+      .catch((err) => {
+        alert("이미지 업로드에 실패했습니다.");
+      });
   }
 
   return (
@@ -96,7 +107,7 @@ function Editor(props) {
       <CountWordStyle active={ShowNum} boxFade={boxFade} id="countWord">
         {CountWord} characters
       </CountWordStyle>
-      <InputFileLabelStyle className="inputFileButton" for="inputFile">
+      <InputFileLabelStyle className="inputFileButton" htmlFor="inputFile">
         Attach files by selecting here
       </InputFileLabelStyle>
       <InputFileStyle
