@@ -53,7 +53,7 @@ function IssueCard(props) {
   });
 
   return (
-    <Link className="issueLink" to={"/" + id}>
+    <Link className="issueLink" to={"/issues/" + id}>
       <div className="issueCard" data-issueid={id}>
         <div id="issueChkBox" onClick={chkBox} className={ChkBox.condition} />
 

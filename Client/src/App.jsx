@@ -1,19 +1,20 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import LandingPage from "./views/LandingPage";
 import RegisterPage from "./views/RegisterPage";
 import LoginPage from "./views/LoginPage";
-import Auth from "./hoc/auth";
+import DetailPage from "./views/DetailPage";
 
 const App = () => {
   return (
-    <Router>
+    <div className="App">
       <Switch>
-        <Route exact path="/" component={Auth(LandingPage, true)} />
-        <Route path="/register" component={Auth(RegisterPage, false)} />
-        <Route path="/login" component={Auth(LoginPage, false)} />
+        <Route exact path="/" component={LandingPage} />
+        <Route path="/register" component={RegisterPage} />
+        <Route path="/login" component={LoginPage} />
+        <Route path="/issues/:issueId" component={DetailPage} />
       </Switch>
-    </Router>
+    </div>
   );
 };
 export default App;
