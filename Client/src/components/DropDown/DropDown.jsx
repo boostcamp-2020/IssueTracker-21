@@ -2,80 +2,35 @@ import React, { useEffect, useState } from "react";
 import { Router } from "react-router-dom";
 import { Link } from "react-router-dom";
 import "./DropDown.scss";
-import DropDownLabelCard from "../DropDownLabelCard";
-import DropDownUserCard from "../DropDownUserCard";
-import DropDownMilestoneCard from "../DropDownMilestoneCard";
+import DropDownLabelList from "../DropDownLabelList";
+import DropDownAssigneeList from "../DropDownAssigneeList";
+import DropDownAuthorList from "../DropDownAuthorList";
+import DropDownMilestoneList from "../DropDownMilestoneList";
 
 function DropDown(props) {
-  const filter = props;
+  const filter = props.filter;
 
   const [Items, setItems] = useState([]);
   const [SelectedItems, setSelectedItems] = useState([]);
 
-    /* get data */
-    useEffect(() => {
-      axios.get(`/api/${filter}`).then((response) => {
-        if (response.data.success) {
-          if (filter === "author" || "assignee"){
-            setItems(response.data.users.rows);
-          } else if (filter === "label") {
-            setItems(response.data.labels.rows);
-          } else {
-            setItems(response.data.milestones);
-          }
-        } else {
-          alert("Failed to get items");
-        }
-      });
-    }, []);
-
-      /* rendering */
-  const renderCards = Items.map((item, index) => {
-    switch (filter) {
-      case "author":
-        return (
-          <DropDownUserCard
-            id={item.id}
-            profile={item.profile}
-          />
-        );
-        break;
-      case "label":
-        return (
-          <DropDownLabelCard
-            id={item.id}
-            name={item.name} 
-            description={item.description} 
-            color={item.color}
-          />
-        );
-        break;
-      case "milestones":
-        return (
-          <DropDownMilestoneCard
-            id={item.id}
-            name={item.name} 
-          />
-        );
-        break;
+  const getProperList = (filter) => {
+    switch (filter){
       case "assignee":
-        return (
-          <DropDownUserCard
-            id={item.id}
-            profile={item.profile}
-          />
-        );
-        break;
+        return <DropDownAssigneeList></DropDownAssigneeList>;
+      case "author":
+        return <DropDownAuthorList></DropDownAuthorList>;
+      case "label":
+        return <DropDownLabelList></DropDownLabelList>;       
+      case "milestone":
+        return <DropDownMilestoneList></DropDownMilestoneList>;
     }
-
-  });
+  }
 
   return (
   <div className="dropDownContainter">
-    <div className="dropDownBarContainter"></div>
-    <div className="dropDownCardContainter">
-      <div className></div>
-      {renderCards}
+    <div className="dropDownBarContainter">Filter by {filter}</div>
+    <div className="dropDownListContainter">
+      {getProperList(filter)}
     </div>
   </div>
   );
