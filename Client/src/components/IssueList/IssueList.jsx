@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "./IssueList.scss";
 import IssueCard from "../IssueCard";
 import loadingImg from "../../../public/loading.gif";
+import { LandingPageContext } from "../../views/LandingPage";
 
 const MenuStyle = styled.div`
   color: black;
@@ -14,10 +15,10 @@ let items = new Map();
 
 function IssueList(props) {
   const [ChkNum, setChkNum] = useState(0);
-  const [Issues, setIssues] = useState([]);
-  const [Loading, setLoading] = useState(true);
 
-  const { inputData } = props;
+  const [Loading, setLoading] = useState(true);
+  //Context API를 통해 가져옴
+  const { Issues, issueHandler } = useContext(LandingPageContext);
 
   useEffect(() => {
     setChkNum({
@@ -27,7 +28,7 @@ function IssueList(props) {
     axios.get("/api/issue").then((response) => {
       if (response.data.success) {
         setLoading(false);
-        setIssues(response.data.issues);
+        issueHandler(response.data.issues);
       } else {
         alert("Failed to get issues");
       }
