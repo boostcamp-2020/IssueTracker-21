@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import styled, { keyframes, css } from "styled-components";
+import NewImage from "../../utils/uploadImgur";
 
 let debounce = null;
 
@@ -65,7 +66,7 @@ const InputFileStyle = styled.input`
 
 function Editor(props) {
   const [CountWord, setCountWord] = useState(0);
-  const [Contents, setContents] = useState(" ");
+  const [Contents, setContents] = useState("");
   const [ShowNum, setShowNum] = useState(false);
 
   function typeHandler(e) {
@@ -82,32 +83,9 @@ function Editor(props) {
     setContents(text);
   }
 
-  function NewImage(e) {
+  function uploadImage(e) {
     try {
-      const reader = new FileReader();
-
-      reader.onloadend = () => {
-        const base64 = reader.result;
-        if (base64) {
-          const img = base64.split(",")[1].toString();
-          axios
-            .post("https://api.imgur.com/3/image", img, {
-              headers: {
-                Authorization: "Client-ID 3428d1d51b9b86e",
-                Accept: "application/json",
-              },
-            })
-            .then((response) => {
-              let imgTag = `
-
-[${response.data.data.id}](${response.data.data.link})
-
-`;
-              setContents(Contents + imgTag);
-            });
-        }
-      };
-      reader.readAsDataURL(e.target.files[0]);
+      NewImage(e, Contents, setContents);
     } catch (e) {
       alert("이미지 업로드에 실패했습니다.");
     }
@@ -126,7 +104,7 @@ function Editor(props) {
         id="inputFile"
         type="file"
         accept="image/jpeg, image/jpg, image/png" //업로드 가능한 파일 종류.
-        onChange={NewImage}
+        onChange={uploadImage}
       />
     </EditorStyle>
   );
