@@ -4,11 +4,11 @@ import { Link } from "react-router-dom";
 import "./DropDownMilestoneCard.scss";
 
 function DropDownMilestoneCard(props) {
-  const {id, name} = props;
+  const {id, title} = props;
 
   return (
     <div className="dropDownMilestoneCard"  data-milestoneid={id}>
-      <div className="dropDownMilestoneName">{name}</div>
+      <div className="dropDownMilestoneName">{title}</div>
     </div>
   );
 }

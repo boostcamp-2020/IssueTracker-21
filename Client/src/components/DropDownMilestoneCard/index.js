@@ -1,1 +1,1 @@
-export { default } from "./DropDownMilestoneCard.jsx.js";
+export { default } from "./DropDownMilestoneCard.jsx";
