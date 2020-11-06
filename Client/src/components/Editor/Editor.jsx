@@ -25,6 +25,10 @@ const TextAreaStyle = styled.textarea`
   width: 100%;
   min-height: 150px;
   display: flex;
+  background-color: #fafbfc;
+  border: 1px solid #ced2d7;
+  border-style: solid solid dashed;
+  border-radius: 4px 4px 0 0;
 `;
 
 const CountWordStyle = styled.div`
@@ -42,10 +46,27 @@ const CountWordStyle = styled.div`
     `}
 `;
 
+const InputFileLabelStyle = styled.label`
+  cursor: pointer;
+  width: 100%;
+  font-size: 13px;
+  font-weight: 400;
+  padding: 2px 10px;
+  background-color: #fafbfc;
+  border: 1px solid #ced2d7;
+  border-top: 0;
+  border-radius: 0 0 4px 4px;
+`;
+
+const InputFileStyle = styled.input`
+  display: none;
+`;
+
 function Editor(props) {
   const [CountWord, setCountWord] = useState(0);
   const [Contents, setContents] = useState("");
   const [ShowNum, setShowNum] = useState(false);
+  const [Image, setImage] = useState("");
 
   function typeHandler(e) {
     const text = e.target.value;
@@ -61,6 +82,10 @@ function Editor(props) {
     setContents(text);
   }
 
+  function NewImage(e) {
+    console.log(e.target.files);
+  }
+
   return (
     <EditorStyle id="writeArea">
       <TextAreaStyle
@@ -71,6 +96,15 @@ function Editor(props) {
       <CountWordStyle active={ShowNum} boxFade={boxFade} id="countWord">
         {CountWord} characters
       </CountWordStyle>
+      <InputFileLabelStyle className="inputFileButton" for="inputFile">
+        Attach files by selecting here
+      </InputFileLabelStyle>
+      <InputFileStyle
+        id="inputFile"
+        type="file"
+        accept="image/jpeg, image/jpg, image/png" //업로드 가능한 파일 종류.
+        onChange={NewImage}
+      />
     </EditorStyle>
   );
 }
