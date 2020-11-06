@@ -23,19 +23,16 @@ function CustomDropDown(props) {
           <Icon icon={x24} />
         </CustomBtn>
       </Dropdown.Header>
-      <Dropdown.Item id="Opned" onClick={inputOnClickHandler}>
+      <Dropdown.Item id="is:open" onClick={inputOnClickHandler}>
         Open issues and pull requests
       </Dropdown.Item>
-      <Dropdown.Item id="IssueMe" onClick={inputOnClickHandler}>
+      <Dropdown.Item id="is:open author:@me" onClick={inputOnClickHandler}>
         Your issues
       </Dropdown.Item>
-      <Dropdown.Item id="PRMe" onClick={inputOnClickHandler}>
-        Your pull requests
-      </Dropdown.Item>
-      <Dropdown.Item id="AssignedMe" onClick={inputOnClickHandler}>
+      <Dropdown.Item id="is:open assignee:@me " onClick={inputOnClickHandler}>
         Everything assigned to you
       </Dropdown.Item>
-      <Dropdown.Item id="MentionMe" onClick={inputOnClickHandler}>
+      <Dropdown.Item id="is:open commentor:@me " onClick={inputOnClickHandler}>
         Everything mentioning to you
       </Dropdown.Item>
       <Dropdown.Item href="https://docs.github.com/en/free-pro-team@latest/github/searching-for-information-on-github/searching-issues-and-pull-requests">
