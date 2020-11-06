@@ -65,9 +65,8 @@ const InputFileStyle = styled.input`
 
 function Editor(props) {
   const [CountWord, setCountWord] = useState(0);
-  const [Contents, setContents] = useState("");
+  const [Contents, setContents] = useState(" ");
   const [ShowNum, setShowNum] = useState(false);
-  const [Image, setImage] = useState("");
 
   function typeHandler(e) {
     const text = e.target.value;
@@ -84,26 +83,39 @@ function Editor(props) {
   }
 
   function NewImage(e) {
-    const formData = new FormData();
-    formData.append("file", e.target.files);
+    try {
+      const reader = new FileReader();
 
-    return axios
-      .post("/api/image/upload", formData)
-      .then((res) => {
-        alert("이미지 업로드에 성공했습니다.");
-      })
-      .catch((err) => {
-        alert("이미지 업로드에 실패했습니다.");
-      });
+      reader.onloadend = () => {
+        const base64 = reader.result;
+        if (base64) {
+          const img = base64.split(",")[1].toString();
+          axios
+            .post("https://api.imgur.com/3/image", img, {
+              headers: {
+                Authorization: "Client-ID 3428d1d51b9b86e",
+                Accept: "application/json",
+              },
+            })
+            .then((response) => {
+              let imgTag = `
+
+[${response.data.data.id}](${response.data.data.link})
+
+`;
+              setContents(Contents + imgTag);
+            });
+        }
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    } catch (e) {
+      alert("이미지 업로드에 실패했습니다.");
+    }
   }
 
   return (
     <EditorStyle id="writeArea">
-      <TextAreaStyle
-        vaule={Contents}
-        onChange={typeHandler}
-        placeholder={props.placeholder || "Leave a text"}
-      ></TextAreaStyle>
+      <TextAreaStyle onChange={typeHandler} value={Contents} />
       <CountWordStyle active={ShowNum} boxFade={boxFade} id="countWord">
         {CountWord} characters
       </CountWordStyle>
