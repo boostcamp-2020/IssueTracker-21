@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import CustomBtn from "../CustomBtn";
+import NewImage from "../../utils/uploadImgur";
 
 function RegisterModal() {
   const [Id, setId] = useState("");
@@ -18,7 +19,11 @@ function RegisterModal() {
     setPasswordConfirm(e.target.value);
   };
   const profileHandler = (e) => {
-    setProfile(e.target.value);
+    try {
+      NewImage(e, Profile, setProfile);
+    } catch (e) {
+      alert("프로필 이미지 업로드에 실패했습니다.");
+    }
   };
 
   const submitHandler = (e) => {
