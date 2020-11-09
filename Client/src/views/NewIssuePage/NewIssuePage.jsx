@@ -1,7 +1,8 @@
 import React from "react";
+import Editor from "../../components/Editor";
 
 function NewIssuePage() {
-  return <div></div>;
+  return <Editor />;
 }
 
 export default NewIssuePage;
