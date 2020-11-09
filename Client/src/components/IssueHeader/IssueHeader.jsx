@@ -1,23 +1,27 @@
 import React, { useState } from "react";
 import "./IssueHeaderStyle.scss";
 import axios from "axios";
+import styled from "styled-components";
+
+import calcTime from "../../utils/calcTime";
+
+const IssueHeaderDiv = styled.div`
+  background-color: white;
+`;
+
+const StatusDiv = styled.div`
+  display: flex;
+`;
 
 function IssueHeader(props) {
   const { issueId, title, isOpened, authorId, createdAt, commentCount } = props;
   const [currentTitle, setCurrentTitle] = useState(title);
   const [newIssueTitle, setNewIssueTitle] = useState(title);
-
-  const dayDiff = (day) => {
-    let stDate = new Date();
-    let endDate = new Date(day);
-
-    let btMs = endDate.getTime() - stDate.getTime();
-    let btDay = btMs / (1000 * 60 * 60 * 24);
-    return btDay;
-  };
+  const [editClicked, setEditClicked] = useState(false);
 
   const editClickHandler = (e) => {
     e.preventDefault();
+    setEditClicked(true);
   };
 
   const saveClickHandler = (e) => {
@@ -33,6 +37,7 @@ function IssueHeader(props) {
         setCurrentTitle(newIssueTitle);
         setNewIssueTitle("");
       });
+    setEditClicked(false);
   };
 
   const titleChangeHandler = (e) => {
@@ -42,21 +47,24 @@ function IssueHeader(props) {
 
   const cancelClickHandler = (e) => {
     e.preventDefault();
+    setNewIssueTitle("");
+    setEditClicked(false);
   };
 
   return (
     <div>
-      <div className="top">
+      <IssueHeaderDiv id="issueHeaderArea">
         <input
           type="text"
-          className="title"
+          className={editClicked ? "clickedTitle" : "title"}
           defaultValue={currentTitle}
           onChange={(e) => {
             titleChangeHandler(e);
           }}
+          disabled={editClicked ? false : true}
         />
         <button
-          className="edit"
+          className={editClicked ? "edit hide" : "edit"}
           onClick={(e) => {
             editClickHandler(e);
           }}
@@ -64,7 +72,7 @@ function IssueHeader(props) {
           Edit
         </button>
         <button
-          className="save disabled"
+          className={editClicked ? "save" : "save hide"}
           onClick={(e) => {
             saveClickHandler(e);
           }}
@@ -72,19 +80,20 @@ function IssueHeader(props) {
           Save
         </button>
         <button
-          className="cancel disabled"
+          className={editClicked ? "cancel" : "cancel hide"}
           onClick={(e) => cancelClickHandler(e)}
         >
           Cancel
         </button>
-      </div>
-      <div className="status">
+      </IssueHeaderDiv>
+      <StatusDiv id="statusArea">
         <button className="isopen">{isOpened ? "Open" : "Closed"}</button>
         <div className="openner">{authorId}</div>
         <p className="openInfo">
-          opened this issue {dayDiff(createdAt)} ago {commentCount} comment
+          opened this issue {calcTime(createdAt)}
+          {commentCount} comment
         </p>
-      </div>
+      </StatusDiv>
     </div>
   );
 }

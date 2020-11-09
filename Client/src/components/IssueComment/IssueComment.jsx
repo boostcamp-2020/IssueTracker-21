@@ -1,37 +1,89 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
+
+import "./IssueCommentStyle.scss";
+import calcTime from "../../utils/calcTime";
+
+import styled from "styled-components";
+
+import CommentEditor from "../CommentEditor";
+
+const ContainerDiv = styled.div``;
+const CommentDiv = styled.div``;
+const VerticalDiv = styled.div``;
 
 function IssueComment(props) {
-  const { id, content, createdAt } = props;
+  const { id, issueId, authorId, owner, content, createdAt } = props;
 
-  const dayDiff = (day) => {
-    let stDate = new Date();
-    let endDate = new Date(day);
+  const [contentValue, setContentValue] = useState(content);
+  const [isEditClicked, setIsEditClicked] = useState(false);
 
-    let btMs = endDate.getTime() - stDate.getTime();
-    let btDay = btMs / (1000 * 60 * 60 * 24);
-    return btDay;
+  const editClickHandler = (e) => {
+    e.preventDefault();
+    setIsEditClicked(true);
+  };
+
+  const cancelClickHandler = (e) => {
+    e.preventDefault();
+    setIsEditClicked(false);
+  };
+
+  const submitClickHandler = (value) => {
+    let data = {
+      commentId: id,
+      issueId: issueId,
+      content: value,
+      authorId: authorId,
+    };
+    axios
+      .put("../api/comment", data, {
+        "Content-Type": "application/json",
+        withCredentials: true,
+        credentials: "include",
+      })
+      .then((changedIssue) => {
+        setContentValue(value);
+        setIsEditClicked(false);
+      });
   };
 
   return (
-    <div className="comment">
-      <div className="profile">
-        <img src="" alt="유저이미지" className="userProfile" />
-      </div>
-      <div className="content">
-        <div className="top">
-          <div className="commentor">{id}</div>
-          <div className="commentInfo">
-            commented {dayDiff(createdAt)} days ago
-          </div>
-          <button className="Owner">Owner</button>
-          <div className="imogi">
-            <img src="" alt="이모지" />
-          </div>
-          <button className="edit">Edit</button>
+    <ContainerDiv id="containerArea">
+      <CommentDiv id="commentArea" className="comment">
+        <div className="profile">
+          <img src="" alt="이미지" className="userProfile" />
         </div>
-        <div className="contentbody">{content}</div>
-      </div>
-    </div>
+        <div className="content">
+          <div className={authorId == owner ? "top" : "otherTop"}>
+            <div className="commentorArea">
+              <div className="commentor">{authorId}</div>
+              <div className="commentInfo">commented {calcTime(createdAt)}</div>
+            </div>
+            <button className={owner == authorId ? "Owner" : "Owner disabled"}>
+              Owner
+            </button>
+            <div className="imogi">&#128008;</div>
+            <button
+              className={owner == authorId ? "Owner" : "Owner disabled"}
+              onClick={(e) => editClickHandler(e)}
+            >
+              Edit
+            </button>
+          </div>
+          <div className="contentbody">
+            {isEditClicked ? (
+              <CommentEditor
+                cancelClickHandler={cancelClickHandler}
+                submitClickHandler={submitClickHandler}
+              />
+            ) : (
+              contentValue
+            )}
+          </div>
+        </div>
+      </CommentDiv>
+      <VerticalDiv id="verticalArea"></VerticalDiv>
+    </ContainerDiv>
   );
 }
 

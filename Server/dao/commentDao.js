@@ -36,15 +36,15 @@ exports.updateComment = async (commentId, authorId, issueId, content) => {
 
 exports.getIssuesByCommentId = async (commentId) => {
   return new Promise(async (resolve, reject) => {
-    try{
+    try {
       let issues = await issueModel.findAll({
         where: {
-          id: commentId
-        }
+          id: commentId,
+        },
       });
-      resolve({success:true, issues});
-    }catch(e){
-      reject({error:e});
+      resolve({ success: true, issues });
+    } catch (e) {
+      reject({ error: e });
     }
   });
-}
+};
