@@ -93,7 +93,7 @@ exports.localStrategyLogin = async (userId, password) => {
 exports.localRegister = async (req, res, next) => {
   try {
     const { userId, password, profileUrl } = req.body;
-    let profile;
+    let profile = profileUrl;
     if (profileUrl.length === 0) {
       const random = Math.floor(Math.random() * (50000 - 1) + 1);
       profile = "https://gravatar.com/avatar/" + random;
