@@ -1,1 +1,1 @@
-export { default, LabelContext } from "./LabelPage.jsx";
+export { default, LabelPageContext } from "./LabelPage.jsx";

@@ -7,7 +7,8 @@ import LabelCard from "../LabelCard";
 import LabelEditArea from "../LabelEditArea";
 import getRandomColor from "../../utils/getRandomColor";
 
-function LabelList() {
+function LabelList(props) {
+  const {displayLabelEditArea} = props;
   const [Labels, setLabels] = useState([]);
   const [LabelsCount, setLabelsCount] = useState([]);
 
@@ -33,7 +34,7 @@ function LabelList() {
 
 
   const deleteLabelHandler = (id) => {
-    const confirmDelete = confirm("Will you delete this label?");
+    const confirmDelete = confirm("이 라벨을 삭제하시겠습니까?");
     if(confirmDelete){
       const body = {
         labelId: id
@@ -42,13 +43,24 @@ function LabelList() {
       axios.delete("/api/label", {data:body})
       .then(response => {
           if(response.data.success){
-              alert("성공적으로 라벨을 delete했습니다.");
+              alert("성공적으로 라벨을 삭제했습니다.");
               refreshLabelCards();
           } else {
-              alert("라벨 delete에 실패했습니다.");
+              alert("라벨 삭제에 실패했습니다.");
           }  
         })
     }
+}
+
+const refreshLabelCards = () => {
+  axios.get("/api/label").then((response) => {
+    if (response.data.success) {
+      setLabels(response.data.labels.rows);
+      setLabelsCount(response.data.labels.count);
+    } else {
+      alert("Failed to get labels");
+    }
+  });
 }
 
   /* rendering */
@@ -61,25 +73,17 @@ function LabelList() {
         description={label.description}
         color={label.color}
         deleteFunction={deleteLabelHandler}
+        refreshLabelCards = {refreshLabelCards}
       />
     );
   });
 
-  const refreshLabelCards = () => {
-    axios.get("/api/label").then((response) => {
-      if (response.data.success) {
-        setLabels(response.data.labels.rows);
-        setLabelsCount(response.data.labels.count);
-      } else {
-        alert("Failed to get labels");
-      }
-    });
-  }
+
 
   return (
     <div id="labelListArea">
-      <LabelEditArea refreshFunction={refreshLabelCards} labelName="" labelDescription="" labelColor={getRandomColor()} />
-      <div id="labelCardCountArea">{LabelsCount} labelss</div>
+      {displayLabelEditArea? <LabelEditArea refreshFunction={refreshLabelCards} isEdit={false} labelName="" labelDescription="" labelColor={getRandomColor()} />: ''}
+      <div id="labelCardCountArea">{LabelsCount} labels</div>
       <div id="labelCardArea">
         {Labels.length === 0 ? renderNoResult : renderLabelCards}
       </div>

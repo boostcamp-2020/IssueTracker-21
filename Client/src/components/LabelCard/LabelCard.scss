@@ -12,33 +12,4 @@
   &:hover {
     background-color: #f6f8fa;
   }
-
-  .labelTagDisplay {
-    display: flex;
-    width: 20%;
-  }
-
-  .labelDescription {
-    display: flex;
-    width: 70%;
-    font-size: 13px;
-    color: rgb(99, 99, 99);
-  }
-
-  .labelButtonContainer {
-    display: flex;
-    width: 10%;
-    font-size: 13px;
-    color: rgb(99, 99, 99);
-    cursor: pointer;
-
-    .labelEditButton {
-      display: flex;
-      width: 50%;
-    }
-    .labelDeleteButton {
-      display: flex;
-      width: 50%;
-    }
-  }
 }
