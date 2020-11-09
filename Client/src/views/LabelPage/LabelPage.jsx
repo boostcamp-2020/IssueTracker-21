@@ -11,6 +11,7 @@ export const LabelPageContext = React.createContext();
 function LabelPage() {
   //input에 입력되는 데이터를 관리
   const [inputData, setInputData] = useState("");
+  const [displayLabelEditArea, setdisplayLabelEditArea] = useState(false);
 
   const inputOnChangeHandler = (e) => {
     setInputData(e.target.value);
@@ -20,17 +21,24 @@ function LabelPage() {
     setInputData(e.target.id);
   };
 
+  const toggleLabelEditArea = () => {
+      if (displayLabelEditArea === true) setdisplayLabelEditArea(false);
+      else setdisplayLabelEditArea(true);
+  }
+
   return (
-    <div id="landingArea">
-        <br />
-        <h2>이슈잇슈</h2>
-        <br />
-        <LabelNavBar />
-        <br />
-        <LabelList />
-        <br />
-        <br />
-    </div>
+      <LabelPageContext.Provider value={{toggleLabelEditArea}}>
+        <div id="landingArea">
+            <br />
+            <h2>이슈잇슈</h2>
+            <br />
+            <LabelNavBar />
+            <br />
+            <LabelList  displayLabelEditArea={displayLabelEditArea}/>
+            <br />
+            <br />
+        </div>
+    </LabelPageContext.Provider>
   );
 }
 

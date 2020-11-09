@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "./LabelEditArea.scss";
 import LabelTag from "../LabelTag";
 import getRandomColor from "../../utils/getRandomColor";
+import { LabelPageContext } from "../../views/LabelPage/LabelPage";
 
 function LabelEditArea(props) {
-    console.log(1111);
-    console.log(props);
-    console.log(1111);
+    const {toggleLabelEditArea} = useContext(LabelPageContext);
 
     const [LabelName, setLabelName] = useState(props.labelName);
     const [LabelDescription, setLabelDescription] = useState(props.labelDescription);
@@ -46,6 +45,7 @@ function LabelEditArea(props) {
             if(response.data.success){
                 alert("성공적으로 라벨을 추가했습니다.");
                 props.refreshFunction();
+                toggleLabelEditArea();
             } else {
                 alert("라벨 추가에 실패했습니다.");
             }
@@ -85,7 +85,7 @@ function LabelEditArea(props) {
                         </div>
                     </div>
                     <div className="labelButtonInputContainer">
-                        <button type = "" className="labelCancelButton">
+                        <button onClick={toggleLabelEditArea} className="labelCancelButton">
                         Cancel
                         </button>
                         <button type = "submit" className="labelCreateButton" disabled={!LabelName}>
