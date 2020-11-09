@@ -4,7 +4,7 @@ import CustomBtn from "../CustomBtn";
 import NewImage from "../../utils/uploadImgur";
 import Axios from "axios";
 
-function RegisterModal() {
+function RegisterModal(props) {
   const [Id, setId] = useState("");
   const [Password, setPassword] = useState("");
   const [PasswordConfirm, setPasswordConfirm] = useState("");
@@ -53,7 +53,7 @@ function RegisterModal() {
     const body = {
       userId: Id,
       password: Password,
-      profile: Profile,
+      profileUrl: Profile,
     };
 
     Axios.post("api/user/register", body).then((response) => {
@@ -61,7 +61,7 @@ function RegisterModal() {
         alert("성공적으로 회원가입에 성공했습니다.");
         props.history.push("/login");
       } else {
-        alert("회원가입에 실패했습니다.");
+        alert(response.message);
       }
     });
   };
