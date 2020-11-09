@@ -13,6 +13,7 @@ function LabelEditArea(props) {
     const [LabelName, setLabelName] = useState(props.labelName);
     const [LabelDescription, setLabelDescription] = useState(props.labelDescription);
     const [LabelColor, setLabelColor] = useState(props.labelColor);
+    const [IsEdit, setIsEdit] = useState(props.isEdit);
 
     const labelNameChangeHandler = (event) => {
         setLabelName(event.currentTarget.value);
@@ -35,22 +36,37 @@ function LabelEditArea(props) {
         event.preventDefault();
 
         const body = {
+            labelId: props.labelId,
             name: LabelName,
             description: LabelDescription,
             color: LabelColor
         }
 
-        axios.post("/api/label", body)
-        .then(response => {
-            if(response.data.success){
-                alert("성공적으로 라벨을 추가했습니다.");
-                props.refreshFunction();
-                toggleLabelEditArea();
-            } else {
-                alert("라벨 추가에 실패했습니다.");
-            }
-        }   
-        )
+        if (IsEdit){
+            axios.put("/api/label", body)
+            .then(response => {
+                if(response.data.success){
+                    alert("성공적으로 라벨을 수정했습니다.");
+                    props.refreshFunction();
+                    props.setEditing();
+                } else {
+                    alert("라벨 수정에 실패했습니다.");
+                }
+            }   
+            )
+        } else {
+            axios.post("/api/label", body)
+            .then(response => {
+                if(response.data.success){
+                    alert("성공적으로 라벨을 추가했습니다.");
+                    props.refreshFunction();
+                    toggleLabelEditArea();
+                } else {
+                    alert("라벨 추가에 실패했습니다.");
+                }
+            }   
+            )
+        }
     }
 
     const randomColorGetter = () => {
@@ -59,7 +75,7 @@ function LabelEditArea(props) {
     }
 
     return (
-        <div className="labelEditContainer">
+        <div className={IsEdit? "labelEditInputContainer":"labelAddInputContainer"}>
             <div className="labelPreviewContainer">
                 <div className="labelPreview">
                     <LabelTag labelName={LabelName} color={LabelColor} />
@@ -85,11 +101,11 @@ function LabelEditArea(props) {
                         </div>
                     </div>
                     <div className="labelButtonInputContainer">
-                        <button onClick={toggleLabelEditArea} className="labelCancelButton">
+                        <button onClick={IsEdit? props.setEditing:toggleLabelEditArea} className="labelCancelButton">
                         Cancel
                         </button>
                         <button type = "submit" className="labelCreateButton" disabled={!LabelName}>
-                        Create label
+                        {IsEdit? 'Save changes':'Create label'}
                         </button>
                     </div>
                 </form>

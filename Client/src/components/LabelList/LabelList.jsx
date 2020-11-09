@@ -34,7 +34,7 @@ function LabelList(props) {
 
 
   const deleteLabelHandler = (id) => {
-    const confirmDelete = confirm("Will you delete this label?");
+    const confirmDelete = confirm("이 라벨을 삭제하시겠습니까?");
     if(confirmDelete){
       const body = {
         labelId: id
@@ -52,6 +52,17 @@ function LabelList(props) {
     }
 }
 
+const refreshLabelCards = () => {
+  axios.get("/api/label").then((response) => {
+    if (response.data.success) {
+      setLabels(response.data.labels.rows);
+      setLabelsCount(response.data.labels.count);
+    } else {
+      alert("Failed to get labels");
+    }
+  });
+}
+
   /* rendering */
   const renderLabelCards = Labels.map((label, index) => {
     return (
@@ -62,24 +73,16 @@ function LabelList(props) {
         description={label.description}
         color={label.color}
         deleteFunction={deleteLabelHandler}
+        refreshLabelCards = {refreshLabelCards}
       />
     );
   });
 
-  const refreshLabelCards = () => {
-    axios.get("/api/label").then((response) => {
-      if (response.data.success) {
-        setLabels(response.data.labels.rows);
-        setLabelsCount(response.data.labels.count);
-      } else {
-        alert("Failed to get labels");
-      }
-    });
-  }
+
 
   return (
     <div id="labelListArea">
-      {displayLabelEditArea? <LabelEditArea refreshFunction={refreshLabelCards} labelName="" labelDescription="" labelColor={getRandomColor()} />: ''}
+      {displayLabelEditArea? <LabelEditArea refreshFunction={refreshLabelCards} isEdit={false} labelName="" labelDescription="" labelColor={getRandomColor()} />: ''}
       <div id="labelCardCountArea">{LabelsCount} labelss</div>
       <div id="labelCardArea">
         {Labels.length === 0 ? renderNoResult : renderLabelCards}
