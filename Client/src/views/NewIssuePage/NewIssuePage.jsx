@@ -9,6 +9,7 @@ import CustomBtn from "../../components/CustomBtn";
 function NewIssuePage(props) {
   const [User, setUser] = useState(null);
   const [Title, setTitle] = useState("");
+  const [Contents, setContents] = useState("");
 
   const cancelHandler = () => {
     props.history.push("/");
@@ -17,14 +18,34 @@ function NewIssuePage(props) {
   const titleHandler = (e) => {
     setTitle(e.target.value);
   };
+  const typingHandler = (text) => {
+    setContents(text);
+  };
+
+  const submitHandler = (e) => {
+    const body = {
+      title: Title,
+      authorId: User.user.userId,
+      description: Contents,
+      milestoneId: 1,
+      assignees: ["test1", "test2"],
+      labels: [1, 2],
+    };
+    axios.post("/api/issue", body).then((response) => {
+      if (response.data.success) {
+        props.history.push("/");
+      } else {
+        alert("Failed to req new issue");
+      }
+    });
+  };
 
   useEffect(() => {
     axios.get("/api/user/userinfo").then((response) => {
       if (response.data.success) {
-        console.log(response.data);
         setUser(response.data);
       } else {
-        alert("Failed to get assignees");
+        alert("Failed to get User info");
       }
     });
   }, []);
@@ -48,7 +69,7 @@ function NewIssuePage(props) {
         <div id="newIssueOpt">
           <div id="writeBtn">Write</div>
         </div>
-        <Editor />
+        <Editor typingHandler={typingHandler} />
         <div id="btnArea">
           <div id="cancelBtn" onClick={cancelHandler}>
             cancel
@@ -61,6 +82,7 @@ function NewIssuePage(props) {
             height="35px"
             border="0"
             id="submitBtn"
+            onClick={submitHandler}
           >
             Submit new issue
           </CustomBtn>
