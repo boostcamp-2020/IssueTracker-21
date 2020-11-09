@@ -40,6 +40,7 @@ function RegisterModal(props) {
   //프로필 사진 업로드
   const profileHandler = async (e) => {
     try {
+      setProfile(true);
       const result = await NewImage(e, Profile, setProfile);
       if (result) {
         alert("프로필 이미지가 업로드 되었습니다.");
@@ -47,6 +48,7 @@ function RegisterModal(props) {
       }
     } catch (e) {
       console.log("profile", e);
+      setProfile("");
       alert("프로필 이미지 업로드에 실패했습니다.");
     }
   };
@@ -59,6 +61,10 @@ function RegisterModal(props) {
       PasswordConfirm.length === 0
     ) {
       return alert("빈칸을 모두 채워주세요");
+    }
+
+    if (Profile === true) {
+      return alert("프로필 이미지 업로드 중입니다. 잠시만 기다려주세요");
     }
 
     if (Password !== PasswordConfirm) {
