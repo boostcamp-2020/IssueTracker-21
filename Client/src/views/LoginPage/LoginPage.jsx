@@ -45,6 +45,7 @@ function LoginPage(props) {
   return (
     <>
       <RegisterModal
+        {...props}
         show={Register}
         removeRegisterHandler={removeRegisterHandler}
       />

@@ -3,7 +3,6 @@ import styled from "styled-components";
 import CustomBtn from "../CustomBtn";
 import NewImage from "../../utils/uploadImgur";
 import Axios from "axios";
-import { useEffect } from "react";
 
 function RegisterModal(props) {
   const [Id, setId] = useState("");
@@ -80,9 +79,13 @@ function RegisterModal(props) {
     Axios.post("api/user/register", body).then((response) => {
       if (response.data.success) {
         alert("성공적으로 회원가입에 성공했습니다.");
-        props.history.push("/login");
+        setId("");
+        setPassword("");
+        setPasswordConfirm("");
+        setProfile("");
+        removeHandler();
       } else {
-        alert(response.message);
+        alert(response.data.message);
       }
     });
   };
