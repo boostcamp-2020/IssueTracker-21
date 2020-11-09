@@ -6,7 +6,7 @@ import milestone24 from "@iconify/icons-octicon/milestone-24";
 import CustomDropDown from "../CustomDropDown";
 import CustomInput from "../CustomInput";
 
-import "./style.css";
+import "./style.scss";
 
 function LabelNavBar() {
   // function moveNewIssue() {
@@ -14,7 +14,12 @@ function LabelNavBar() {
   // }
 
   return (
-<div>hahahah</div>
+  <div className="labelNavBarContainer">
+    <div className="linkButtonContainer"></div>
+    <div className="newLabelButtonContainer">
+      <button className="newLabelButton">New label</button>
+    </div>
+  </div>
   );
 }
 
