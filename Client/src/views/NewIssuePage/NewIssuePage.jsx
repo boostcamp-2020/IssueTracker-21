@@ -10,6 +10,7 @@ function NewIssuePage(props) {
   const [User, setUser] = useState(null);
   const [Title, setTitle] = useState("");
   const [Contents, setContents] = useState("");
+  const [BtnColor, setBtnColor] = useState("#ced2d7");
 
   const cancelHandler = () => {
     props.history.push("/");
@@ -19,10 +20,18 @@ function NewIssuePage(props) {
     setTitle(e.target.value);
   };
   const typingHandler = (text) => {
+    if (text.length === 0) {
+      setBtnColor("#ced2d7");
+    } else {
+      setBtnColor("#2ea44f");
+    }
     setContents(text);
   };
 
   const submitHandler = (e) => {
+    if (Title.length === 0 || Contents.length === 0) {
+      return alert("제목과 내용 모두 입력해주세요");
+    }
     const body = {
       title: Title,
       authorId: User.user.userId,
@@ -76,7 +85,7 @@ function NewIssuePage(props) {
           </div>
           <CustomBtn
             color="white"
-            bgColor="#2ea44f"
+            bgColor={BtnColor}
             width="150px"
             borderRad="6px"
             height="35px"
