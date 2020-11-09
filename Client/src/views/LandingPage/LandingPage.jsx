@@ -8,7 +8,7 @@ import "./LandingPageStyle.scss";
 
 export const LandingPageContext = React.createContext();
 
-function LandingPage() {
+function LandingPage(props) {
   //input에 입력되는 데이터를 관리
   const [inputData, setInputData] = useState("");
   //이슈 리스트에 표시될 이슈 데이터를 관리
@@ -56,7 +56,7 @@ function LandingPage() {
         <br />
         <h2>이슈잇슈</h2>
         <br />
-        <Navbar />
+        <Navbar {...props} />
         <br />
         <IssueList />
         <br />
