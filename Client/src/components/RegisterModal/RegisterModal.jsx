@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import CustomBtn from "../CustomBtn";
 import NewImage from "../../utils/uploadImgur";
+import Axios from "axios";
 
 function RegisterModal() {
   const [Id, setId] = useState("");
@@ -18,10 +19,15 @@ function RegisterModal() {
   const pwConfirmHandler = (e) => {
     setPasswordConfirm(e.target.value);
   };
-  const profileHandler = (e) => {
+  const profileHandler = async (e) => {
     try {
-      NewImage(e, Profile, setProfile);
+      const result = await NewImage(e, Profile, setProfile);
+      if (result) {
+        alert("프로필 이미지가 업로드 되었습니다.");
+        setProfile(result.link);
+      }
     } catch (e) {
+      console.log("profile", e);
       alert("프로필 이미지 업로드에 실패했습니다.");
     }
   };
@@ -30,8 +36,7 @@ function RegisterModal() {
     if (
       Id.length === 0 ||
       Password.length === 0 ||
-      PasswordConfirm.length === 0 ||
-      Profile.length === 0
+      PasswordConfirm.length === 0
     ) {
       return alert("빈칸을 모두 채워주세요");
     }
@@ -41,6 +46,24 @@ function RegisterModal() {
         "비밀번호와 비밀번호 확인이 일치하지 않습니다. 다시 확인해주세요"
       );
     }
+    if (Password.length < 6) {
+      return alert("비밀번호가 너무 짧습니다. 6자리 이상 입력해주세요");
+    }
+
+    const body = {
+      userId: Id,
+      password: Password,
+      profile: Profile,
+    };
+
+    Axios.post("api/user/register", body).then((response) => {
+      if (response.data.success) {
+        alert("성공적으로 회원가입에 성공했습니다.");
+        props.history.push("/login");
+      } else {
+        alert("회원가입에 실패했습니다.");
+      }
+    });
   };
 
   return (
@@ -77,12 +100,12 @@ function RegisterModal() {
         <input
           type="file"
           accept="image/jpeg, image/jpg, image/png"
-          value={Profile}
           onChange={profileHandler}
           id="fileForm"
         />
         <RegisterSubmitStyle>
           <CustomBtn
+            type="button"
             color="white"
             bgColor="#2ea44f"
             width="150px"
