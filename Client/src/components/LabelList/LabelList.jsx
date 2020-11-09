@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "./LabelList.scss";
 import LabelCard from "../LabelCard";
 import LabelEditArea from "../LabelEditArea";
+import getRandomColor from "../../utils/getRandomColor";
 
 function LabelList() {
   const [Labels, setLabels] = useState([]);
@@ -32,21 +33,22 @@ function LabelList() {
 
 
   const deleteLabelHandler = (id) => {
-    const body = {
-      labelId: id
-  }
-    
-
-    axios.delete("/api/label", {data:body})
-    .then(response => {
-        if(response.data.success){
-            alert("성공적으로 라벨을 delete했습니다.");
-            refreshLabelCards();
-        } else {
-            alert("라벨 delete에 실패했습니다.");
-        }  
-  }
-  )
+    const confirmDelete = confirm("Will you delete this label?");
+    if(confirmDelete){
+      const body = {
+        labelId: id
+    }
+  
+      axios.delete("/api/label", {data:body})
+      .then(response => {
+          if(response.data.success){
+              alert("성공적으로 라벨을 delete했습니다.");
+              refreshLabelCards();
+          } else {
+              alert("라벨 delete에 실패했습니다.");
+          }  
+        })
+    }
 }
 
   /* rendering */
@@ -76,8 +78,8 @@ function LabelList() {
 
   return (
     <div id="labelListArea">
-      <LabelEditArea refreshFunction={refreshLabelCards} labelName="" labelDescription="" labelColor="#FFFFFF" />
-      <div id="labelCardCountArea">{LabelsCount} labels</div>
+      <LabelEditArea refreshFunction={refreshLabelCards} labelName="" labelDescription="" labelColor={getRandomColor()} />
+      <div id="labelCardCountArea">{LabelsCount} labelss</div>
       <div id="labelCardArea">
         {Labels.length === 0 ? renderNoResult : renderLabelCards}
       </div>

@@ -107,6 +107,11 @@
                     color: white;
                     margin-left: 2px;
                 }
+
+                .labelCreateButton:disabled {
+                    background-color: #2ea44f7e;
+                    border: 1px solid #647c6ba2;
+                }
             }
         }
     }

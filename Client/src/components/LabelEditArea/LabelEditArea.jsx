@@ -4,6 +4,7 @@ import axios from "axios";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "./LabelEditArea.scss";
 import LabelTag from "../LabelTag";
+import getRandomColor from "../../utils/getRandomColor";
 
 function LabelEditArea(props) {
     console.log(1111);
@@ -24,6 +25,11 @@ function LabelEditArea(props) {
 
     const labelColorChangeHandler = (event) => {
         setLabelColor(event.currentTarget.value);
+    }
+
+    const createButtonHandler = () => {
+        if(LabelName != '') return false;
+        else return 'disabled';
     }
 
     const submitHandler = (event) => {
@@ -47,6 +53,11 @@ function LabelEditArea(props) {
         )
     }
 
+    const randomColorGetter = () => {
+        const randColor = getRandomColor();
+        setLabelColor(randColor);
+    }
+
     return (
         <div className="labelEditContainer">
             <div className="labelPreviewContainer">
@@ -67,7 +78,7 @@ function LabelEditArea(props) {
                     <div className="labelColorInputContainer">
                         <label>Color</label>
                         <div className="labelColorInput">
-                            <div className="randomLabelColorButton">@</div>
+                            <div className="randomLabelColorButton" onClick={randomColorGetter}>@</div>
                             <input onChange={labelColorChangeHandler} value={LabelColor}/>
                         </div>
                     </div>
@@ -75,7 +86,7 @@ function LabelEditArea(props) {
                         <button type = "" className="labelCancelButton">
                         Cancel
                         </button>
-                        <button type = "submit" className="labelCreateButton">
+                        <button type = "submit" className="labelCreateButton" disabled={!LabelName}>
                         Create label
                         </button>
                     </div>
