@@ -83,7 +83,7 @@ const refreshLabelCards = () => {
   return (
     <div id="labelListArea">
       {displayLabelEditArea? <LabelEditArea refreshFunction={refreshLabelCards} isEdit={false} labelName="" labelDescription="" labelColor={getRandomColor()} />: ''}
-      <div id="labelCardCountArea">{LabelsCount} labelss</div>
+      <div id="labelCardCountArea">{LabelsCount} labels</div>
       <div id="labelCardArea">
         {Labels.length === 0 ? renderNoResult : renderLabelCards}
       </div>
