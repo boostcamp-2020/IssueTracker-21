@@ -67,70 +67,103 @@ function RegisterModal(props) {
   };
 
   return (
-    <RegisterModalStyle id="registerModal">
-      <RegisterTitleStyle id="registerTitle">회원가입</RegisterTitleStyle>
-      <form>
-        <RegisterLabelStyle htmlFor="idForm">Id</RegisterLabelStyle>
-        <RegisterInputStyle
-          type="text"
-          id="idForm"
-          value={Id}
-          onChange={idHandler}
-        />
+    <RegisterModalBackStyle>
+      <RegisterModalStyle id="registerModal">
+        <RegisterTitleStyle id="registerTitle">회원가입</RegisterTitleStyle>
+        <form>
+          <FormLine id="formLine">
+            <RegisterLabelStyle htmlFor="idForm">아이디</RegisterLabelStyle>
+            <RegisterInputStyle
+              type="text"
+              id="idForm"
+              value={Id}
+              onChange={idHandler}
+            />
+          </FormLine>
+          <FormLine id="formLine">
+            <RegisterLabelStyle htmlFor="pwFrom">비밀번호</RegisterLabelStyle>
+            <RegisterInputStyle
+              type="password"
+              id="pwFrom"
+              value={Password}
+              onChange={pwHandler}
+            />
+          </FormLine>
+          <FormLine id="formLine">
+            <RegisterLabelStyle htmlFor="pwConfirmForm">
+              비밀번호 확인
+            </RegisterLabelStyle>
+            <RegisterInputStyle
+              type="password"
+              id="pwConfirmForm"
+              value={PasswordConfirm}
+              onChange={pwConfirmHandler}
+            />
+          </FormLine>
 
-        <RegisterLabelStyle htmlFor="pwFrom">password</RegisterLabelStyle>
-        <RegisterInputStyle
-          type="password"
-          id="pwFrom"
-          value={Password}
-          onChange={pwHandler}
-        />
-
-        <RegisterLabelStyle htmlFor="pwConfirmForm">
-          password confirm
-        </RegisterLabelStyle>
-        <RegisterInputStyle
-          type="password"
-          id="pwConfirmForm"
-          value={PasswordConfirm}
-          onChange={pwConfirmHandler}
-        />
-
-        <RegisterLabelStyle htmlFor="fileForm">프로필 첨부</RegisterLabelStyle>
-        <input
-          type="file"
-          accept="image/jpeg, image/jpg, image/png"
-          onChange={profileHandler}
-          id="fileForm"
-        />
-        <RegisterSubmitStyle>
-          <CustomBtn
-            type="button"
-            color="white"
-            bgColor="#2ea44f"
-            width="150px"
-            borderRad="6px"
-            height="35px"
-            border="0"
-            id="submitBtn"
-            onClick={submitHandler}
-          >
-            회원가입하기
-          </CustomBtn>
-        </RegisterSubmitStyle>
-      </form>
-    </RegisterModalStyle>
+          <RegisterLabelStyle htmlFor="fileForm">
+            프로필 첨부
+          </RegisterLabelStyle>
+          <input
+            type="file"
+            accept="image/jpeg, image/jpg, image/png"
+            onChange={profileHandler}
+            id="fileForm"
+          />
+          <RegisterSubmitStyle>
+            <CustomBtn
+              type="button"
+              color="white"
+              bgColor="#2ea44f"
+              width="150px"
+              borderRad="6px"
+              height="35px"
+              border="0"
+              id="submitBtn"
+              onClick={submitHandler}
+            >
+              회원가입하기
+            </CustomBtn>
+          </RegisterSubmitStyle>
+        </form>
+      </RegisterModalStyle>
+    </RegisterModalBackStyle>
   );
 }
 
 export default RegisterModal;
 
+const RegisterModalBackStyle = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const RegisterModalStyle = styled.div`
-  width: 50%;
+  position: relative;
+  background-color: white;
+  border-radius: 7px;
+  padding: 30px;
+  z-index: 10;
+  width: 40%;
   height: 500px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+`;
+
+const FormLine = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 25px 0;
 `;
 
 const RegisterTitleStyle = styled.div`
@@ -144,13 +177,19 @@ const RegisterTitleStyle = styled.div`
 `;
 
 const RegisterLabelStyle = styled.label`
+  width: 30%;
   font-size: 15px;
+  line-height: 30px;
   font-weight: 400;
-  margin-top: 15px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0;
 `;
 
 const RegisterInputStyle = styled.input`
   font-size: 20px;
+  width: 70%;
   height: 30px;
   font-weight: 400;
 `;
@@ -158,13 +197,8 @@ const RegisterInputStyle = styled.input`
 const RegisterSubmitStyle = styled.div`
   width: 100%;
   font-size: 20px;
-  margin: 20px 0;
+  margin-top: 40px;
   display: flex;
   flex-direction: row;
   justify-content: center;
-`;
-
-const submitBtnStyle = styled.button`
-  border-radius: 6px;
-  background-color: green;
 `;
