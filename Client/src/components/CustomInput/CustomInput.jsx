@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useMemo, useContext } from "react";
-import { LandingPageContext } from "../../views/LandingPage"
+import { LandingPageContext } from "../../views/LandingPage";
 import "./style.css";
 
 function CustomInput(props) {
+  const { inputData, inputOnChangeHandler, inputSubmitHandler } = useContext(
+    LandingPageContext
+  );
 
-  const { inputData, inputOnChangeHandler } = useContext(LandingPageContext);
-  
   return (
     <form id="filterInput">
       <input
@@ -13,6 +14,7 @@ function CustomInput(props) {
         className="custom__input"
         value={inputData}
         onChange={inputOnChangeHandler}
+        onKeyPress={inputSubmitHandler}
       />
     </form>
   );
