@@ -1,0 +1,72 @@
+#containerArea {
+  width: 75%;
+  text-align: center;
+  #commentArea {
+    display: flex;
+    width: 100%;
+    margin: 0;
+    .top {
+      display: flex;
+      justify-content: space-between;
+      border: 1.2px solid lightblue;
+      padding: 0.5% 1%;
+      background-color: #f1f8ff;
+    }
+
+    .otherTop {
+      display: flex;
+      justify-content: space-between;
+      border: 1.2px solid #777777;
+      padding: 0.5% 1%;
+      background-color: #d1d3d4;
+    }
+
+    .profile {
+      margin-right: 1%;
+    }
+
+    .content {
+      width: 85%;
+    }
+
+    .contentbody {
+      border: 1.2px solid lightblue;
+      background-color: white;
+      padding: 1%;
+      text-align: left;
+    }
+
+    .commentorArea {
+      display: flex;
+      width: 80%;
+    }
+
+    .Owner,
+    .edit {
+      font-size: 13px;
+      background-color: white;
+      color: #777777;
+    }
+
+    .Owner {
+      border: 1px solid lightblue;
+    }
+
+    .edit {
+      border: none;
+    }
+
+    .disabled {
+      display: none;
+    }
+  }
+
+  #verticalArea {
+    border: none;
+    background-color: none;
+    width: 90%;
+    border-left: 1.5px solid #d1d3d4;
+    height: 15px;
+    margin: 0 15%;
+  }
+}

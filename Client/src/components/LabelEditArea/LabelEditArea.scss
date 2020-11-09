@@ -1,0 +1,118 @@
+.labelEditContainer {
+    display: flex;
+    flex-flow: column;
+    background-color: #fafbfc;
+    border: 1px solid rgb(225, 228, 232);
+    border-radius: 6px;
+    width: 100%;
+    padding: 20px;
+    margin-bottom: 5px;
+    *:focus { outline:none; }
+
+    .labelPreviewContainer{
+        display: flex;
+        flex-flow: row;
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    .labelInfoInputContainer{
+        display: flex;
+        flex-flow: row;
+        width: 100%;
+
+        .labelInfoInputForm {
+            display: flex;
+            flex-flow: row;
+            width: 100%;
+
+            .labelNameInputContainer {
+                display: flex;
+                flex-flow: column;
+                width: 25%;
+
+                input {
+                    height: 1.5rem;
+                    font-size: 13px;
+                }
+            }
+        
+            .labelDescriptionInputContainer {
+                display: flex;
+                flex-flow: column;
+                width: 38%;
+
+                input {
+                    height: 1.5rem;
+                    font-size: 13px;
+                }
+            }
+        
+            .labelColorInputContainer {
+                display: flex;
+                flex-flow: column;
+                width: 12%;
+
+                .labelColorInput {
+                    display: flex;
+
+                    .randomLabelColorButton{
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        background-color: rgb(196, 218, 243);
+                        border: 1px solid rgb(225, 228, 232);
+                        border-radius: 2px;
+                        margin-right: 2px;
+                        width: 1.5rem;
+                        height: 1.5rem;
+                        font-size: 13px;
+                    }
+
+                    input {
+                        height: 1.5rem;
+                        font-size: 13px;
+                    }
+                }
+            }
+        
+            .labelButtonInputContainer {
+                display: flex;
+                width: 25%;
+                margin-left: 30px;
+                padding-top: 1.5rem;
+
+                .labelCancelButton {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 40%;
+                    height: 1.5rem;
+                    font-size: 13px;
+                    border: 1px solid rgb(225, 228, 232);
+                    border-radius: 2px;
+                    background-color: white;
+                }
+
+                .labelCreateButton {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 60%;
+                    height: 1.5rem;
+                    font-size: 13px;
+                    border: 1px solid #647c6b;
+                    border-radius: 2px;
+                    background-color: #2ea44f;
+                    color: white;
+                    margin-left: 2px;
+                }
+
+                .labelCreateButton:disabled {
+                    background-color: #2ea44f7e;
+                    border: 1px solid #647c6ba2;
+                }
+            }
+        }
+    }
+}

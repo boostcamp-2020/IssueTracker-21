@@ -3,10 +3,17 @@ import Header from "../../components/Header";
 import IssueHeader from "../../components/IssueHeader";
 import axios from "axios";
 import loadingImg from "../../../public/loading.gif";
-import IssueContent from "../../components/IssueComment";
 
 import "./DetailPageStyle.scss";
 import IssueComment from "../../components/IssueComment";
+
+import Editor from "../../components/Editor";
+
+import styled from "styled-components";
+
+const IssueComponentsDiv = styled.div`
+  display: 70%;
+`;
 
 function DetailPage(props) {
   const { params } = props.match;
@@ -22,6 +29,7 @@ function DetailPage(props) {
       if (response.data.success) {
         setIssueData(response.data.issueDetail);
         setHeaderLoading(false);
+        setCommentLoading(false);
       } else {
         alert("Failed to get issues");
       }
@@ -48,7 +56,11 @@ function DetailPage(props) {
   const renderIssueComment = issueData.comments.rows.map((comment, key) => {
     return (
       <IssueComment
+        key={comment.id}
         id={comment.id}
+        issueId={issueData.issueDetail.id}
+        authorId={comment.authorId}
+        owner={issueData.issueDetail.authorId}
         content={comment.content}
         createdAt={comment.createdAt}
       />
@@ -61,14 +73,23 @@ function DetailPage(props) {
       <div className="issueHeaderArea">
         {headerLoading ? renderLoading : renderIssueHeader}
       </div>
-      <div className="issueCommentsArea">
-        <IssueComment
-          id={issueData.issueDetail.authorId}
-          content={issueData.issueDetail.description}
-          createdAt={issueData.issueDetail.createdAt}
-        />
+      <IssueComponentsDiv id="issueComponentsArea">
+        {commentsLoading ? (
+          renderLoading
+        ) : (
+          <IssueComment
+            id={issueData.issueDetail.authorId}
+            issueId={issueData.issueDetail.id}
+            authorId={issueData.issueDetail.authorId}
+            owner={issueData.issueDetail.authorId}
+            content={issueData.issueDetail.description}
+            createdAt={issueData.issueDetail.createdAt}
+          />
+        )}
+
         {commentsLoading ? renderLoading : renderIssueComment}
-      </div>
+        <Editor />
+      </IssueComponentsDiv>
     </div>
   );
 }
