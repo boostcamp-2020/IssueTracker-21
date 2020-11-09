@@ -14,7 +14,7 @@ const App = () => {
         <Route exact path="/" component={Auth(LandingPage, true)} />
         <Route path="/register" component={Auth(RegisterPage, false)} />
         <Route path="/login" component={Auth(LoginPage, false)} />
-        <Route path="/issues/new" component={Auth(NewIssuePage, true)} />
+        <Route path="/issue/new" component={Auth(NewIssuePage, true)} />
         <Route path="/issues/:issueId" component={Auth(DetailPage, true)} />
       </Switch>
     </Router>
