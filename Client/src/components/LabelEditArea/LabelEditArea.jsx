@@ -78,7 +78,9 @@ function LabelEditArea(props) {
                     <div className="labelColorInputContainer">
                         <label>Color</label>
                         <div className="labelColorInput">
-                            <div className="randomLabelColorButton" onClick={randomColorGetter}>@</div>
+                            <div className="randomLabelColorButton" onClick={randomColorGetter}>
+                            <img src="https://img.icons8.com/android/13/000000/refresh.png"/>
+                            </div>
                             <input onChange={labelColorChangeHandler} value={LabelColor}/>
                         </div>
                     </div>
