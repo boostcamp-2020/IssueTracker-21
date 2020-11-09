@@ -24,6 +24,7 @@ function DropDownMilestoneList() {
   const renderCards = Items.map((item, index) => {
     return (
       <DropDownMilestoneCard
+      key={index}
         id={item.id}
         title={item.title} 
     />

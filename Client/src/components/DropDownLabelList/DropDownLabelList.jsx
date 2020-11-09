@@ -24,6 +24,7 @@ function DropDownLabelList() {
   const renderCards = Items.map((item, index) => {
     return (
           <DropDownLabelCard
+            key={index}
             id={item.id}
             name={item.name}
             description={item.description}
