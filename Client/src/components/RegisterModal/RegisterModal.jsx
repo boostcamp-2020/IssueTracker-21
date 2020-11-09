@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import CustomBtn from "../CustomBtn";
 
 function RegisterModal() {
   return (
@@ -24,7 +25,17 @@ function RegisterModal() {
           id="fileForm"
         />
         <RegisterSubmitStyle>
-          <button type="submit">회원가입</button>
+          <CustomBtn
+            color="white"
+            bgColor="#2ea44f"
+            width="150px"
+            borderRad="6px"
+            height="35px"
+            border="0"
+            id="submitBtn"
+          >
+            회원가입하기
+          </CustomBtn>
         </RegisterSubmitStyle>
       </form>
     </RegisterModalStyle>
