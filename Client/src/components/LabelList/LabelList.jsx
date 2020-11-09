@@ -7,7 +7,8 @@ import LabelCard from "../LabelCard";
 import LabelEditArea from "../LabelEditArea";
 import getRandomColor from "../../utils/getRandomColor";
 
-function LabelList() {
+function LabelList(props) {
+  const {displayLabelEditArea} = props;
   const [Labels, setLabels] = useState([]);
   const [LabelsCount, setLabelsCount] = useState([]);
 
@@ -42,10 +43,10 @@ function LabelList() {
       axios.delete("/api/label", {data:body})
       .then(response => {
           if(response.data.success){
-              alert("성공적으로 라벨을 delete했습니다.");
+              alert("성공적으로 라벨을 삭제했습니다.");
               refreshLabelCards();
           } else {
-              alert("라벨 delete에 실패했습니다.");
+              alert("라벨 삭제에 실패했습니다.");
           }  
         })
     }
@@ -78,7 +79,7 @@ function LabelList() {
 
   return (
     <div id="labelListArea">
-      <LabelEditArea refreshFunction={refreshLabelCards} labelName="" labelDescription="" labelColor={getRandomColor()} />
+      {displayLabelEditArea? <LabelEditArea refreshFunction={refreshLabelCards} labelName="" labelDescription="" labelColor={getRandomColor()} />: ''}
       <div id="labelCardCountArea">{LabelsCount} labelss</div>
       <div id="labelCardArea">
         {Labels.length === 0 ? renderNoResult : renderLabelCards}
