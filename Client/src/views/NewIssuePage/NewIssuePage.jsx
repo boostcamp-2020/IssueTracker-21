@@ -12,13 +12,17 @@ function NewIssuePage(props) {
   const [Contents, setContents] = useState("");
   const [BtnColor, setBtnColor] = useState("#ced2d7");
 
+  //취소 버튼
   const cancelHandler = () => {
     props.history.push("/");
   };
 
+  //제목 상태관리
   const titleHandler = (e) => {
     setTitle(e.target.value);
   };
+
+  //editor 내 text 상태관리 핸들러
   const typingHandler = (text) => {
     if (text.length === 0) {
       setBtnColor("#ced2d7");
@@ -28,6 +32,7 @@ function NewIssuePage(props) {
     setContents(text);
   };
 
+  //submit btn 핸들러
   const submitHandler = (e) => {
     if (Title.length === 0 || Contents.length === 0) {
       return alert("제목과 내용 모두 입력해주세요");
@@ -49,6 +54,7 @@ function NewIssuePage(props) {
     });
   };
 
+  // 페이지 로딩시 유저정보를 불러오기
   useEffect(() => {
     axios.get("/api/user/userinfo").then((response) => {
       if (response.data.success) {
@@ -58,6 +64,7 @@ function NewIssuePage(props) {
       }
     });
   }, []);
+
   return (
     <div id="newIssueArea">
       <div id="profileArea">

@@ -25,7 +25,6 @@ exports.getAllUsers = async (req, res, next) => {
 
 exports.userInfo = async (req, res, next) => {
   try {
-    console.log("userInfp", req.user);
     if (req.user)
       return res.status(200).json({
         success: true,
