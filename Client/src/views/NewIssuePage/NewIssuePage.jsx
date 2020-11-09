@@ -4,6 +4,7 @@ import Editor from "../../components/Editor";
 import axios from "axios";
 import noprofile from "../../../public/img/noprofile.png";
 import "./style.scss";
+import CustomBtn from "../../components/CustomBtn";
 
 function NewIssuePage() {
   const [User, setUser] = useState(null);
@@ -40,7 +41,23 @@ function NewIssuePage() {
           onChange={titleHandler}
           value={Title}
         />
+        <div id="newIssueOpt">
+          <div id="writeBtn">Write</div>
+        </div>
         <Editor />
+        <div id="btnArea">
+          <div id="cancelBtn">cancel</div>
+          <CustomBtn
+            color="white"
+            bgColor="#2ea44f"
+            width="150px"
+            borderRad="6px"
+            height="35px"
+            border="0"
+          >
+            Submit new issue
+          </CustomBtn>
+        </div>
       </div>
       <div id="sideBar">sidebar section</div>
     </div>
