@@ -3,6 +3,7 @@ import styled from "styled-components";
 import CustomBtn from "../CustomBtn";
 import NewImage from "../../utils/uploadImgur";
 import Axios from "axios";
+import { useEffect } from "react";
 
 function RegisterModal(props) {
   const [Id, setId] = useState("");
@@ -10,15 +11,34 @@ function RegisterModal(props) {
   const [PasswordConfirm, setPasswordConfirm] = useState("");
   const [Profile, setProfile] = useState("");
 
+  const removeHandler = props.removeRegisterHandler;
+
+  //모달 밖 클릭시 모달창 없애기
+  const backgroundClickHandler = (e) => {
+    removeHandler();
+  };
+
+  //모달 클릭 이벤트 - 이벤트 전파 중단
+  const modalClickHandler = (e) => {
+    e.stopPropagation();
+  };
+
+  //아이디값 상태관리
   const idHandler = (e) => {
     setId(e.target.value);
   };
+
+  //비밀번호 상태관리
   const pwHandler = (e) => {
     setPassword(e.target.value);
   };
+
+  // 비밀번호 확인 상태관리
   const pwConfirmHandler = (e) => {
     setPasswordConfirm(e.target.value);
   };
+
+  //프로필 사진 업로드
   const profileHandler = async (e) => {
     try {
       const result = await NewImage(e, Profile, setProfile);
@@ -32,6 +52,7 @@ function RegisterModal(props) {
     }
   };
 
+  //회원가입 버튼
   const submitHandler = (e) => {
     if (
       Id.length === 0 ||
@@ -67,8 +88,11 @@ function RegisterModal(props) {
   };
 
   return (
-    <RegisterModalBackStyle>
-      <RegisterModalStyle id="registerModal">
+    <RegisterModalBackStyle
+      onClick={backgroundClickHandler}
+      visible={props.show}
+    >
+      <RegisterModalStyle onClick={modalClickHandler} id="registerModal">
         <RegisterTitleStyle id="registerTitle">회원가입</RegisterTitleStyle>
         <form>
           <FormLine id="formLine">
@@ -131,15 +155,14 @@ function RegisterModal(props) {
   );
 }
 
-export default RegisterModal;
-
 const RegisterModalBackStyle = styled.div`
+  display: ${(props) => props.visible};
   position: absolute;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.3);
   z-index: 10;
-  display: flex;
+
   justify-content: center;
   align-items: center;
 `;
@@ -202,3 +225,5 @@ const RegisterSubmitStyle = styled.div`
   flex-direction: row;
   justify-content: center;
 `;
+
+export default RegisterModal;
