@@ -21,6 +21,29 @@ exports.getAllUsers = async (req, res, next) => {
   }
 };
 
+/* 로그인한 유저정보 가져오기 */
+
+exports.userInfo = async (req, res, next) => {
+  try {
+    console.log("userInfp", req.user);
+    if (req.user)
+      return res.status(200).json({
+        success: true,
+        user: req.user,
+      });
+    else
+      return res.status(400).json({
+        success: false,
+        error: e,
+      });
+  } catch (e) {
+    return res.status(400).json({
+      success: false,
+      error: e,
+    });
+  }
+};
+
 /* local 로그인 */
 
 exports.localLogin = (req, res, next) => {
@@ -148,7 +171,7 @@ exports.gitStrategyLogin = async (profiles) => {
 
 exports.isExist = async (userId) => {
   try {
-    let user = await userDao.getUser({ userID });
+    let user = await userDao.getUser(userId);
     return {
       success: true,
       userId: user.dataValues.id,
