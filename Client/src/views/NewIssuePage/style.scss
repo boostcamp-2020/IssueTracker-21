@@ -1,0 +1,27 @@
+#newIssueArea {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+#issueProfile {
+  width: 50px;
+  height: 50px;
+}
+
+#editorArea {
+  width: 60%;
+}
+
+#sideBar {
+  width: 30%;
+}
+
+#newIssueTitle {
+  width: 100%;
+  height: 35px;
+  margin-bottom: 20px;
+  background-color: #fafbfc;
+  border: 1px solid #ced2d7;
+  border-radius: 4px;
+}
