@@ -23,12 +23,12 @@
 
       #writeBtn {
         width: 150px;
-        padding: 5px;
+        padding: 8px 0;
         background-color: white;
         margin-left: 5px;
         text-align: center;
         border: 1px solid #ced2d7;
-        border-radius: 4px;
+        border-radius: 4px 4px 0 0;
         border-bottom: 0;
       }
     }
@@ -59,6 +59,10 @@
       color: #858585;
       margin-left: 4px;
       cursor: pointer;
+    }
+
+    #submitBtn {
+      font-size: 16px;
     }
   }
 }

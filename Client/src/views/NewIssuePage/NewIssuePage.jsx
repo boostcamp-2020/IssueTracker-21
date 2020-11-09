@@ -60,6 +60,7 @@ function NewIssuePage(props) {
             borderRad="6px"
             height="35px"
             border="0"
+            id="submitBtn"
           >
             Submit new issue
           </CustomBtn>
