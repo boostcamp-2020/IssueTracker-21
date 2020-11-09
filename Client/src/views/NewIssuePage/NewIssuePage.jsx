@@ -6,9 +6,13 @@ import noprofile from "../../../public/img/noprofile.png";
 import "./style.scss";
 import CustomBtn from "../../components/CustomBtn";
 
-function NewIssuePage() {
+function NewIssuePage(props) {
   const [User, setUser] = useState(null);
   const [Title, setTitle] = useState("");
+
+  const cancelHandler = () => {
+    props.history.push("/");
+  };
 
   const titleHandler = (e) => {
     setTitle(e.target.value);
@@ -46,7 +50,9 @@ function NewIssuePage() {
         </div>
         <Editor />
         <div id="btnArea">
-          <div id="cancelBtn">cancel</div>
+          <div id="cancelBtn" onClick={cancelHandler}>
+            cancel
+          </div>
           <CustomBtn
             color="white"
             bgColor="#2ea44f"
