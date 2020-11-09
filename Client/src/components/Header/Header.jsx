@@ -5,8 +5,8 @@ function Header() {
   return (
     <div>
       <div className="top">
-        <p className="imogi">&#128008;</p>
-        <h1 className="title">ISSUES</h1>
+        <div className="imogi">&#128008; &nbsp;</div>
+        <div className="headerTitle">ISSUES</div>
       </div>
     </div>
   );
