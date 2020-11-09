@@ -9,7 +9,7 @@ import CustomInput from "../../components/CustomInput";
 import "./style.css";
 function Navbar(props) {
   function moveNewIssue() {
-    props.history.push("/issue/new");
+    props.history.push("/new");
   }
 
   return (
