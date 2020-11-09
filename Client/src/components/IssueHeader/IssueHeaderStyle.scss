@@ -1,3 +1,24 @@
-.status {
+#issueHeaderArea {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  font-size: 9px;
+  padding: 0.5%;
+  .hide {
+    display: none;
+  }
+  .title {
+    width: 70%;
+    border: none;
+  }
+  .clickedTitle {
+    width: 70%;
+    border: 1px solid #777777;
+    box-shadow: 3px lightblue;
+  }
+}
+
+#statusArea {
   display: flex;
 }

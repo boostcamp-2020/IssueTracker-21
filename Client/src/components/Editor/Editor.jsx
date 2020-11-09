@@ -66,8 +66,9 @@ const InputFileStyle = styled.input`
 
 function Editor(props) {
   const [CountWord, setCountWord] = useState(0);
-  const [Contents, setContents] = useState("");
   const [ShowNum, setShowNum] = useState(false);
+  const [Contents, setContents] = useState("");
+  const typingHandler = props.typingHandler || null;
 
   function typeHandler(e) {
     const text = e.target.value;
@@ -81,6 +82,9 @@ function Editor(props) {
 
     setCountWord(text.length);
     setContents(text);
+    if (typingHandler) {
+      typingHandler(text);
+    }
   }
 
   function uploadImage(e) {
