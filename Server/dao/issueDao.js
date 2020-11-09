@@ -97,7 +97,7 @@ exports.insertNewIssue = async (
 ) => {
   return new Promise(async (resolve, reject) => {
     try {
-      await issueModel.create({
+      const newIssue = await issueModel.create({
         authorId: authorId,
         milestoneId: milestoneId,
         title: title,
