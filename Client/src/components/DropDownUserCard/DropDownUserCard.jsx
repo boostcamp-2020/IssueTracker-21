@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Router } from "react-router-dom";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import "./DropDownUserCard.scss";
+
+import { DropDownContext } from "../DropDown";
 
 const DropDownprofilePicture = styled.img`
   width: 22px;
@@ -11,17 +13,20 @@ const DropDownprofilePicture = styled.img`
 `;
 
 function DropDownUserCard(props) {
-  const {id, profile} = props;
+  const { id, profile } = props;
+  const { onCardClicked } = useContext(DropDownContext);
 
   return (
-  <div className="dropDownUserCard"  data-userid={id}>
-    <div className="dropDownprofilePictureContainer">
-      <DropDownprofilePicture src={profile}/>
+    <div
+      className="dropDownUserCard"
+      data-userid={id}
+      onClick={() => onCardClicked({ id, profile })}
+    >
+      <div className="dropDownprofilePictureContainer">
+        <DropDownprofilePicture src={profile} />
+      </div>
+      <div className="dropDownUserIdContainer">{id}</div>
     </div>
-    <div className="dropDownUserIdContainer">
-      {id}
-    </div>
-  </div>
   );
 }
 
