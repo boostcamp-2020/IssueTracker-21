@@ -1,4 +1,5 @@
 import issueDao from "../dao/issueDao";
+import meOrNot from "../utils/meOrNot";
 // import {
 //   issueFilter,
 //   issueFilterUsingSome,
@@ -13,11 +14,15 @@ exports.getIssues = async function (req, res, next) {
     const {
       isOpened,
       labelId,
-      assigneeId,
-      authorId,
-      commentorId,
+      assignee,
+      author,
+      commentor,
       milestoneId,
     } = req.query;
+
+    const authorId = meOrNot(req.user, author);
+    const assigneeId = meOrNot(req.user, assignee);
+    const commentorId = meOrNot(req.user, commentor);
 
     if (issues.success) {
       let filteredIssues =
