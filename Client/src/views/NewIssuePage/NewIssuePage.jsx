@@ -10,25 +10,62 @@ import Sidebar from "../../components/Sidebar"
 function NewIssuePage(props) {
   const [User, setUser] = useState(null);
   const [Title, setTitle] = useState("");
+  const [Contents, setContents] = useState("");
+  const [BtnColor, setBtnColor] = useState("#ced2d7");
 
+  //취소 버튼
   const cancelHandler = () => {
     props.history.push("/");
   };
 
+  //제목 상태관리
   const titleHandler = (e) => {
     setTitle(e.target.value);
   };
 
+  //editor 내 text 상태관리 핸들러
+  const typingHandler = (text) => {
+    if (text.length === 0) {
+      setBtnColor("#ced2d7");
+    } else {
+      setBtnColor("#2ea44f");
+    }
+    setContents(text);
+  };
+
+  //submit btn 핸들러
+  const submitHandler = (e) => {
+    if (Title.length === 0 || Contents.length === 0) {
+      return alert("제목과 내용 모두 입력해주세요");
+    }
+    const body = {
+      title: Title,
+      authorId: User.user.userId,
+      description: Contents,
+      milestoneId: 1,
+      assignees: ["test1", "test2"],
+      labels: [1, 2],
+    };
+    axios.post("/api/issue", body).then((response) => {
+      if (response.data.success) {
+        props.history.push("/");
+      } else {
+        alert("Failed to req new issue");
+      }
+    });
+  };
+
+  // 페이지 로딩시 유저정보를 불러오기
   useEffect(() => {
     axios.get("/api/user/userinfo").then((response) => {
       if (response.data.success) {
-        console.log(response.data);
         setUser(response.data);
       } else {
-        alert("Failed to get assignees");
+        alert("Failed to get User info");
       }
     });
   }, []);
+
   return (
     <div id="newIssueArea">
       <div id="profileArea">
@@ -49,19 +86,20 @@ function NewIssuePage(props) {
         <div id="newIssueOpt">
           <div id="writeBtn">Write</div>
         </div>
-        <Editor />
+        <Editor typingHandler={typingHandler} />
         <div id="btnArea">
           <div id="cancelBtn" onClick={cancelHandler}>
             cancel
           </div>
           <CustomBtn
             color="white"
-            bgColor="#2ea44f"
+            bgColor={BtnColor}
             width="150px"
             borderRad="6px"
             height="35px"
             border="0"
             id="submitBtn"
+            onClick={submitHandler}
           >
             Submit new issue
           </CustomBtn>
