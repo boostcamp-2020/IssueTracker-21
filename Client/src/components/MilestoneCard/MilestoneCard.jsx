@@ -6,6 +6,7 @@ function MilestoneCard(props) {
   const info = props.Milestone;
   const onRemoveMilestone = props.onRemoveMilestone;
   const onModifyMilestone = props.onModifyMilestone;
+  const onChangeMilestoneStatus = props.onChangeMilestoneStatus;
 
   const [Progress, setProgress] = useState(0);
 
@@ -28,6 +29,7 @@ function MilestoneCard(props) {
     Axios.put("/api/milestone/status", body).then((response) => {
       if (response.data.success) {
         onModifyMilestone(info.id, status);
+        onChangeMilestoneStatus();
       } else {
         alert("Failed to update milestone status");
       }
