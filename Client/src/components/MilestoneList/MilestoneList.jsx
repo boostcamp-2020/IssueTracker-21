@@ -7,6 +7,8 @@ import MilestoneCard from "../../components/MilestoneCard";
 
 function MilestoneList(props) {
   const [Milestones, setMilestones] = useState([]);
+  const [OpenedMilestoneCount, setOpenedMilestoneCount] = useState(0);
+  const [ClosedMilestoneCount, setClosedMilestoneCount] = useState(0)
 
   useEffect(() => {
     Axios.get("/api/milestone").then((response) => {
@@ -44,8 +46,10 @@ function MilestoneList(props) {
         }, []);
 
         setMilestones(result);
+        setOpenedMilestoneCount(response.data.milestoneCount[0].openedMilestoneCount);
+        setClosedMilestoneCount(response.data.milestoneCount[0].closedMilestoneCount);
       } else {
-        alert("Failed to get assignees");
+        alert("Failed to get milestones");
       }
     });
   }, []);
@@ -83,15 +87,27 @@ function MilestoneList(props) {
     <ListStyle>
       <ListTopStyle id="listTop">
         <BtnStyle id="open">
-          <Icon width="18" height="18" icon={milestone24} />
-          &nbsp; Open
+          <Open><Icon width="18" height="18" icon={milestone24} /> &nbsp;{OpenedMilestoneCount} Open</Open>
         </BtnStyle>
-        <BtnStyle id="close">✔️&nbsp; Closed</BtnStyle>
+        <BtnStyle id="close">
+          <CheckIcon>✔️&nbsp;&nbsp;</CheckIcon>
+          <Close> {ClosedMilestoneCount} Closed</Close></BtnStyle>
       </ListTopStyle>
       <div id="contentsArea">{renderMilestoneCard}</div>
     </ListStyle>
   );
 }
+
+const Close = styled.div`
+  color: #808080;
+`;
+
+const Open = styled.div`
+`;
+
+const CheckIcon = styled.div`
+opacity:0.3;
+`;
 
 const ListStyle = styled.div`
   width: 100%;
@@ -114,12 +130,13 @@ const ListTopStyle = styled.div`
 `;
 
 const BtnStyle = styled.div`
+  cursor: default;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
   margin-right: 20px;
-  font-size: 15px;
+  font-size: 14px;
 `;
 
 export default MilestoneList;
