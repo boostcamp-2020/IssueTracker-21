@@ -4,7 +4,7 @@ import IssueList from "../../components/IssueList";
 import LabelList from "../../components/LabelList";
 import DropDown from "../../components/DropDown";
 import LabelNavBar from "../../components/LabelNavBar";
-import "./LabelPage.scss";
+import styled from "styled-components";
 
 export const LabelPageContext = React.createContext();
 

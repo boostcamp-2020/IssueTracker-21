@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Router } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import "./DropDownAssigneeList.scss";
 import DropDownUserCard from "../DropDownUserCard";
+import styled from "styled-components";
 
 function DropDownAssigneeList() {
   const [Items, setItems] = useState([]);

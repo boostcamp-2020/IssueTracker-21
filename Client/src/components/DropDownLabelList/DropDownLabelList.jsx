@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Router } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import "./DropDownLabelList.scss";
 import DropDownLabelCard from "../DropDownLabelCard";
+import styled from "styled-components";
 
 function DropDownLabelList() {
   const [Items, setItems] = useState([]);
