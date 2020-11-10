@@ -11,7 +11,39 @@ function MilestoneList(props) {
   useEffect(() => {
     Axios.get("/api/milestone").then((response) => {
       if (response.data.success) {
-        setMilestones(response.data.milestones);
+        const milestones = response.data.milestones;
+        const result = milestones.reduce((acc, cur) => {
+          cur.closeCount = 0;
+          cur.openCount = 0;
+
+          if (acc.length == 0) {
+            if (cur.issueIsOpened == 0) {
+              cur.closeCount = cur.count;
+            } else {
+              cur.openCount = cur.count;
+            }
+            return [cur];
+          }
+
+          if (acc[acc.length - 1] && acc[acc.length - 1].id === cur.id) {
+            if (cur.issueIsOpened == 0) {
+              acc[acc.length - 1].closeCount = cur.count;
+            } else {
+              acc[acc.length - 1].openCount = cur.count;
+            }
+            return acc;
+          } else {
+            if (cur.issueIsOpened == 0) {
+              cur.closeCount = cur.count;
+            } else {
+              cur.openCount = cur.count;
+            }
+
+            return acc.concat([cur]);
+          }
+        }, []);
+
+        setMilestones(result);
       } else {
         alert("Failed to get assignees");
       }
