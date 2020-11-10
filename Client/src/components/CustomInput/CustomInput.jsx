@@ -15,6 +15,7 @@ function CustomInput(props) {
         value={inputData}
         onChange={inputOnChangeHandler}
         onKeyPress={inputSubmitHandler}
+        placeholder={"Search all issues"}
       />
     </form>
   );

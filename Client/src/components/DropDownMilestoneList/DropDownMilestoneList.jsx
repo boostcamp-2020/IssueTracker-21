@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Router } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import "./DropDownMilestoneList.scss";
 import DropDownMilestoneCard from "../DropDownMilestoneCard";
+import styled from "styled-components";
 
 function DropDownMilestoneList() {
   const [Items, setItems] = useState([]);
@@ -34,11 +34,22 @@ function DropDownMilestoneList() {
   return (
   <div className="dropDownList">
     <div className="dropDownCardContainter">
-      <div className="notSelect">Issues with no milestones</div>
+      <NotSelect>Issues with no milestones</NotSelect>
       {renderCards}
     </div>
   </div>
   );
 }
+
+const NotSelect = styled.div`
+border-top: 1px solid rgb(225, 228, 232);
+padding: 7px;
+display: flex;
+align-items: center;
+justify-content: center;
+:hover {
+    background-color: #f6f8fa;
+  }
+`
 
 export default DropDownMilestoneList;

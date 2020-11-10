@@ -10,7 +10,7 @@ export const LandingPageContext = React.createContext();
 
 function LandingPage(props) {
   //input에 입력되는 데이터를 관리
-  const [inputData, setInputData] = useState("");
+  const [inputData, setInputData] = useState("is:open is:issue");
   //이슈 리스트에 표시될 이슈 데이터를 관리
   const [Issues, setIssues] = useState([]);
 
