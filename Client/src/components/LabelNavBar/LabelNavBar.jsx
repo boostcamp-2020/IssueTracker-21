@@ -8,8 +8,6 @@ import CustomInput from "../CustomInput";
 import { LabelPageContext } from "../../views/LabelPage/LabelPage";
 import styled from "styled-components";
 
-import "./style.scss";
-
 function LabelNavBar() {
   const {toggleLabelEditArea} = useContext(LabelPageContext);
 
