@@ -1,38 +1,28 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useState } from "react";
-
-function fetchData(setVerify) {
-  return new Promise((resolve) => {
-    axios.get("/api/user/auth").then((res) => {
-      setVerify(res.data.verify);
-      resolve(res.data.verify);
-    });
-  });
-}
 
 export default function (SpecificComponent, option, adminRoute = null) {
+  const [loading, setloading] = useState(true);
   function AuthenticationCheck(props) {
-    const [verify, setVerify] = useState(true);
-
-    //back에 req날리기
-    useEffect(async () => {
-      const response = await fetchData(setVerify);
-      if (!response) {
-        //로그인 안된 상태
-        if (option) {
-          props.history.push("/login");
+    useEffect(() => {
+      axios.get("/api/user/auth").then((response) => {
+        // 로그인 하지 않은 상태
+        if (!response.data.verify) {
+          if (option) {
+            props.history.push("/login");
+          }
+        } else {
+          // 로그인 한 상태
+          if (option === false) {
+            // 로그인한유저 접속 막기
+            props.history.push("/");
+          }
         }
-      } else {
-        //로그인 상태
-        if (option === false) {
-          props.history.push("/");
-        }
-      }
-      return <SpecificComponent {...props} />;
+        setloading(false);
+      });
     }, []);
 
-    return <SpecificComponent {...props} />;
+    return !loading && <SpecificComponent {...props} />;
   }
 
   return AuthenticationCheck;
