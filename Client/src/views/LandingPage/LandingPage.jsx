@@ -13,6 +13,7 @@ function LandingPage(props) {
   const [inputData, setInputData] = useState("is:open is:issue");
   //이슈 리스트에 표시될 이슈 데이터를 관리
   const [Issues, setIssues] = useState([]);
+  const [isMounted, setisMounted] = useState(true);
 
   const issueHandler = (issueList) => {
     setIssues(issueList);
@@ -28,7 +29,7 @@ function LandingPage(props) {
     if (e.key === "Enter") {
       e.preventDefault();
       axios.get(inputDataToUrl(inputData)).then((response) => {
-        if (response.data.success) {
+        if (response.data.success && isMounted) {
           issueHandler(response.data.issues);
         } else {
           alert("Failed to get issues");
@@ -41,6 +42,13 @@ function LandingPage(props) {
   const inputOnClickHandler = (e) => {
     setInputData(e.target.id);
   };
+
+  useEffect(() => {
+    return () => {
+      setisMounted(false);
+    };
+  });
+
   return (
     <LandingPageContext.Provider
       value={{
