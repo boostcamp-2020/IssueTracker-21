@@ -5,11 +5,7 @@ import styled from "styled-components";
 function MilestoneCard(props) {
   const info = props.Milestone;
   const onRemoveMilestone = props.onRemoveMilestone;
-  const [Open, setOpen] = useState(true);
-
-  useEffect(() => {
-    setOpen(info.isOpened);
-  }, []);
+  const onModifyMilestone = props.onModifyMilestone;
 
   const editHandler = () => {
     props.history.push("/milestone/edit");
@@ -22,7 +18,7 @@ function MilestoneCard(props) {
     const body = { milestoneId: info.id, newStatus: status };
     Axios.put("/api/milestone/status", body).then((response) => {
       if (response.data.success) {
-        setOpen(status);
+        onModifyMilestone(info.id, status);
       } else {
         alert("Failed to update milestone status");
       }
@@ -30,7 +26,6 @@ function MilestoneCard(props) {
   };
 
   const deleteHandler = (e) => {
-    const body = { milestoneId: info.id, hello: "Asd" };
     Axios.delete("/api/milestone", {
       params: {
         milestoneId: info.id,
@@ -69,7 +64,7 @@ function MilestoneCard(props) {
         <GraphInfoAreaStyle>
           <InfoBlueBtnStyle onClick={editHandler}>Edit</InfoBlueBtnStyle>
           <InfoBlueBtnStyle onClick={statusHandler}>
-            {Open ? "Close" : "Open"}
+            {info.isOpened ? "Close" : "Open"}
           </InfoBlueBtnStyle>
           <InfoRedBtnStyle onClick={deleteHandler}>Delete</InfoRedBtnStyle>
         </GraphInfoAreaStyle>

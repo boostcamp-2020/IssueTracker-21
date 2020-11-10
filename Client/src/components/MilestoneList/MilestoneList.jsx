@@ -23,12 +23,25 @@ function MilestoneList(props) {
     setMilestones(Milestones.filter((Milestone) => Milestone.id !== id));
   };
 
+  //modify milestone
+  const onModifyMilestone = (id, newStatus) => {
+    setMilestones(
+      Milestones.map((Milestone) => {
+        if (Milestone.id === id) {
+          Milestone.isOpened = newStatus;
+        }
+        return Milestone;
+      })
+    );
+  };
+
   const renderMilestoneCard = Milestones.map((Milestone, idx) => {
     return (
       <MilestoneCard
         key={idx}
         Milestone={Milestone}
         onRemoveMilestone={onRemoveMilestone}
+        onModifyMilestone={onModifyMilestone}
         {...props}
       />
     );
