@@ -13,6 +13,14 @@ function Navbar(props) {
     props.history.push("/new");
   }
 
+  function labelsHandler() {
+    props.history.push("/labels");
+  }
+
+  function milestonesHandler() {
+    props.history.push("/milestone");
+  }
+
   return (
     <div className="customNavbar">
       <div className="filter__section">
@@ -20,34 +28,33 @@ function Navbar(props) {
         <CustomInput />
       </div>
       <div className="button__section">
-        <BtnAreaStyle href="/labels" className="navBtn">
-          <CustomBtn
-            color="black"
-            bgColor="white"
-            width="100%"
-            height="30px"
-            border="1px solid #e1e4e8"
-            borderRad="6px"
-            padding="5px 13px"
-          >
-            <Icon width="18" height="18" icon={tagIcon} />
-            &nbsp;Labels
-          </CustomBtn>
-        </BtnAreaStyle>
-        <BtnAreaStyle href="/milestone" className="navBtn">
-          <CustomBtn
-            color="black"
-            bgColor="white"
-            width="100%"
-            height="30px"
-            border="1px solid #e1e4e8"
-            borderRad="6px"
-            padding="5px 13px"
-          >
-            <Icon width="18" height="18" icon={milestone24} />
-            &nbsp;Milestones
-          </CustomBtn>
-        </BtnAreaStyle>
+        <CustomBtn
+          color="black"
+          bgColor="white"
+          width="100%"
+          height="30px"
+          border="1px solid #e1e4e8"
+          borderRad="6px"
+          padding="5px 13px"
+          onClick={labelsHandler}
+        >
+          <Icon width="18" height="18" icon={tagIcon} />
+          &nbsp;Labels
+        </CustomBtn>
+
+        <CustomBtn
+          color="black"
+          bgColor="white"
+          width="100%"
+          height="30px"
+          border="1px solid #e1e4e8"
+          borderRad="6px"
+          padding="5px 13px"
+          onClick={milestonesHandler}
+        >
+          <Icon width="18" height="18" icon={milestone24} />
+          &nbsp;Milestones
+        </CustomBtn>
       </div>
       &nbsp;&nbsp;
       <CustomBtn
