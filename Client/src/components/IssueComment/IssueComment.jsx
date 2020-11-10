@@ -21,11 +21,18 @@ function IssueComment(props) {
   const [profile, setProfile] = useState("");
   const [isProfileLoaded, setIsProfileLoaded] = useState(false);
 
+  const [isMounted, setisMounted] = useState(true);
+
   useEffect(() => {
     axios.get(`/api/user/profile/${authorId}`).then((profile) => {
-      setProfile(profile.data.profile.profile);
-      setIsProfileLoaded(true);
+      if (isMounted) {
+        setProfile(profile.data.profile.profile);
+        setIsProfileLoaded(true);
+      }
     });
+    return () => {
+      setisMounted(false);
+    };
   }, []);
 
   const editClickHandler = (e) => {

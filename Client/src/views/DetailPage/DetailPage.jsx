@@ -25,6 +25,8 @@ function DetailPage(props) {
   const [commentsLoading, setCommentLoading] = useState(true);
   const [issueOpened, setIssueOpened] = useState(true);
 
+  const [isMounted, setisMounted] = useState(true);
+
   const addingInfoHandler = (data) => {
     setIssueData({
       issueDetail: issueData.issueDetail,
@@ -57,7 +59,7 @@ function DetailPage(props) {
 
   useEffect(() => {
     axios.get(`/api/issue/${params.issueId}`).then(async (response) => {
-      if (response.data.success) {
+      if (response.data.success && isMounted) {
         setIssueData(response.data.issueDetail);
         setIssueOpened(response.data.issueDetail.issueDetail.isOpened);
         setHeaderLoading(false);
@@ -66,6 +68,9 @@ function DetailPage(props) {
         alert("Failed to get issues");
       }
     });
+    return () => {
+      setisMounted(false);
+    };
   }, []);
 
   const renderLoading = (

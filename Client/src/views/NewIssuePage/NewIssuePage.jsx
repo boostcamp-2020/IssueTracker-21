@@ -20,6 +20,8 @@ function NewIssuePage(props) {
   const [milestone, setmilestone] = useState(null);
   const [labelList, setLabelList] = useState([]);
 
+  const [isMounted, setisMounted] = useState(true);
+
   const assigneeListHandler = (data) => {
     setAssigneeList(toggleArray(assigneeList, data));
   };
@@ -62,8 +64,8 @@ function NewIssuePage(props) {
       authorId: User.user.userId,
       description: Contents,
       milestoneId: milestone.id,
-      assignees: assigneeList.map((e)=>e.id),
-      labels: labelList.map((e)=>e.id),
+      assignees: assigneeList.map((e) => e.id),
+      labels: labelList.map((e) => e.id),
     };
 
     axios.post("/api/issue", body).then((response) => {
@@ -78,12 +80,15 @@ function NewIssuePage(props) {
   // 페이지 로딩시 유저정보를 불러오기
   useEffect(() => {
     axios.get("/api/user/userinfo").then((response) => {
-      if (response.data.success) {
+      if (response.data.success && isMounted) {
         setUser(response.data);
       } else {
         alert("Failed to get User info");
       }
     });
+    return () => {
+      setisMounted(false);
+    };
   }, []);
 
   return (

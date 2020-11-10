@@ -15,8 +15,9 @@ let items = new Map();
 
 function IssueList(props) {
   const [ChkNum, setChkNum] = useState(0);
-
   const [Loading, setLoading] = useState(true);
+  const [isMounted, setisMounted] = useState(true);
+
   //Context API를 통해 가져옴
   const { Issues, issueHandler } = useContext(LandingPageContext);
 
@@ -26,13 +27,16 @@ function IssueList(props) {
       num: 0,
     });
     axios.get("/api/issue").then((response) => {
-      if (response.data.success) {
+      if (response.data.success && isMounted) {
         setLoading(false);
         issueHandler(response.data.issues);
       } else {
         alert("Failed to get issues");
       }
     });
+    return () => {
+      setisMounted(false);
+    };
   }, []);
 
   // issue 로딩시 보여질 로딩 이미지

@@ -18,6 +18,8 @@ function DetailPageEditor(props) {
   const [user, setUser] = useState({});
   const [userLoaded, setUserLoaded] = useState(false);
 
+  const [isMounted, setisMounted] = useState(true);
+
   const issueId = props.issueId;
 
   const issueOpenHandler = props.issueOpenHandler;
@@ -29,13 +31,16 @@ function DetailPageEditor(props) {
 
   useEffect(() => {
     axios.get("/api/user/userinfo").then((response) => {
-      if (response.data.success) {
+      if (response.data.success && isMounted) {
         setUser(response.data.user);
         setUserLoaded(true);
       } else {
         alert("Failed to get assignees");
       }
     });
+    return () => {
+      setisMounted(false);
+    };
   }, []);
 
   const commentHandelr = (e) => {
