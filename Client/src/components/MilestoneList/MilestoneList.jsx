@@ -1,23 +1,38 @@
 import Axios from "axios";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Icon, InlineIcon } from "@iconify/react";
 import milestone24 from "@iconify/icons-octicon/milestone-24";
 import styled from "styled-components";
-import { useEffect, useState } from "react";
+import MilestoneCard from "../../components/MilestoneCard";
 
-function MilestoneList() {
-  const [Milestones, setMilestones] = useState(null);
+function MilestoneList(props) {
+  const [Milestones, setMilestones] = useState([]);
 
   useEffect(() => {
     Axios.get("/api/milestone").then((response) => {
       if (response.data.success) {
-        console.log(response.data.milestones);
         setMilestones(response.data.milestones);
       } else {
         alert("Failed to get assignees");
       }
     });
   }, []);
+
+  //delete milestone
+  const onRemoveMilestone = (id) => {
+    setMilestones(Milestones.filter((Milestone) => Milestone.id !== id));
+  };
+
+  const renderMilestoneCard = Milestones.map((Milestone, idx) => {
+    return (
+      <MilestoneCard
+        key={idx}
+        Milestone={Milestone}
+        onRemoveMilestone={onRemoveMilestone}
+        {...props}
+      />
+    );
+  });
 
   return (
     <ListStyle>
@@ -28,7 +43,7 @@ function MilestoneList() {
         </BtnStyle>
         <BtnStyle id="close">✔️&nbsp; Closed</BtnStyle>
       </ListTopStyle>
-      <div id="contentsArea">22</div>
+      <div id="contentsArea">{renderMilestoneCard}</div>
     </ListStyle>
   );
 }
