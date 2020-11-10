@@ -1,21 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Router } from "react-router-dom";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import "./DropDownLabelCard.scss";
 
+import { DropDownContext } from "../DropDown";
+
 const LabelColorBox = styled.div`
   background-color: ${(props) => props.color};
   width: 10px;
   height: 10px;
-  border-radius:1px;
+  border-radius: 1px;
 `;
 
 function DropDownLabelCard(props) {
-  const {id, name, description, color} = props;
+  const { id, name, description, color } = props;
+  const { onCardClicked } = useContext(DropDownContext);
 
   return (
-    <div className="dropDownLabelCard"  data-labelid={id}>
+    <div
+      className="dropDownLabelCard"
+      data-labelid={id}
+      onClick={() => onCardClicked({ id, name, description, color })}
+    >
       <div className="dropDownLabelColorNameContainer">
         <div className="dropDownLabelColorContainer">
           <LabelColorBox color={color}></LabelColorBox>
