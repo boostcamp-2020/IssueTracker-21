@@ -6,12 +6,12 @@ import CustomBtn from "../../components/CustomBtn";
 import milestone24 from "@iconify/icons-octicon/milestone-24";
 import Milestone from "../../components/MilestoneList";
 
-function MilestonePage() {
+function MilestonePage(props) {
   return (
     <PageStyle>
       <TopNavStyle id="topNav">
         <div className="button__section">
-          <BtnAtagStyle href="labels">
+          <BtnAtagStyle href="/labels">
             <CustomBtn
               color="black"
               bgColor="white"
@@ -26,7 +26,7 @@ function MilestonePage() {
             </CustomBtn>
           </BtnAtagStyle>
 
-          <BtnAtagStyle href="milestone">
+          <BtnAtagStyle href="/milestone">
             <CustomBtn
               color="white"
               bgColor="#0E66D6"
@@ -57,7 +57,7 @@ function MilestonePage() {
       </TopNavStyle>
       <ContentsAreaStyle id="contentsArea">
         마일스톤 contents Area
-        <Milestone />
+        <Milestone {...props} />
       </ContentsAreaStyle>
     </PageStyle>
   );
