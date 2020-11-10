@@ -1,5 +1,5 @@
 #containerArea {
-  width: 75%;
+  width: 100%;
   text-align: center;
   #commentArea {
     display: flex;
@@ -22,7 +22,13 @@
     }
 
     .profile {
-      margin-right: 1%;
+      width: 5%;
+      margin-right: 3%;
+    }
+
+    .userProfile {
+      max-width: 100%;
+      max-height: 100%;
     }
 
     .content {
@@ -32,7 +38,7 @@
     .contentbody {
       border: 1.2px solid lightblue;
       background-color: white;
-      padding: 1%;
+      padding: 2%;
       text-align: left;
     }
 
@@ -44,7 +50,7 @@
     .Owner,
     .edit {
       font-size: 13px;
-      background-color: white;
+      background-color: #f1f8ff;
       color: #777777;
     }
 
@@ -58,6 +64,11 @@
 
     .disabled {
       display: none;
+    }
+
+    .commentor {
+      margin-right: 1%;
+      font-weight: bold;
     }
   }
 

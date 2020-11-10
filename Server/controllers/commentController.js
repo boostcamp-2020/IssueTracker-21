@@ -8,6 +8,7 @@ exports.insertComment = async (req, res) => {
     if (newComment.success) {
       return res.status(200).json({
         success: true,
+        newComment,
       });
     }
     return res.status(400).json({
@@ -48,17 +49,17 @@ exports.updateComment = async (req, res) => {
 };
 
 exports.getIssuesByCommentId = async (req, res) => {
-    try{
-        let commentId = parseInt(req.params.commentId);
-        let issues = await commentDao.getIssuesByCommentId(commentId);
-        if(issues.success){
-            return res.status(200).json({success:true, issues});
-        }
-        return res.status(400).json(issues);
-    }catch(error){
-        return res.status(400).json({
-            success:false,
-            error
-        });
+  try {
+    let commentId = parseInt(req.params.commentId);
+    let issues = await commentDao.getIssuesByCommentId(commentId);
+    if (issues.success) {
+      return res.status(200).json({ success: true, issues });
     }
-}
+    return res.status(400).json(issues);
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      error,
+    });
+  }
+};

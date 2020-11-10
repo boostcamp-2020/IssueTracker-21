@@ -13,8 +13,9 @@ const CommentButtons = styled.div``;
 function CommentEditor(props) {
   const cancelClickHandler = props.cancelClickHandler;
   const submitClickHandler = props.submitClickHandler;
+  const defaultValue = props.defaultValue;
 
-  const [typed, setTyped] = useState("");
+  const [typed, setTyped] = useState(defaultValue);
 
   const typingHandler = (value) => {
     setTyped(value);
@@ -22,7 +23,10 @@ function CommentEditor(props) {
 
   return (
     <CommentEditorArea>
-      <Editor typingHandler={typingHandler}></Editor>
+      <Editor
+        typingHandler={typingHandler}
+        defaultValue={defaultValue}
+      ></Editor>
       <CommentButtons id="commentButtonArea">
         <button className="cancel" onClick={(e) => cancelClickHandler(e)}>
           Cancel

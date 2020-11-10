@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Router } from "react-router-dom";
 import { Link } from "react-router-dom";
 import DropDownLabelList from "../DropDownLabelList";
@@ -7,32 +7,46 @@ import DropDownAuthorList from "../DropDownAuthorList";
 import DropDownMilestoneList from "../DropDownMilestoneList";
 import styled from "styled-components";
 
-function DropDown(props) {
-  const filter = props.filter;
+export const DropDownContext = React.createContext();
 
+function DropDown(props) {
+  const dropDownRef = useRef();
+  const { onCardClicked, status, handler, filter } = props;
   const [Items, setItems] = useState([]);
-  const [SelectedItems, setSelectedItems] = useState([]);
+
+  const handleClickOutside = ({ target }) => {
+    if (status && !dropDownRef.current.contains(target)) handler(false);
+  };
+
+  useEffect(() => {
+    window.addEventListener("click", handleClickOutside);
+    return () => {
+      window.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
   const getProperList = (filter) => {
-    switch (filter){
+    switch (filter) {
       case "assignee":
         return <DropDownAssigneeList></DropDownAssigneeList>;
       case "author":
         return <DropDownAuthorList></DropDownAuthorList>;
       case "label":
-        return <DropDownLabelList></DropDownLabelList>;       
+        return <DropDownLabelList></DropDownLabelList>;
       case "milestone":
         return <DropDownMilestoneList></DropDownMilestoneList>;
     }
-  }
+  };
 
   return (
-  <DropDownContainter>
-    <DropDownBarContainter>Filter by {filter}</DropDownBarContainter>
-    <DropDownListContainter>
-      {getProperList(filter)}
-    </DropDownListContainter>
-  </DropDownContainter>
+    <DropDownContext.Provider value={{ onCardClicked }}>
+      {status && (
+        <DropDownContainter ref={dropDownRef}>
+          <DropDownBarContainter>Filter by {filter}</DropDownBarContainter>
+          <DropDownListContainter>{getProperList(filter)}</DropDownListContainter>
+        </DropDownContainter>
+      )}
+    </DropDownContext.Provider>
   );
 }
 

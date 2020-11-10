@@ -213,3 +213,19 @@ exports.authCheck = (req, res) => {
     });
   }
 };
+
+exports.getProfileById = async (req, res) => {
+  let userId = req.params.userId;
+  try {
+    let profile = await userDao.getProfileById(userId);
+    if (profile.success) {
+      return res.status(200).json(profile);
+    }
+    return res.status(400).json({ success: false });
+  } catch (e) {
+    return res.status(400).json({
+      success: false,
+      error: e,
+    });
+  }
+};
