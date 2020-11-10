@@ -5,6 +5,7 @@ import axios from "axios";
 import noprofile from "../../../public/img/noprofile.png";
 import "./style.scss";
 import CustomBtn from "../../components/CustomBtn";
+import Sidebar from "../../components/Sidebar"
 
 function NewIssuePage(props) {
   const [User, setUser] = useState(null);
@@ -66,7 +67,7 @@ function NewIssuePage(props) {
           </CustomBtn>
         </div>
       </div>
-      <div id="sideBar">sidebar section</div>
+      <div id="sideBar"><Sidebar /></div>
     </div>
   );
 }
