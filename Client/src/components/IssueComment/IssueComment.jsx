@@ -78,7 +78,7 @@ function IssueComment(props) {
             </button>
             <div className="imogi">&#128008;</div>
             <button
-              className={owner == authorId ? "Owner" : "Owner disabled"}
+              className={owner == authorId ? "edit" : "edit disabled"}
               onClick={(e) => editClickHandler(e)}
             >
               Edit

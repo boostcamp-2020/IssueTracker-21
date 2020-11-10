@@ -2,11 +2,16 @@
   width: 100%;
   display: flex;
   .editorArea {
-    width: 63.5%;
+    width: 85%;
   }
 
   .profile {
-    margin-right: 1%;
+    width: 5%;
+    margin-right: 3%;
+  }
+  .userProfile {
+    max-width: 100%;
+    max-height: 100%;
   }
   #detailButtons {
     display: flex;
