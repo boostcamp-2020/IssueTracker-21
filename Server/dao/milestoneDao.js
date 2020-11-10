@@ -4,7 +4,7 @@ const models = require("../models");
 const sequelize = require("sequelize");
 
 const milestoneQuery = `
-SELECT 
+SELECT
 m.*, 
 i.isOpened AS issueIsOpened,
 COUNT(i.isOpened) AS count
@@ -18,16 +18,23 @@ ORDER BY
 m.id;
 `
 
+const mileStoneCountQuery = `
+SELECT
+(SELECT COUNT(*) FROM milestones m WHERE m.isOpened = '0') closedMilstoneCount,
+(SELECT COUNT(*) FROM milestones m WHERE m.isOpened = '1') openedMilstoneCount;`
+
 exports.getMilestone = async () => {
   return new Promise(async (resolve, reject) => {
     try {
-      models.sequelize
+      const milestones=await models.sequelize
       .query(milestoneQuery, {
         type: sequelize.QueryTypes.SELECT,
-      })
-      .then(function (milestones) {
-        resolve({ success: true, milestones });
       });
+      const milestoneCount=await models.sequelize
+      .query(mileStoneCountQuery, {
+        type: sequelize.QueryTypes.SELECT,
+      });
+      resolve({ success: true, milestoneCount,milestones });
     } catch (e) {
       reject({ error: e });
     }
