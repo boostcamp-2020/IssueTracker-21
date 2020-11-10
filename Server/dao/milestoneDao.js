@@ -20,8 +20,8 @@ m.id;
 
 const mileStoneCountQuery = `
 SELECT
-(SELECT COUNT(*) FROM milestones m WHERE m.isOpened = '0') closedMilstoneCount,
-(SELECT COUNT(*) FROM milestones m WHERE m.isOpened = '1') openedMilstoneCount;`
+(SELECT COUNT(*) FROM milestones m WHERE m.isOpened = '0') closedMilestoneCount,
+(SELECT COUNT(*) FROM milestones m WHERE m.isOpened = '1') openedMilestoneCount;`
 
 exports.getMilestone = async () => {
   return new Promise(async (resolve, reject) => {
