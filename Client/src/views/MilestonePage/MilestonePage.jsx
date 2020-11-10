@@ -56,7 +56,6 @@ function MilestonePage(props) {
         </div>
       </TopNavStyle>
       <ContentsAreaStyle id="contentsArea">
-        마일스톤 contents Area
         <Milestone {...props} />
       </ContentsAreaStyle>
     </PageStyle>

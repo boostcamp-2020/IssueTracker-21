@@ -65,8 +65,10 @@ const ListStyle = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  border: 1px solid black;
-  border-radius: 4px;
+  border: 2px solid #e9ecee;
+  border-radius: 7px;
+  margin-top: 20px;
+  margin-bottom: 50px;
 `;
 
 const ListTopStyle = styled.div`
