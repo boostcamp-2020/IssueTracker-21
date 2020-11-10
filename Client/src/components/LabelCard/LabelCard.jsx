@@ -3,23 +3,38 @@ import axios from "axios";
 import { Router } from "react-router-dom";
 import { Link } from "react-router-dom";
 import LabelTag from "../LabelTag";
+import LabelEditArea from "../LabelEditArea";
+import LabelCardContent from "../LabelCardContent"
 import "./LabelCard.scss";
 
 function LabelCard(props) {
-  const { id, name, description, color, deleteFunction } = props;
-  //console.log(props);
+  const { id, name, description, color, deleteFunction, refreshLabelCards } = props;
+  const [IsEditing, setIsEditing] = useState(false);
 
+  const setEditing = () => {
+    IsEditing? setIsEditing(false):setIsEditing(true);
+  }
 
   return (
     <div className="labelCard" data-labelid={id}>
-      <div className="labelTagDisplay">
-        <LabelTag key={id} labelName={name} color={color} />
-      </div>
-      <div className="labelDescription">{description}</div>
-      <div className="labelButtonContainer">
-        <div className="labelEditButton">Edit</div>
-        <div className="labelDeleteButton" onClick={() => deleteFunction(id)}>Delete</div>
-      </div>
+      {IsEditing? 
+      <LabelEditArea 
+      refreshFunction={refreshLabelCards} 
+      setEditing={setEditing}
+      labelId={id} 
+      isEdit={true} 
+      labelName={name} 
+      labelDescription={description} 
+      labelColor={color} />
+      :
+      <LabelCardContent 
+      id={id}
+      name={name}
+      description={description}
+      color={color}
+      deleteFunction={deleteFunction}
+      setEditing={setEditing}
+      />}
     </div>
   );
 }

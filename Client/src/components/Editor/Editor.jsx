@@ -89,9 +89,9 @@ function Editor(props) {
     }
   }
 
-  function uploadImage(e) {
+  async function uploadImage(e) {
     try {
-      NewImage(e, Contents, setContents);
+      await NewImage(e, Contents, setContents);
     } catch (e) {
       alert("이미지 업로드에 실패했습니다.");
     }

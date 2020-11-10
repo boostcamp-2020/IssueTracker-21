@@ -14,7 +14,7 @@ function fetchData(setVerify) {
 export default function (SpecificComponent, option, adminRoute = null) {
   function AuthenticationCheck(props) {
     const [verify, setVerify] = useState(true);
-    console.log();
+
     //back에 req날리기
     useEffect(async () => {
       const response = await fetchData(setVerify);
