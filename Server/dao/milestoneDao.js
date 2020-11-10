@@ -1,10 +1,33 @@
 const milestoneModel = require("../models").milestone;
+const issueModel = require("../models").issue;
+const models = require("../models");
+const sequelize = require("sequelize");
+
+const milestoneQuery = `
+SELECT 
+m.*, 
+i.isOpened AS issueIsOpened,
+COUNT(i.isOpened) AS count
+FROM milestones m
+LEFT OUTER JOIN 
+issues i
+ON m.id = i.milestoneId
+GROUP BY 
+i.isOpened, m.id
+ORDER BY
+m.id;
+`
 
 exports.getMilestone = async () => {
   return new Promise(async (resolve, reject) => {
     try {
-      let milestones = await milestoneModel.findAll();
-      resolve({ success: true, milestones });
+      models.sequelize
+      .query(milestoneQuery, {
+        type: sequelize.QueryTypes.SELECT,
+      })
+      .then(function (milestones) {
+        resolve({ success: true, milestones });
+      });
     } catch (e) {
       reject({ error: e });
     }
