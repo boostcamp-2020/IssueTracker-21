@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import LabelTag from "../LabelTag";
 import LabelEditArea from "../LabelEditArea";
 import LabelCardContent from "../LabelCardContent"
-import "./LabelCard.scss";
+import styled from "styled-components";
 
 function LabelCard(props) {
   const { id, name, description, color, deleteFunction, refreshLabelCards } = props;
@@ -16,7 +16,7 @@ function LabelCard(props) {
   }
 
   return (
-    <div className="labelCard" data-labelid={id}>
+    <LabelCardContainer data-labelid={id}>
       {IsEditing? 
       <LabelEditArea 
       refreshFunction={refreshLabelCards} 
@@ -35,8 +35,22 @@ function LabelCard(props) {
       deleteFunction={deleteFunction}
       setEditing={setEditing}
       />}
-    </div>
+    </LabelCardContainer>
   );
 }
 
+const LabelCardContainer=styled.div`
+width: 100%;
+padding: 7px 10px;
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+justify-items: center;
+border: 1px solid rgb(225, 228, 232);
+border-top: 0;
+padding: 20px;
+
+:hover {
+  background-color: #f6f8fa;
+}`
 export default LabelCard;

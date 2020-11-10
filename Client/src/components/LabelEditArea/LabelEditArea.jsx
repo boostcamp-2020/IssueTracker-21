@@ -7,6 +7,7 @@ import LabelTag from "../LabelTag";
 import getRandomColor from "../../utils/getRandomColor";
 import { LabelPageContext } from "../../views/LabelPage/LabelPage";
 
+
 function LabelEditArea(props) {
     const {toggleLabelEditArea} = useContext(LabelPageContext);
 
