@@ -8,7 +8,7 @@ const isEqual = function (ob1, ob2) {
   return arr1 === arr2;
 };
 
-const toggleArray = (array, data) => {
+export const toggleArray = (array, data) => {
   const newArray = array.filter((e) => {
     return !isEqual(e, data);
   });
@@ -16,4 +16,8 @@ const toggleArray = (array, data) => {
   return newArray;
 };
 
-export default toggleArray;
+export const toggleObject = (ob1, ob2) => {
+  if (isEqual(ob1, ob2))  return null;
+  return ob2;
+}
+
