@@ -7,6 +7,15 @@ function MilestoneCard(props) {
   const onRemoveMilestone = props.onRemoveMilestone;
   const onModifyMilestone = props.onModifyMilestone;
 
+  const [Progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const percent = Math.floor(
+      (info.closeCount / (info.closeCount + info.openCount)) * 100
+    );
+    setProgress(percent);
+  });
+
   const editHandler = () => {
     props.history.push("/milestone/edit");
   };
@@ -49,16 +58,18 @@ function MilestoneCard(props) {
         </SubTitleAreaStyle>
       </ContentsArea>
       <OptArea>
-        <GraphStyle>=======================</GraphStyle>
+        <GraphStyle>
+          <ProgressBarStyle progress={Progress} />
+        </GraphStyle>
         <GraphInfoAreaStyle>
           <InfoStyle>
-            <b>33%</b> complete
+            <b>{Progress}%</b> complete
           </InfoStyle>
           <InfoStyle>
-            <b>2</b> open
+            <b>{info.openCount}</b> open
           </InfoStyle>
           <InfoStyle>
-            <b>1</b> closed
+            <b>{info.closeCount}</b> closed
           </InfoStyle>
         </GraphInfoAreaStyle>
         <GraphInfoAreaStyle>
@@ -103,9 +114,17 @@ const OptArea = styled.div`
 
 const GraphStyle = styled.div`
   width: 100%;
-  height: 33px;
-
+  height: 15px;
+  margin: 10px 0;
   background-color: #e9ecee;
+  border-radius: 10px;
+`;
+
+const ProgressBarStyle = styled.div`
+  width: ${(props) => props.progress}%;
+  height: 15px;
+  left: 0;
+  background-color: #28a745;
   border-radius: 10px;
 `;
 
@@ -129,7 +148,5 @@ const InfoBlueBtnStyle = styled.div`
 const InfoRedBtnStyle = styled.div`
   color: #d95b66;
 `;
-
-InfoRedBtnStyle;
 
 export default MilestoneCard;
