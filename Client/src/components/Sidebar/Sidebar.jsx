@@ -1,12 +1,12 @@
 import React from "react";
-import SideItem from "../SideItem";
+import AsigneeSideItem from "../AsigneeSideItem";
 
 
 
 function Sidebar() {
   return (
     <div>
-      <SideItem />
+      <AsigneeSideItem />
     </div>
   );
 }
