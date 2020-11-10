@@ -5,8 +5,10 @@ exports.getMilestone = async (req, res) => {
   try {
     let data = await milestoneDao.getMilestone();
     const milestones = data.milestones;
+    const milestoneCount = data.milestoneCount;
     return res.status(200).json({
       success: true,
+      milestoneCount: milestoneCount,
       milestones:milestones
     });
   } catch (e) {
