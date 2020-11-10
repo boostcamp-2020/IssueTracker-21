@@ -5,13 +5,32 @@ import axios from "axios";
 import noprofile from "../../../public/img/noprofile.png";
 import "./style.scss";
 import CustomBtn from "../../components/CustomBtn";
-import Sidebar from "../../components/Sidebar"
+import Sidebar from "../../components/Sidebar";
+import { toggleArray, toggleObject } from "../../utils/toggle";
+
+export const NewIssuePageContext = React.createContext();
 
 function NewIssuePage(props) {
   const [User, setUser] = useState(null);
   const [Title, setTitle] = useState("");
   const [Contents, setContents] = useState("");
   const [BtnColor, setBtnColor] = useState("#ced2d7");
+
+  const [assigneeList, setAssigneeList] = useState([]);
+  const [milestone, setmilestone] = useState(null);
+  const [labelList, setLabelList] = useState([]);
+
+  const assigneeListHandler = (data) => {
+    setAssigneeList(toggleArray(assigneeList, data));
+  };
+
+  const labelListHandler = (data) => {
+    setLabelList(toggleArray(labelList, data));
+  };
+
+  const milestoneListHandler = (data) => {
+    setmilestone(toggleObject(milestone, data));
+  };
 
   //취소 버튼
   const cancelHandler = () => {
@@ -42,10 +61,11 @@ function NewIssuePage(props) {
       title: Title,
       authorId: User.user.userId,
       description: Contents,
-      milestoneId: 1,
-      assignees: ["test1", "test2"],
-      labels: [1, 2],
+      milestoneId: milestone.id,
+      assignees: assigneeList.map((e)=>e.id),
+      labels: labelList.map((e)=>e.id),
     };
+
     axios.post("/api/issue", body).then((response) => {
       if (response.data.success) {
         props.history.push("/");
@@ -67,46 +87,59 @@ function NewIssuePage(props) {
   }, []);
 
   return (
-    <div id="newIssueArea">
-      <div id="profileArea">
-        <img
-          src={User ? User.user.profile : noprofile}
-          alt="profile"
-          id="issueProfile"
-        />
-      </div>
-      <div id="editorArea">
-        <input
-          id="newIssueTitle"
-          type="text"
-          placeholder="Title"
-          onChange={titleHandler}
-          value={Title}
-        />
-        <div id="newIssueOpt">
-          <div id="writeBtn">Write</div>
+    <NewIssuePageContext.Provider
+      value={{
+        assigneeList,
+        labelList,
+        milestone,
+        assigneeListHandler,
+        labelListHandler,
+        milestoneListHandler,
+      }}
+    >
+      <div id="newIssueArea">
+        <div id="profileArea">
+          <img
+            src={User ? User.user.profile : noprofile}
+            alt="profile"
+            id="issueProfile"
+          />
         </div>
-        <Editor typingHandler={typingHandler} />
-        <div id="btnArea">
-          <div id="cancelBtn" onClick={cancelHandler}>
-            cancel
+        <div id="editorArea">
+          <input
+            id="newIssueTitle"
+            type="text"
+            placeholder="Title"
+            onChange={titleHandler}
+            value={Title}
+          />
+          <div id="newIssueOpt">
+            <div id="writeBtn">Write</div>
           </div>
-          <CustomBtn
-            color="white"
-            bgColor={BtnColor}
-            width="150px"
-            borderRad="6px"
-            height="35px"
-            border="0"
-            id="submitBtn"
-            onClick={submitHandler}
-          >
-            Submit new issue
-          </CustomBtn>
+          <Editor typingHandler={typingHandler} />
+          <div id="btnArea">
+            <div id="cancelBtn" onClick={cancelHandler}>
+              cancel
+            </div>
+            <CustomBtn
+              color="white"
+              bgColor={BtnColor}
+              width="150px"
+              borderRad="6px"
+              height="35px"
+              border="0"
+              id="submitBtn"
+              onClick={submitHandler}
+            >
+              Submit new issue
+            </CustomBtn>
+          </div>
+        </div>
+        <div id="sideBar">
+          <Sidebar />
         </div>
       </div>
-      <div id="sideBar"><Sidebar /></div>
-    </div>
+    </NewIssuePageContext.Provider>
   );
 }
 
