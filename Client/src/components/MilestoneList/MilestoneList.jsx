@@ -71,6 +71,17 @@ function MilestoneList(props) {
     );
   };
 
+  const onChangeMilestoneStatus = () => {
+    Axios.get("/api/milestone").then((response) => {
+      if (response.data.success) {
+        setOpenedMilestoneCount(response.data.milestoneCount[0].openedMilestoneCount);
+        setClosedMilestoneCount(response.data.milestoneCount[0].closedMilestoneCount);
+      } else {
+        alert("Failed to get milestones");
+      }
+    });
+  };
+
   const renderMilestoneCard = Milestones.map((Milestone, idx) => {
     return (
       <MilestoneCard
@@ -78,6 +89,7 @@ function MilestoneList(props) {
         Milestone={Milestone}
         onRemoveMilestone={onRemoveMilestone}
         onModifyMilestone={onModifyMilestone}
+        onChangeMilestoneStatus={onChangeMilestoneStatus}
         {...props}
       />
     );
