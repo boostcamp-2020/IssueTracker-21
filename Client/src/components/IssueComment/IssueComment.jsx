@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 import "./IssueCommentStyle.scss";
@@ -17,6 +17,16 @@ function IssueComment(props) {
 
   const [contentValue, setContentValue] = useState(content);
   const [isEditClicked, setIsEditClicked] = useState(false);
+
+  const [profile, setProfile] = useState("");
+  const [isProfileLoaded, setIsProfileLoaded] = useState(false);
+
+  useEffect(() => {
+    axios.get(`/api/user/profile/${authorId}`).then((profile) => {
+      setProfile(profile.data.profile.profile);
+      setIsProfileLoaded(true);
+    });
+  }, []);
 
   const editClickHandler = (e) => {
     e.preventDefault();
@@ -51,7 +61,11 @@ function IssueComment(props) {
     <ContainerDiv id="containerArea">
       <CommentDiv id="commentArea" className="comment">
         <div className="profile">
-          <img src="" alt="이미지" className="userProfile" />
+          {isProfileLoaded ? (
+            <img src={profile} alt="이미지" className="userProfile" />
+          ) : (
+            <div></div>
+          )}
         </div>
         <div className="content">
           <div className={authorId == owner ? "top" : "otherTop"}>

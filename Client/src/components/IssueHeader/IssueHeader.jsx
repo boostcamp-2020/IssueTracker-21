@@ -54,15 +54,22 @@ function IssueHeader(props) {
   return (
     <div>
       <IssueHeaderDiv id="issueHeaderArea">
-        <input
-          type="text"
-          className={editClicked ? "clickedTitle" : "title"}
-          defaultValue={currentTitle}
-          onChange={(e) => {
-            titleChangeHandler(e);
-          }}
-          disabled={editClicked ? false : true}
-        />
+        {editClicked ? (
+          <input
+            type="text"
+            className="clickedTitle"
+            defaultValue={currentTitle}
+            onChange={(e) => {
+              titleChangeHandler(e);
+            }}
+          />
+        ) : (
+          <div className="title">
+            {currentTitle}
+            <p className="issueId">{"  #" + issueId}</p>
+          </div>
+        )}
+
         <button
           className={editClicked ? "edit hide" : "edit"}
           onClick={(e) => {
@@ -87,13 +94,16 @@ function IssueHeader(props) {
         </button>
       </IssueHeaderDiv>
       <StatusDiv id="statusArea">
-        <button className="isopen">{isOpen ? "Open" : "Closed"}</button>
-        <div className="openner">{authorId}</div>
+        <button className={isOpen ? "isopen open" : "isopen closed"}>
+          {isOpen ? "Open" : "Closed"}
+        </button>
+        <div className="openner">{authorId} </div>
         <p className="openInfo">
           opened this issue {calcTime(createdAt)}
           {commentCount} comment
         </p>
       </StatusDiv>
+      <hr size="2px" width="95%" />
     </div>
   );
 }
