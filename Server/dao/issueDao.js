@@ -146,7 +146,6 @@ exports.updateIssueTitle = async (title, authorId, issueId) => {
 
 /* 이슈 수정 - 내용 */
 exports.updateIssueDescription = async (description, authorId, issueId) => {
-  console.log(description, authorId, issueId);
   return new Promise(async (resolve, reject) => {
     try {
       await issueModel.update(

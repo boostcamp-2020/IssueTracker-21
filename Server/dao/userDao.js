@@ -44,3 +44,18 @@ exports.insertUser = async (id, password, profile) => {
     }
   });
 };
+
+exports.getProfileById = async (userId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const profile = await userModel.findOne({
+        attributes: ["profile"],
+        where: { id: userId },
+      });
+      resolve({ success: true, profile });
+    } catch (e) {
+      console.log(e);
+      reject({ success: false, error: e });
+    }
+  });
+};
