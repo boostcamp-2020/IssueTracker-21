@@ -1,17 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Icon, InlineIcon } from "@iconify/react";
 import gear16 from "@iconify/icons-octicon/gear-16";
 import DropDown from "../DropDown";
-import toggleArray from "../../utils/toggleArray";
 import AsigneeSideCard from "../AssigneeSideCard";
+import { NewIssuePageContext } from "../../views/NewIssuePage";
 
 function AssigneeSideItem() {
+  const { assigneeList, assigneeListHandler } = useContext(NewIssuePageContext);
   const [DropdownStatus, setDropdownStatus] = useState(false);
-  const [assigneeList, setAssigneeList] = useState([]);
-
-  const assigneeListHandler = (data) => {
-    setAssigneeList(toggleArray(assigneeList, data));
-  };
 
   const showDropDown = () => {
     if (DropdownStatus) return setDropdownStatus(false);
@@ -25,7 +21,7 @@ function AssigneeSideItem() {
   return (
     <div>
       <button onClick={showDropDown}>
-        Asignee <Icon icon={gear16} />
+        Assignee <Icon icon={gear16} />
       </button>
       {DropdownStatus ? (
         <DropDown
@@ -35,9 +31,19 @@ function AssigneeSideItem() {
           onCardClicked={assigneeListHandler}
         />
       ) : null}
-      {assigneeList.map((element) => {
-        return <AsigneeSideCard id={element.id} profile={element.profile} />;
-      })}
+      {assigneeList.length ? (
+        assigneeList.map((element) => {
+          return (
+            <AsigneeSideCard
+              key={element.id}
+              id={element.id}
+              profile={element.profile}
+            />
+          );
+        })
+      ) : (
+        <span>No one-assign yourself</span>
+      )}
     </div>
   );
 }
