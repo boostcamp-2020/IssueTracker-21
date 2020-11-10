@@ -85,6 +85,7 @@ function MilestoneCard(props) {
 }
 
 const MilestoneCardStyle = styled.div`
+cursor:pointer;
   width: 100%;
   padding: 20px 30px;
   display: flex;
@@ -98,10 +99,10 @@ const ContentsArea = styled.div`
   flex-direction: column;
 `;
 const TitleAreaStyle = styled.div`
-  font-size: 22px;
+  font-size: 20px;
 `;
 const SubTitleAreaStyle = styled.div`
-  font-size: 15px;
+  font-size: 13px;
   margin-top: 2px;
   color: #90969c;
 `;
@@ -114,7 +115,7 @@ const OptArea = styled.div`
 
 const GraphStyle = styled.div`
   width: 100%;
-  height: 15px;
+  height: 10px;
   margin: 10px 0;
   background-color: #e9ecee;
   border-radius: 10px;
@@ -122,7 +123,7 @@ const GraphStyle = styled.div`
 
 const ProgressBarStyle = styled.div`
   width: ${(props) => props.progress}%;
-  height: 15px;
+  height: 10px;
   left: 0;
   background-color: #28a745;
   border-radius: 10px;
@@ -133,20 +134,29 @@ const GraphInfoAreaStyle = styled.div`
   margin-top: 2px;
   display: flex;
   flex-direction: row;
+  font-size: 13px;
 `;
 
 const InfoStyle = styled.div`
   margin-right: 15px;
-  font-size: 15px;
+  font-size: 13px;
   color: #6e737d;
 `;
 
 const InfoBlueBtnStyle = styled.div`
   color: #4788df;
   margin-right: 10px;
+  cursor:pointer;
+  :hover{
+    color: #A8CEFA;
+  }
 `;
 const InfoRedBtnStyle = styled.div`
   color: #d95b66;
+  cursor:pointer;
+  :hover{
+    color: #E7BEB9;
+  }
 `;
 
 export default MilestoneCard;
