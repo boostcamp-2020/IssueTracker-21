@@ -16,7 +16,6 @@ const App = () => {
       <Header />
       <Switch>
         <Route exact path="/" component={Auth(LandingPage, true)} />
-        <Route path="/register" component={Auth(RegisterPage, false)} />
         <Route path="/login" component={Auth(LoginPage, false)} />
         <Route path="/new" component={Auth(NewIssuePage, true)} />
         <Route path="/issues/:issueId" component={Auth(DetailPage, true)} />
