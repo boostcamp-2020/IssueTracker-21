@@ -19,7 +19,8 @@ module.exports = (sequelize, Datatypes) => {
       },
       isOpened: {
         type: Datatypes.BOOLEAN, // 0: expenditure & 1: revenue
-        allowNull: false,
+        allowNull: true,
+        defaultValue: 1,
       },
       lastStatusChanger: {
         type: Datatypes.STRING(255),

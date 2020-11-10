@@ -1,9 +1,11 @@
 const express = require("express");
 const userController = require("../../controllers/userController");
 const router = express.Router();
+const { Auth } = require("../../middleware/auth");
 
 router.get("/users", userController.getAllUsers);
 router.post("/login", userController.localLogin);
+router.get("/userinfo", Auth, userController.userInfo);
 
 router.post("/register", userController.localRegister);
 

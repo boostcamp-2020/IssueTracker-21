@@ -21,6 +21,28 @@ exports.getAllUsers = async (req, res, next) => {
   }
 };
 
+/* 로그인한 유저정보 가져오기 */
+
+exports.userInfo = async (req, res, next) => {
+  try {
+    if (req.user)
+      return res.status(200).json({
+        success: true,
+        user: req.user,
+      });
+    else
+      return res.status(400).json({
+        success: false,
+        error: e,
+      });
+  } catch (e) {
+    return res.status(400).json({
+      success: false,
+      error: e,
+    });
+  }
+};
+
 /* local 로그인 */
 
 exports.localLogin = (req, res, next) => {
@@ -35,7 +57,6 @@ exports.localLogin = (req, res, next) => {
       if (err) {
         res.send(err);
       }
-      console.log(user);
       const token = jwt.sign(user, process.env.JWT_SECRET);
       res.cookie("token", token, {
         maxAge: 1000 * 60 * 60,
@@ -71,8 +92,13 @@ exports.localStrategyLogin = async (userId, password) => {
 
 exports.localRegister = async (req, res, next) => {
   try {
-    const { id, password, profile } = req.body;
-    const user = await userDao.insertUser(id, password, profile);
+    const { userId, password, profileUrl } = req.body;
+    let profile = profileUrl;
+    if (profileUrl.length === 0) {
+      const random = Math.floor(Math.random() * (50000 - 1) + 1);
+      profile = "https://gravatar.com/avatar/" + random;
+    }
+    const user = await userDao.insertUser(userId, password, profile);
     if (user.success) {
       return res.status(200).json({
         success: true,
@@ -84,6 +110,8 @@ exports.localRegister = async (req, res, next) => {
   } catch (error) {
     return res.status(200).json({
       success: false,
+      message:
+        "회원가입에 실패했습니다. 이미 가입되어져 있는 아이디입니다. 아이디를 변경해주세요",
       error: error.error,
     });
   }
@@ -148,7 +176,7 @@ exports.gitStrategyLogin = async (profiles) => {
 
 exports.isExist = async (userId) => {
   try {
-    let user = await userDao.getUser({ userID });
+    let user = await userDao.getUser(userId);
     return {
       success: true,
       userId: user.dataValues.id,

@@ -1,0 +1,100 @@
+#newIssueArea {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin-top: 30px;
+
+  #issueProfile {
+    width: 50px;
+    height: 50px;
+  }
+
+  #editorArea {
+    position: relative;
+    width: 60%;
+    padding: 10px;
+    border: 1px solid #ced2d7;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+
+    &:after,
+    &:before {
+      right: 100%;
+      top: 25px;
+      border: solid transparent;
+      content: "";
+      height: 0;
+      width: 0;
+      position: absolute;
+      pointer-events: none;
+    }
+
+    &:after {
+      border-color: rgba(255, 255, 255, 0);
+      border-right-color: #ffffff;
+      border-width: 10px;
+      margin-top: -10px;
+    }
+
+    &:before {
+      border-color: rgba(206, 210, 215, 0);
+      border-right-color: #ced2d7;
+      border-width: 11px;
+      margin-top: -11px;
+    }
+
+    #newIssueOpt {
+      z-index: 1;
+      margin-bottom: -1px;
+
+      #writeBtn {
+        width: 150px;
+        padding: 6px 0;
+        background-color: white;
+        margin-left: 8px;
+        text-align: center;
+        border: 1px solid #ced2d7;
+        border-radius: 7px 7px 0 0;
+        border-bottom: 1px solid #ffffff;
+      }
+    }
+  }
+
+  #sideBar {
+    width: 30%;
+  }
+
+  #newIssueTitle {
+    width: 100%;
+    height: 35px;
+    margin-bottom: 20px;
+    background-color: #fafbfc;
+    border: 1px solid #ced2d7;
+    border-radius: 4px;
+  }
+
+  #writeArea {
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+  }
+
+  #btnArea {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3px 0;
+
+    #cancelBtn {
+      font-size: 18px;
+      color: #858585;
+      margin-left: 4px;
+      cursor: pointer;
+    }
+
+    #submitBtn {
+      font-size: 16px;
+    }
+  }
+}

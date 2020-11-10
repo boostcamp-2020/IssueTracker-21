@@ -97,7 +97,7 @@ exports.insertNewIssue = async (
 ) => {
   return new Promise(async (resolve, reject) => {
     try {
-      await issueModel.create({
+      const newIssue = await issueModel.create({
         authorId: authorId,
         milestoneId: milestoneId,
         title: title,
@@ -146,6 +146,7 @@ exports.updateIssueTitle = async (title, authorId, issueId) => {
 
 /* 이슈 수정 - 내용 */
 exports.updateIssueDescription = async (description, authorId, issueId) => {
+  console.log(description, authorId, issueId);
   return new Promise(async (resolve, reject) => {
     try {
       await issueModel.update(

@@ -57,7 +57,7 @@ exports.updateMilestone = async (req, res) => {
 /* 마일스톤 삭제 */
 exports.deleteMilestone = async (req, res) => {
   try {
-    let { milestoneId } = req.body;
+    let { milestoneId } = req.query;
     await milestoneDao.deleteMilestone(milestoneId);
     return res.status(200).json({
       success: true,

@@ -1,14 +1,19 @@
 import React from "react";
-import "./style.css";
+import "./style.scss";
+import styled from "styled-components";
+
+const HeaderDiv = styled.div`
+  background-color: black;
+`;
 
 function Header() {
   return (
-    <div>
+    <HeaderDiv id="headerArea">
       <div className="top">
-        <p className="imogi">&#128008;</p>
-        <h1 className="title">ISSUES</h1>
+        <div className="imogi">&#128008; &nbsp;</div>
+        <div className="headerTitle">ISSUES</div>
       </div>
-    </div>
+    </HeaderDiv>
   );
 }
 
