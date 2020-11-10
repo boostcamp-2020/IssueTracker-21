@@ -19,6 +19,7 @@ function NewIssuePage(props) {
   const [assigneeList, setAssigneeList] = useState([]);
   const [milestone, setmilestone] = useState(null);
   const [labelList, setLabelList] = useState([]);
+  const [progress, setProgress] = useState(0);
 
   const assigneeListHandler = (data) => {
     setAssigneeList(toggleArray(assigneeList, data));
@@ -62,8 +63,8 @@ function NewIssuePage(props) {
       authorId: User.user.userId,
       description: Contents,
       milestoneId: milestone.id,
-      assignees: assigneeList.map((e)=>e.id),
-      labels: labelList.map((e)=>e.id),
+      assignees: assigneeList.map((e) => e.id),
+      labels: labelList.map((e) => e.id),
     };
 
     axios.post("/api/issue", body).then((response) => {
@@ -86,12 +87,37 @@ function NewIssuePage(props) {
     });
   }, []);
 
+  useEffect(async () => {
+    if (milestone) {
+      await axios.get("/api/milestone").then((response) => {
+        if (response.data.success) {
+          const milestoneData = response.data.milestones;
+          let openissueCount = 0;
+
+          const issueCount = milestoneData
+            .filter((e) => e.id === milestone.id)
+            .reduce((acc, cur) => {
+              if (cur.issueIsOpened) openissueCount += cur.count;
+              return acc + cur.count;
+            }, 0);
+
+          if (openissueCount) {
+            setProgress(Math.floor((openissueCount / issueCount) * 100));
+          } else setProgress(0);
+        } else {
+          alert("Failed to get User info");
+        }
+      });
+    }
+  }, [milestone]);
+
   return (
     <NewIssuePageContext.Provider
       value={{
         assigneeList,
         labelList,
         milestone,
+        progress,
         assigneeListHandler,
         labelListHandler,
         milestoneListHandler,
