@@ -75,6 +75,7 @@ function IssueComment(props) {
               <CommentEditor
                 cancelClickHandler={cancelClickHandler}
                 submitClickHandler={submitClickHandler}
+                defaultValue={contentValue}
               />
             ) : (
               contentValue

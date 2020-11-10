@@ -4,12 +4,12 @@ const issueModel = require("../models").issue;
 exports.insertComment = async (authorId, issueId, content) => {
   return new Promise(async (resolve, reject) => {
     try {
-      await commentModel.create({
+      let newComment = await commentModel.create({
         authorId: authorId,
         issueId: issueId,
         content: content,
       });
-      resolve({ success: true });
+      resolve({ success: true, newComment });
     } catch (e) {
       reject({ error: e });
     }

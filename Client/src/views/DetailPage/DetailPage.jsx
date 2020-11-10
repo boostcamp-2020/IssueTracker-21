@@ -7,7 +7,7 @@ import loadingImg from "../../../public/loading.gif";
 import "./DetailPageStyle.scss";
 import IssueComment from "../../components/IssueComment";
 
-import Editor from "../../components/Editor";
+import DetailPageEditor from "../../components/DetailPageEditor";
 
 import styled from "styled-components";
 
@@ -23,11 +23,43 @@ function DetailPage(props) {
   });
   const [headerLoading, setHeaderLoading] = useState(true);
   const [commentsLoading, setCommentLoading] = useState(true);
+  const [issueOpened, setIssueOpened] = useState(true);
+
+  const addingInfoHandler = (data) => {
+    setIssueData({
+      issueDetail: issueData.issueDetail,
+      comments: { rows: [...issueData.comments.rows, data] },
+    });
+  };
+
+  const issueOpenHandler = (value) => {
+    axios.get("/api/user/userinfo").then((response) => {
+      let authorId = "";
+      if (response.data.success) {
+        authorId = response.data.userId;
+      }
+      let data = {
+        issueId: issueData.issueDetail.id,
+        newStatus: value,
+        userId: authorId,
+      };
+      axios
+        .put("/api/issue/status", data, {
+          "Content-Type": "application/json",
+          withCredentials: true,
+          credentials: "include",
+        })
+        .then((response) => {
+          setIssueOpened(value);
+        });
+    });
+  };
 
   useEffect(() => {
     axios.get(`/api/issue/${params.issueId}`).then(async (response) => {
       if (response.data.success) {
         setIssueData(response.data.issueDetail);
+        setIssueOpened(response.data.issueDetail.issueDetail.isOpened);
         setHeaderLoading(false);
         setCommentLoading(false);
       } else {
@@ -46,10 +78,19 @@ function DetailPage(props) {
     <IssueHeader
       issueId={issueData.issueDetail.id}
       title={issueData.issueDetail.title}
-      isOpen={issueData.issueDetail.isOpened}
+      isOpen={issueOpened}
       createdAt={issueData.issueDetail.createdAt}
       authorId={issueData.issueDetail.authorId}
       commentCount={issueData.comments.count}
+    />
+  );
+
+  const renderIssueCommentEditor = (
+    <DetailPageEditor
+      issueId={issueData.issueDetail.id}
+      issueOpenHandler={issueOpenHandler}
+      isOpened={issueOpened}
+      addingInfoHandler={addingInfoHandler}
     />
   );
 
@@ -69,7 +110,6 @@ function DetailPage(props) {
 
   return (
     <div>
-      <Header />
       <div className="issueHeaderArea">
         {headerLoading ? renderLoading : renderIssueHeader}
       </div>
@@ -88,7 +128,7 @@ function DetailPage(props) {
         )}
 
         {commentsLoading ? renderLoading : renderIssueComment}
-        <Editor />
+        {commentsLoading ? renderLoading : renderIssueCommentEditor}
       </IssueComponentsDiv>
     </div>
   );

@@ -67,8 +67,10 @@ const InputFileStyle = styled.input`
 function Editor(props) {
   const [CountWord, setCountWord] = useState(0);
   const [ShowNum, setShowNum] = useState(false);
-  const [Contents, setContents] = useState("");
+  const defaultValue = props.defaultValue || "";
+  const [Contents, setContents] = useState(defaultValue);
   const typingHandler = props.typingHandler || null;
+  console.log(defaultValue);
 
   function typeHandler(e) {
     const text = e.target.value;

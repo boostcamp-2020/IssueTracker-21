@@ -1,0 +1,47 @@
+#detailEditorArea {
+  width: 100%;
+  display: flex;
+  .editorArea {
+    width: 63.5%;
+  }
+
+  .profile {
+    margin-right: 1%;
+  }
+  #detailButtons {
+    display: flex;
+    justify-items: flex-end;
+
+    .closeIssue,
+    .reopenIssue,
+    .comment {
+      border-radius: 2.5px;
+      font-weight: bold;
+      margin: 0 1%;
+      border: 1px solid #777777;
+    }
+
+    .nottype {
+      opacity: 0.5;
+    }
+
+    .closeIssue {
+      background-color: #fafbfc;
+      color: black;
+    }
+
+    .reopenIssue {
+      background-color: #fafbfc;
+      color: black;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .comment {
+      background-color: #2cbe4e;
+      color: white;
+    }
+  }
+}

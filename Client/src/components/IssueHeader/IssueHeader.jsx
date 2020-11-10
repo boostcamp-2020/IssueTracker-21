@@ -14,7 +14,7 @@ const StatusDiv = styled.div`
 `;
 
 function IssueHeader(props) {
-  const { issueId, title, isOpened, authorId, createdAt, commentCount } = props;
+  const { issueId, title, isOpen, authorId, createdAt, commentCount } = props;
   const [currentTitle, setCurrentTitle] = useState(title);
   const [newIssueTitle, setNewIssueTitle] = useState(title);
   const [editClicked, setEditClicked] = useState(false);
@@ -87,7 +87,7 @@ function IssueHeader(props) {
         </button>
       </IssueHeaderDiv>
       <StatusDiv id="statusArea">
-        <button className="isopen">{isOpened ? "Open" : "Closed"}</button>
+        <button className="isopen">{isOpen ? "Open" : "Closed"}</button>
         <div className="openner">{authorId}</div>
         <p className="openInfo">
           opened this issue {calcTime(createdAt)}
