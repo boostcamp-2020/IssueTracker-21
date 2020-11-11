@@ -3,10 +3,16 @@ import { Router } from "react-router-dom";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { DropDownContext } from "../DropDown";
+import { DropDownFilterContext } from "../DropDownFilter";
 
 function DropDownLabelCard(props) {
   const { id, name, description, color } = props;
-  const { onCardClicked } = useContext(DropDownContext);
+  const {isFilter} = useContext(DropDownFilterContext);
+  if(isFilter) {
+    const { onCardClicked } = useContext(DropDownFilterContext);
+  }else {
+    const { onCardClicked } = useContext(DropDownContext);
+  } 
 
   return (
     <DropDownLabelCardContainer

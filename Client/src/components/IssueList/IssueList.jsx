@@ -5,7 +5,7 @@ import IssueCard from "../IssueCard";
 import loadingImg from "../../../public/loading.gif";
 import { LandingPageContext } from "../../views/LandingPage";
 import DropDownStatus from "../DropDownStatus";
-import DropDown from "../DropDown";
+import DropDownFilter from "../DropDownFilter";
 
 let items = new Map();
 
@@ -179,20 +179,28 @@ function IssueList(props) {
     </RightMenuStyle>
   );
 
+  const onCardClicked = (a) => {
+    console.log(a)
+  }
+
   const filterOpt = (
     <RightMenuStyle id="rightMenu">
       <OptBtnStyle className="optBtn" id="authorOpt">
         Author ▾
+        <DropDownFilter onCardClicked = {onCardClicked} filter="author"/>
       </OptBtnStyle>
-      <OptBtnStyle className="optBtn" id="labelOpt">
+      <div className="optBtn" id="labelOpt">
         Label ▾
-      </OptBtnStyle>
-      <OptBtnStyle className="optBtn" id="milestonesOpt">
+        <DropDownFilter onCardClicked = {onCardClicked} filter="label"/>
+      </div>
+      <div className="optBtn" id="milestonesOpt">
         Milestones ▾
-      </OptBtnStyle>
-      <OptBtnStyle className="optBtn" id="assigneeOpt">
+        <DropDownFilter onCardClicked = {onCardClicked} filter="milestone"/>
+      </div>
+      <div className="optBtn" id="assigneeOpt">
         Assignee ▾
-      </OptBtnStyle>
+        <DropDownFilter onCardClifcked = {onCardClicked} filter="assignee"/>
+      </div>
     </RightMenuStyle>
   );
 

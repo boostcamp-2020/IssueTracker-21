@@ -10,23 +10,26 @@ import styled from "styled-components";
 export const DropDownFilterContext = React.createContext();
 
 function DropDownFilter(props) {
+  console.log(props)
   const filter = props.filter;
+  const isFilter = true;
+  const onCardClicked = props.onCardClicked;
 
   const getProperList = (filter) => {
-    // switch (filter) {
-    //   case "assignee":
-    //     return <DropDownAssigneeList></DropDownAssigneeList>;
-    //   case "author":
-    //     return <DropDownAuthorList></DropDownAuthorList>;
-    //   case "label":
-    //     return <DropDownLabelList></DropDownLabelList>;
-    //   case "milestone":
-    //     return <DropDownMilestoneList></DropDownMilestoneList>;
-    // }
+    switch (filter) {
+      case "assignee":
+        return <DropDownAssigneeList></DropDownAssigneeList>;
+      case "author":
+        return <DropDownAuthorList></DropDownAuthorList>;
+      case "label":
+        return <DropDownLabelList></DropDownLabelList>;
+      case "milestone":
+        return <DropDownMilestoneList></DropDownMilestoneList>;
+    }
   };
 
   return (
-    <DropDownFilterContext.Provider value={{ }}>
+    <DropDownFilterContext.Provider value={{onCardClicked,isFilter}}>
         <DropDownContainter>
           <DropDownBarContainter>Filter by {filter}</DropDownBarContainter>
           <DropDownListContainter>{getProperList(filter)}</DropDownListContainter>
