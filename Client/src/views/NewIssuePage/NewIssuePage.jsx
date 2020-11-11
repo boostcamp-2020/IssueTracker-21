@@ -64,9 +64,9 @@ function NewIssuePage(props) {
       title: Title,
       authorId: User.user.userId,
       description: Contents,
-      milestoneId: milestone.id,
-      assignees: assigneeList.map((e) => e.id),
-      labels: labelList.map((e) => e.id),
+      milestoneId: milestone ? milestone.id : "null",
+      assignees: assigneeList.length ? assigneeList.map((e) => e.id) : "null",
+      labels: labelList.length ? labelList.map((e) => e.id) : "null",
     };
 
     axios.post("/api/issue", body).then((response) => {
