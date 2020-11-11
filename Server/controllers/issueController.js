@@ -11,13 +11,14 @@ import meOrNot from "../utils/meOrNot";
 exports.getIssues = async function (req, res, next) {
   try {
     const issues = await issueDao.getAllIssues();
+    console.log(req.query);
     const {
       isOpened,
-      labelId,
+      label,
       assignee,
       author,
       commentor,
-      milestoneId,
+      milestone,
     } = req.query;
 
     const authorId = meOrNot(req.user, author);
@@ -26,30 +27,21 @@ exports.getIssues = async function (req, res, next) {
 
     if (issues.success) {
       let filteredIssues =
-        //issueFilter(authorId, issues.rows);
         authorId === undefined
           ? issues.rows
           : issues.rows.filter((e) => e.authorId === authorId);
 
       filteredIssues =
-        //issueFilter(isOpened, filteredIssues);
         isOpened === undefined
           ? filteredIssues
           : filteredIssues.filter((e) => e.isOpened == isOpened);
 
       filteredIssues =
-        //issueFilter(milestoneId, filteredIssues);
-        milestoneId === undefined
+        milestone === undefined
           ? filteredIssues
-          : filteredIssues.filter((e) => e.milestoneId == milestoneId);
+          : filteredIssues.filter((e) => e.milestone.title == milestone);
 
       filteredIssues =
-        // issueFilterUsingSome(
-        //   assigneeId,
-        //   filteredIssues,
-        //   "users",
-        //   "id"
-        // );
         assigneeId === undefined
           ? filteredIssues
           : filteredIssues.filter((e) =>
@@ -57,30 +49,33 @@ exports.getIssues = async function (req, res, next) {
             );
 
       filteredIssues =
-        // issueFilterUsingSome(
-        //   commentorId,
-        //   filteredIssues,
-        //   "comments",
-        //   "authorId"
-        // );
         commentorId === undefined
           ? filteredIssues
           : filteredIssues.filter((e) =>
               e.comments.map((u) => u.authorId).some((i) => i === commentorId)
             );
 
-      filteredIssues =
-        // issueFilterUsingSome(
-        //   labelId,
-        //   filteredIssues,
-        //   "labels",
-        //   "id"
-        // );
-        labelId === undefined
+            console.log(label instanceof Array);
+
+      if(label instanceof Array){
+        filteredIssues =
+        label === undefined
           ? filteredIssues
           : filteredIssues.filter((e) =>
-              e.labels.map((l) => l.id.toString()).includes(...labelId)
+              e.labels.map((l) => l.name).includes(...label)
             );
+      }else{
+        filteredIssues =
+        label === undefined
+          ? filteredIssues
+          : filteredIssues.filter((e) =>
+              e.labels.map((l) => l.name).includes(label)
+            );
+      }
+
+
+
+            
 
       return res.status(200).json({
         success: true,

@@ -29,6 +29,7 @@ function LandingPage(props) {
   const inputSubmitHandler = (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
+      console.log(inputDataToUrl(inputData));
       axios.get(inputDataToUrl(inputData)).then((response) => {
         if (response.data.success && isMounted) {
           issueHandler(response.data.issues);
@@ -57,6 +58,26 @@ function LandingPage(props) {
     setInputData(e.target.id);
   };
 
+    //필터 드롭다운 클릭시 자동으로 제출
+    const inputFilterSubmitHandler = (newInputData) => {
+        //e.preventDefault();
+        console.log(inputDataToUrl(newInputData));
+        axios.get(inputDataToUrl(newInputData)).then((response) => {
+          if (response.data.success && isMounted) {
+            issueHandler(response.data.issues);
+          } else {
+            alert("Failed to get issues");
+          }
+        });
+        if (newInputData !== "is:open is:issue") setclearBtnStatus(true);
+    };
+
+  const inputOnClickFilterHandler = (str) => {
+    const newInputData = inputData.concat('\u00A0').concat(str).concat('\u00A0');
+    setInputData(newInputData);
+    inputFilterSubmitHandler(newInputData);
+  };
+
   // useEffect(() => {
   //   return () => {
   //     setisMounted(false);
@@ -72,6 +93,7 @@ function LandingPage(props) {
         inputOnChangeHandler,
         inputOnClickHandler,
         inputSubmitHandler,
+        inputOnClickFilterHandler
       }}
     >
       <div id="landingArea">
