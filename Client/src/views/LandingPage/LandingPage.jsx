@@ -76,7 +76,6 @@ function LandingPage(props) {
     >
       <div id="landingArea">
         <br />
-        <h2>이슈잇슈</h2>
         <br />
         <Navbar {...props} />
         <br />

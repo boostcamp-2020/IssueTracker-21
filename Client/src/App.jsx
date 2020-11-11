@@ -8,6 +8,9 @@ import Header from "./components/Header";
 import LabelPage from "./views/LabelPage";
 import MilestonePage from "./views/MilestonePage";
 
+import MilestoneAddPage from "./views/MilestoneAddPage";
+import MilestoneModifyPage from "./views/MilestoneModifyPage";
+
 import Auth from "./hoc/auth";
 
 const App = () => {
@@ -20,7 +23,12 @@ const App = () => {
         <Route path="/new" component={Auth(NewIssuePage, true)} />
         <Route path="/issues/:issueId" component={Auth(DetailPage, true)} />
         <Route path="/labels" component={Auth(LabelPage, true)} />
+        <Route
+          path="/milestone/:milestoneId"
+          component={Auth(MilestoneModifyPage, true)}
+        />
         <Route path="/milestone" component={Auth(MilestonePage, true)} />
+        <Route path="/newmilestone" component={Auth(MilestoneAddPage, true)} />
       </Switch>
     </Router>
   );

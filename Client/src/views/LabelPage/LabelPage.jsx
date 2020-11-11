@@ -22,7 +22,6 @@ function LabelPage(props) {
     <LabelPageContext.Provider value={{ toggleLabelEditArea }}>
       <div id="landingArea">
         <br />
-        <h2>이슈잇슈</h2>
         <br />
         <LabelNavBar {...props} />
         <br />

@@ -15,6 +15,10 @@ function MilestonePage(props) {
     props.history.push("/milestone");
   }
 
+  function newMilestoneHandler() {
+    props.history.push("/newmilestone");
+  }
+
   return (
     <PageStyle>
       <TopNavStyle id="topNav">
@@ -56,6 +60,7 @@ function MilestonePage(props) {
             borderRad="6px"
             height="30px"
             border="0"
+            onClick={newMilestoneHandler}
           >
             New milestone
           </CustomBtn>

@@ -5,7 +5,7 @@ import IssueCard from "../IssueCard";
 import loadingImg from "../../../public/loading.gif";
 import { LandingPageContext } from "../../views/LandingPage";
 import DropDownStatus from "../DropDownStatus";
-import DropDown from "../DropDown";
+import DropDownFilter from "../Filter/DropDownFilter";
 
 let items = new Map();
 
@@ -15,6 +15,10 @@ function IssueList(props) {
   const [isMounted, setisMounted] = useState(true);
   const [ChkIssueId, setChkIssueId] = useState([]);
   const [StatusDropDownVisible, setStatusDropDownVisible] = useState(false);
+  const [AssigneeDropDownVisible, setAssigneeDropDownVisible] = useState(false);
+  const [AuthorDropDownVisible, setAuthorDropDownVisible] = useState(false);
+  const [LabelDropDownVisible, setLabelDropDownVisible] = useState(false);
+  const [MilestoneDropDownVisible, setMilestoneDropDownVisible] = useState(false);
 
   //Context API를 통해 가져옴
   const { Issues, issueHandler } = useContext(LandingPageContext);
@@ -160,8 +164,26 @@ function IssueList(props) {
   const openStatusDropDown = () => {
     setStatusDropDownVisible(true);
   };
+  const openAuthorDropDown = () => {
+    setAuthorDropDownVisible(true);
+  };
+  const openAssigneeDropDown = () => {
+    setnAssigneeDropDownVisible(true);
+  };
+  const openLabelDropDown = () => {
+    setLabelDropDownVisible(true);
+  };
+  const openMilestoneDropDown = () => {
+    setMilestoneDropDownVisible(true);
+  };
   const closeStatusDropDown = () => {
     setStatusDropDownVisible(false);
+  };
+  const closeFilterDropDown = () => {
+    setAuthorDropDownVisible(false);
+    setLabelDropDownVisible(false);
+    setMilestoneDropDownVisible(false);
+    setAssigneeDropDownVisible(false);
   };
 
   const markAsOpt = (
@@ -181,18 +203,26 @@ function IssueList(props) {
 
   const filterOpt = (
     <RightMenuStyle id="rightMenu">
-      <OptBtnStyle className="optBtn" id="authorOpt">
+      <OptBtnStyle className="optBtn" id="authorOpt" onClick={openAuthorDropDown}>
         Author ▾
+        {AuthorDropDownVisible&&
+        (<DropDownFilter visible={AuthorDropDownVisible} onClose={closeFilterDropDown} filter="author"/>)}
       </OptBtnStyle>
-      <OptBtnStyle className="optBtn" id="labelOpt">
+      <div className="optBtn" id="labelOpt" onClick={openLabelDropDown}>
         Label ▾
-      </OptBtnStyle>
-      <OptBtnStyle className="optBtn" id="milestonesOpt">
+        {LabelDropDownVisible&&
+        (<DropDownFilter visible={LabelDropDownVisible} onClose={closeFilterDropDown} filter="label"/>)}
+      </div>
+      <div className="optBtn" id="milestonesOpt" onClick={openMilestoneDropDown}>
         Milestones ▾
-      </OptBtnStyle>
-      <OptBtnStyle className="optBtn" id="assigneeOpt">
+        {MilestoneDropDownVisible&&
+        (<DropDownFilter visible={MilestoneDropDownVisible} onClose={closeFilterDropDown} filter="milestone"/>)}
+      </div>
+      <div className="optBtn" id="assigneeOpt" onClick={openAssigneeDropDown}>
         Assignee ▾
-      </OptBtnStyle>
+        {AssigneeDropDownVisible&&
+        (<DropDownFilter visible={AssigneeDropDownVisible} onClose={closeFilterDropDown} filter="assignee"/>)}
+      </div>
     </RightMenuStyle>
   );
 
