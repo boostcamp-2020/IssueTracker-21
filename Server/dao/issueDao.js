@@ -202,6 +202,20 @@ exports.insertNewLabel = async (issueId, labelId) => {
     }
   });
 };
+/* 이슈에 라벨 삭제 */
+exports.deleteLabel = async (issueId, labelId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      console.log(issueId, labelId);
+      await issueLabelModel.destroy({
+        where: { issueId: issueId, labelId: labelId },
+      });
+      resolve({ success: true });
+    } catch (e) {
+      reject({ error: e });
+    }
+  });
+};
 
 /* 이슈에 담당자 추가 */
 exports.insertNewAssignee = async (issueId, assigneeId) => {
@@ -210,6 +224,19 @@ exports.insertNewAssignee = async (issueId, assigneeId) => {
       await assigneeModel.create({
         issueId: issueId,
         userId: assigneeId,
+      });
+      resolve({ success: true });
+    } catch (e) {
+      reject({ error: e });
+    }
+  });
+};
+
+exports.deleteAssignee = async (issueId, assigneeId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      await assigneeModel.destroy({
+        where: { issueId: issueId, userId: assigneeId },
       });
       resolve({ success: true });
     } catch (e) {

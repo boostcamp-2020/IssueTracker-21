@@ -223,6 +223,22 @@ exports.insertNewLabel = async function (req, res, next) {
   }
 };
 
+/*이슈에 라벨 삭제 */
+exports.deleteLabel = async function (req, res, next) {
+  const { issueId, labelId } = req.body;
+  try {
+    let deletedLabelResult = await issueDao.deleteLabel(issueId, labelId);
+    if (deletedLabelResult.success) {
+      return res.status(200).json({ success: true });
+    }
+    return res.status(400).json(deletedLabelResult);
+  } catch (e) {
+    return res
+      .status(400)
+      .json({ success: false, status: 400, message: e.message });
+  }
+};
+
 /* 이슈에 담당자 추가 */
 exports.insertNewAssignee = async function (req, res, next) {
   const { issueId, assigneeId } = req.body;
@@ -235,6 +251,25 @@ exports.insertNewAssignee = async function (req, res, next) {
       return res.status(200).json({ success: true });
     }
     return res.status(400).json(insertAssigneeResult);
+  } catch (e) {
+    return res
+      .status(400)
+      .json({ success: false, status: 400, message: e.message });
+  }
+};
+
+exports.deleteAssignee = async function (req, res, next) {
+  const { issueId, assigneeId } = req.body;
+  try {
+    console.log(issueId, assigneeId);
+    let deletedAssigneeResult = await issueDao.deleteAssignee(
+      issueId,
+      assigneeId
+    );
+    if (deletedAssigneeResult.success) {
+      return res.status(200).json({ success: true });
+    }
+    return res.status(400).json(deletedAssigneeResult);
   } catch (e) {
     return res
       .status(400)
