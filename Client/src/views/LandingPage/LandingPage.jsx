@@ -14,6 +14,7 @@ function LandingPage(props) {
   //이슈 리스트에 표시될 이슈 데이터를 관리
   const [Issues, setIssues] = useState([]);
   const [isMounted, setisMounted] = useState(true);
+  const [clearBtnStatus, setclearBtnStatus] = useState(false);
 
   const issueHandler = (issueList) => {
     setIssues(issueList);
@@ -35,7 +36,20 @@ function LandingPage(props) {
           alert("Failed to get issues");
         }
       });
+      if (inputData !== "is:open is:issue") setclearBtnStatus(true);
     }
+  };
+
+  const clearBtnStatusHandler = () => {
+    setclearBtnStatus(false);
+    setInputData("is:open is:issue");
+    axios.get(inputDataToUrl("is:open is:issue")).then((response) => {
+      if (response.data.success && isMounted) {
+        issueHandler(response.data.issues);
+      } else {
+        alert("Failed to get issues");
+      }
+    });
   };
 
   //필터 버튼의 리스트가 눌렸을 때 동작
@@ -43,11 +57,11 @@ function LandingPage(props) {
     setInputData(e.target.id);
   };
 
-  useEffect(() => {
-    return () => {
-      setisMounted(false);
-    };
-  });
+  // useEffect(() => {
+  //   return () => {
+  //     setisMounted(false);
+  //   };
+  // });
 
   return (
     <LandingPageContext.Provider
@@ -66,6 +80,12 @@ function LandingPage(props) {
         <br />
         <Navbar {...props} />
         <br />
+        {clearBtnStatus && (
+          <button onClick={clearBtnStatusHandler}>
+            Clear current search query, filters, and sorts
+          </button>
+        )}
+        {clearBtnStatus && <br />}
         <IssueList />
         <br />
 
