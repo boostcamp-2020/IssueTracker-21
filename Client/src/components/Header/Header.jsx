@@ -1,13 +1,16 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 function Header() {
   return (
     <HeaderDiv id="headerArea">
-      <Top>
-        <Imogi href='/'>&#128008; &nbsp;</Imogi>
-        <HeaderTitleLink href='/'>ISSUES</HeaderTitleLink>
-      </Top>
+      <Link to="/">
+        <Top>
+          <Imogi>&#128008; &nbsp;</Imogi>
+          <HeaderTitleLink>ISSUES</HeaderTitleLink>
+        </Top>
+      </Link>
     </HeaderDiv>
   );
 }
@@ -33,19 +36,19 @@ const Top = styled.div`
   }
 `;
 
-const HeaderTitleLink = styled.a`
+const HeaderTitleLink = styled.div`
   color: white;
   :hover {
-    text-decoration:none;
+    text-decoration: none;
     color: white;
   }
 `;
 
-const Imogi = styled.a`
+const Imogi = styled.div`
   font-size: 15px;
   margin: 0;
   :hover {
-    text-decoration:none;
+    text-decoration: none;
     color: white;
   }
 `;
