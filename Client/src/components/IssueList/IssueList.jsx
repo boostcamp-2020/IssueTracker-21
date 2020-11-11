@@ -237,7 +237,7 @@ function IssueList(props) {
     <IssueListAreaStyle id="issueListArea">
       <FilterAreaStyle id="filterArea">
         <LeftMenuStyle id="leftMenu">
-          <div
+          <CheckBoxStyles
             id="issueAllChkBox"
             onClick={chkBox}
             className={ChkNum.condition}
