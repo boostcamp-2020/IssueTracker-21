@@ -8,6 +8,10 @@ import CustomBtn from "../../components/CustomBtn";
 import Sidebar from "../../components/Sidebar";
 import { toggleArray, toggleObject } from "../../utils/toggle";
 
+let assigneeList = [];
+let milestone = null;
+let labelList = [];
+
 export const NewIssuePageContext = React.createContext();
 
 function NewIssuePage(props) {
@@ -15,10 +19,6 @@ function NewIssuePage(props) {
   const [Title, setTitle] = useState("");
   const [Contents, setContents] = useState("");
   const [BtnColor, setBtnColor] = useState("#ced2d7");
-
-  let assigneeList = [];
-  let milestone = null;
-  let labelList = [];
 
   const [curAssigneeList, setCurAssigneeList] = useState([]);
   const [curMilestone, setCurMilestoneList] = useState(null);
@@ -77,13 +77,16 @@ function NewIssuePage(props) {
     if (Title.length === 0 || Contents.length === 0) {
       return alert("제목과 내용 모두 입력해주세요");
     }
+
     const body = {
       title: Title,
-      amuthorId: User.user.userId,
+      authorId: User.user.userId,
       description: Contents,
-      milestoneId: milestone ? milestone.id : "null",
-      assignees: assigneeList.length ? assigneeList.map((e) => e.id) : "null",
-      labels: labelList.length ? labelList.ap((e) => e.id) : "null",
+      milestoneId: curMilestone ? curMilestone.id : "null",
+      assignees: curAssigneeList.length
+        ? curAssigneeList.map((e) => e.id)
+        : "null",
+      labels: curLabelList.length ? curLabelList.map((e) => e.id) : "null",
     };
 
     axios.post("/api/issue", body).then((response) => {
