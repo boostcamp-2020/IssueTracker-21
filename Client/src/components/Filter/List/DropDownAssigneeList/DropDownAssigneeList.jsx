@@ -27,6 +27,7 @@ function DropDownAssigneeList() {
             key={index}
             id={item.id}
             profile={item.profile}
+            isAuthor={false}
           />
         );
     })

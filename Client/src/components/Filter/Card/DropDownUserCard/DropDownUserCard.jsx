@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { Router } from "react-router-dom";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import {LandingPageContext} from "../../../../views/LandingPage"
 
 const DropDownprofilePicture = styled.img`
   width: 22px;
@@ -10,18 +11,46 @@ const DropDownprofilePicture = styled.img`
 `;
 
 function DropDownUserCard(props) {
-  const { id, profile } = props;
+  const { id, profile, isAuthor } = props;
+  const { inputOnClickFilterHandler } = useContext(LandingPageContext);
 
-  return (
-    <DropDownUserCardContainer
-      data-userid={id}
-    >
-      <DropDownprofilePictureContainer>
-        <DropDownprofilePicture src={profile} />
-      </DropDownprofilePictureContainer>
-      <DropDownUserIdContainer>{id}</DropDownUserIdContainer>
-    </DropDownUserCardContainer>
-  );
+  const close = (e) => {
+    if (props.onClose) {
+        props.onClose(e)
+    }
+  }
+
+  if(isAuthor){
+    return (
+      <DropDownUserCardContainer
+        data-userid={id}
+        onClick={(e) => {
+          inputOnClickFilterHandler(`author:${id}`);
+          close(e);
+        }
+      }
+      >
+        <DropDownprofilePictureContainer>
+          <DropDownprofilePicture src={profile} />
+        </DropDownprofilePictureContainer>
+        <DropDownUserIdContainer>{id}</DropDownUserIdContainer>
+      </DropDownUserCardContainer>
+    );
+  } else {
+    return (
+      <DropDownUserCardContainer
+        data-userid={id}
+        onClick={() => inputOnClickFilterHandler(`assignee:${id}`)}
+      >
+        <DropDownprofilePictureContainer>
+          <DropDownprofilePicture src={profile} />
+        </DropDownprofilePictureContainer>
+        <DropDownUserIdContainer>{id}</DropDownUserIdContainer>
+      </DropDownUserCardContainer>
+    );
+  }
+
+
 }
 
 const DropDownUserCardContainer=styled.div`

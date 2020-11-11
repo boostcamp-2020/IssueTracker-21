@@ -15,21 +15,15 @@ function DropDownFilter(props) {
   const getProperList = (filter) => {
     switch (filter) {
       case "assignee":
-        return <DropDownAssigneeList></DropDownAssigneeList>;
+        return <DropDownAssigneeList onClose={props.onClose}></DropDownAssigneeList>;
       case "author":
-        return <DropDownAuthorList></DropDownAuthorList>;
+        return <DropDownAuthorList onClose={props.onClose}></DropDownAuthorList>;
       case "label":
-        return <DropDownLabelList></DropDownLabelList>;
+        return <DropDownLabelList onClose={props.onClose}></DropDownLabelList>;
       case "milestone":
-        return <DropDownMilestoneList></DropDownMilestoneList>;
+        return <DropDownMilestoneList onClose={props.onClose}></DropDownMilestoneList>;
     }
   };
-
-  const close = (e) => {
-    if (props.onClose) {
-        props.onClose(e)
-    }
-  }
 
   return (
         <DropDownContainter visible={props.visible}>

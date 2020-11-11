@@ -27,6 +27,8 @@ function DropDownAuthorList(props) {
             key={index}
             id={item.id}
             profile={item.profile}
+            isAuthor={true}
+            onClose={props.onClose}
           />
         );
     })

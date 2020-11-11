@@ -2,13 +2,16 @@ import React, { useEffect, useState, useContext } from "react";
 import { Router } from "react-router-dom";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import {LandingPageContext} from "../../../../views/LandingPage"
 
 function DropDownLabelCard(props) {
   const { id, name, description, color } = props;
+  const { inputOnClickFilterHandler } = useContext(LandingPageContext);
 
   return (
     <DropDownLabelCardContainer
       data-labelid={id}
+      onClick={() => inputOnClickFilterHandler(`label:${name}`)}
     >
       <DropDownLabelColorNameContainer>
         <DropDownLabelColorContainer>
