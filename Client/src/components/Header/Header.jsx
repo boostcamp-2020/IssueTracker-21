@@ -8,7 +8,7 @@ function Header() {
       <Link to="/">
         <Top>
           <Imogi>&#128008; &nbsp;</Imogi>
-          <HeaderTitleLink>ISSUES</HeaderTitleLink>
+          <HeaderTitleLink>이슈잇슈</HeaderTitleLink>
         </Top>
       </Link>
     </HeaderDiv>
