@@ -4,6 +4,13 @@ import IssueHeader from "../../components/IssueHeader";
 import axios from "axios";
 import loadingImg from "../../../public/loading.gif";
 
+import Sidebar from "../../components/Sidebar";
+import { toggleArray, toggleObject } from "../../utils/toggle";
+import {
+  checkExistElement,
+  checkNonExistElement,
+} from "../../utils/compareTwoArray";
+
 import "./DetailPageStyle.scss";
 import IssueComment from "../../components/IssueComment";
 
@@ -14,6 +21,10 @@ import styled from "styled-components";
 const IssueComponentsDiv = styled.div`
   display: 70%;
 `;
+
+let assigneeList = [];
+let milestone = null;
+let labelList = [];
 
 function DetailPage(props) {
   const { params } = props.match;
@@ -27,13 +38,44 @@ function DetailPage(props) {
 
   const [isMounted, setisMounted] = useState(true);
 
-  let assigneeList = [];
-  let milestone = null;
-  let labelList = [];
-
   const [curAssigneeList, setCurAssigneeList] = useState([]);
   const [curMilestone, setCurMilestoneList] = useState(null);
   const [curLabelList, setCurLabelList] = useState([]);
+
+  const [progress, setProgress] = useState(0);
+
+  const assigneeListHandler = (data) => {
+    assigneeList = toggleArray(assigneeList, data).slice();
+  };
+
+  /* TODO:  두 객체를 비교해서 DB에 추가하거나 삭제하도록 해야한다.*/
+  const curAssigneeListHandler = () => {
+    const exsitingElementList = checkExistElement(
+      assigneeList,
+      curAssigneeList
+    );
+    const nonExistingElementList = checkNonExistElement(
+      assigneeList,
+      curAssigneeList
+    );
+    setCurAssigneeList(assigneeList);
+  };
+
+  const labelListHandler = (data) => {
+    labelList = toggleArray(labelList, data).slice();
+  };
+
+  const curlabelListHandler = () => {
+    setCurLabelList(labelList);
+  };
+
+  const milestoneListHandler = (data) => {
+    milestone = toggleObject(milestone, data);
+  };
+
+  const curMilestoneListHandler = () => {
+    setCurMilestoneList(milestone);
+  };
 
   const addingInfoHandler = (data) => {
     setIssueData({
@@ -72,7 +114,6 @@ function DetailPage(props) {
           data: { issueDetail: issueDbData },
         } = response;
         const { issueDetail } = issueDbData;
-        console.log(issueDetail);
         setIssueData(issueDbData);
         setIssueOpened(issueDetail.isOpened);
         setCurAssigneeList(
@@ -82,8 +123,7 @@ function DetailPage(props) {
               })
             : []
         );
-        //         milestone: {title: "Back End22"}
-        // milestoneId: 4
+
         setCurLabelList(issueDetail.labels.length ? issueDetail.labels : []);
         setCurMilestoneList(
           issueDetail.milestone
@@ -104,6 +144,16 @@ function DetailPage(props) {
       setisMounted(false);
     };
   }, []);
+
+  useEffect(() => {
+    assigneeList = curAssigneeList.slice();
+    // console.log("in cur Effect");
+    // console.log(assigneeList);
+  }, [curAssigneeList]);
+
+  useEffect(() => {
+    labelList = curLabelList.slice();
+  }, [curLabelList]);
 
   const renderLoading = (
     <div className="emptyList" id="loading">
@@ -166,6 +216,22 @@ function DetailPage(props) {
 
         {commentsLoading ? renderLoading : renderIssueComment}
         {commentsLoading ? renderLoading : renderIssueCommentEditor}
+        <Sidebar
+          issueId={issueData.issueDetail.id}
+          assigneeList={assigneeList}
+          labelList={labelList}
+          milestone={milestone}
+          progress={progress}
+          curAssigneeList={curAssigneeList}
+          curMilestone={curMilestone}
+          curLabelList={curLabelList}
+          curAssigneeListHandler={curAssigneeListHandler}
+          assigneeListHandler={assigneeListHandler}
+          labelListHandler={labelListHandler}
+          milestoneListHandler={milestoneListHandler}
+          curlabelListHandler={curlabelListHandler}
+          curMilestoneListHandler={curMilestoneListHandler}
+        />
       </IssueComponentsDiv>
     </div>
   );
