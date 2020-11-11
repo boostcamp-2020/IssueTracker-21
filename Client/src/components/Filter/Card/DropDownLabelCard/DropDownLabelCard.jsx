@@ -2,16 +2,13 @@ import React, { useEffect, useState, useContext } from "react";
 import { Router } from "react-router-dom";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { DropDownContext } from "../DropDown";
 
 function DropDownLabelCard(props) {
   const { id, name, description, color } = props;
-  const { onCardClicked } = useContext(DropDownContext);
 
   return (
     <DropDownLabelCardContainer
       data-labelid={id}
-      onClick={() => onCardClicked({ id, name, description, color })}
     >
       <DropDownLabelColorNameContainer>
         <DropDownLabelColorContainer>

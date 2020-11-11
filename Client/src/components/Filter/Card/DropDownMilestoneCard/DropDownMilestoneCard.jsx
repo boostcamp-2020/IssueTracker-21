@@ -2,16 +2,13 @@ import React, { useEffect, useState, useContext } from "react";
 import { Router } from "react-router-dom";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { DropDownContext } from "../DropDown";
 
 function DropDownMilestoneCard(props) {
   const { id, title } = props;
-  const { onCardClicked } = useContext(DropDownContext);
 
   return (
     <DropDownMilestoneName
       data-milestoneid={id}
-      onClick={()=>onCardClicked({ id, title })}
     >
       <div className="dropDownMilestoneName">{title}</div>
     </DropDownMilestoneName>
@@ -28,7 +25,5 @@ justify-content: center;
     background-color: #f6f8fa;
   }
 `
-
-
 
 export default DropDownMilestoneCard;

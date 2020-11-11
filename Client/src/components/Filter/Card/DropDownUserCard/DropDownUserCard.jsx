@@ -3,8 +3,6 @@ import { Router } from "react-router-dom";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-import { DropDownContext } from "../DropDown";
-
 const DropDownprofilePicture = styled.img`
   width: 22px;
   height: 22px;
@@ -13,12 +11,10 @@ const DropDownprofilePicture = styled.img`
 
 function DropDownUserCard(props) {
   const { id, profile } = props;
-  const { onCardClicked } = useContext(DropDownContext);
 
   return (
     <DropDownUserCardContainer
       data-userid={id}
-      onClick={() => onCardClicked({ id, profile })}
     >
       <DropDownprofilePictureContainer>
         <DropDownprofilePicture src={profile} />
