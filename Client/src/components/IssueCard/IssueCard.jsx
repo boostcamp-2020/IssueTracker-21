@@ -4,7 +4,6 @@ import calcTime from "../../utils/calcTime";
 import LabelTag from "../LabelTag";
 import Assignee from "../Assignee";
 import styled from "styled-components";
-// import "./IssueCard.scss";
 
 function IssueCard(props) {
   const {
