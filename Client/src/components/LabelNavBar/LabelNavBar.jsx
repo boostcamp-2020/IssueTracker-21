@@ -9,15 +9,48 @@ import { LabelPageContext } from "../../views/LabelPage/LabelPage";
 import styled from "styled-components";
 
 function LabelNavBar() {
-  const {toggleLabelEditArea} = useContext(LabelPageContext);
+  const { toggleLabelEditArea } = useContext(LabelPageContext);
 
   return (
-  <LabelNavBarContainer>
-    <LinkButtonContainer></LinkButtonContainer>
-    <NewLabelButtonContainer>
-      <NewLabelButton onClick={toggleLabelEditArea}>New label</NewLabelButton>
-    </NewLabelButtonContainer>
-  </LabelNavBarContainer>
+    <LabelNavBarContainer>
+      <LinkButtonContainer>
+        <div className="button__section">
+          <BtnAtagStyle href="/labels">
+            <CustomBtn
+              color="white"
+              bgColor="#0E66D6"
+              width="100%"
+              height="30px"
+              border="1px solid #e1e4e8"
+              borderRad="6px 0 0 6px"
+              padding="5px 13px"
+            >
+              <Icon width="18" height="18" icon={tagIcon} />
+              &nbsp;Labels
+            </CustomBtn>
+          </BtnAtagStyle>
+
+          <BtnAtagStyle href="/milestone">
+            <CustomBtn
+              color="black"
+              bgColor="white"
+              width="100%"
+              height="30px"
+              border="1px solid #e1e4e8"
+              borderRad="0 6px 6px 0"
+              padding="5px 13px"
+            >
+              <Icon width="18" height="18" icon={milestone24} />
+              &nbsp;Milestones
+            </CustomBtn>
+          </BtnAtagStyle>
+        </div>
+      </LinkButtonContainer>
+
+      <NewLabelButtonContainer>
+        <NewLabelButton onClick={toggleLabelEditArea}>New label</NewLabelButton>
+      </NewLabelButtonContainer>
+    </LabelNavBarContainer>
   );
 }
 
@@ -26,7 +59,9 @@ const LabelNavBarContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  *:focus { outline:none; }
+  *:focus {
+    outline: none;
+  }
 `;
 
 const LinkButtonContainer = styled.div`
@@ -39,11 +74,11 @@ const NewLabelButtonContainer = styled.div`
   width: 50%;
   align-items: center;
   justify-content: flex-end;
-`
+`;
 
 const NewLabelButton = styled.button`
   display: flex;
-  background-color:  #2ea44f;
+  background-color: #2ea44f;
   border: 1px solid #647c6b;
   border-radius: 2px;
   align-items: center;
@@ -51,7 +86,10 @@ const NewLabelButton = styled.button`
   color: white;
   font-size: 13px;
   padding: 3px 5px;
-`
+`;
+
+const BtnAtagStyle = styled.a`
+  width: 100%;
+`;
 
 export default LabelNavBar;
-
