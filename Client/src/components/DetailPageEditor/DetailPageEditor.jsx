@@ -1,15 +1,8 @@
-import React, { useState } from "react";
-import "./DetailPageStyle.scss";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-import styled from "styled-components";
-
+import Sty from "./DetailPageEditorStyle";
 import Editor from "../Editor";
-import { useEffect } from "react";
-
-const DetailEditorArea = styled.div``;
-
-const DetailButtons = styled.div``;
 
 function DetailPageEditor(props) {
   const [typed, setTyped] = useState("");
@@ -72,19 +65,28 @@ function DetailPageEditor(props) {
     setTyped("");
   };
 
+  const CloseBtnStyle = issueOpened ? Sty.CloseIssueStyle : Sty.HiddenStyle;
+  const ReOpenBtnStyle = issueOpened ? Sty.HiddenStyle : Sty.ReopenIssueStyle;
+  const CommentBtnStyle =
+    typed.length == 0 ? Sty.NottypeStyle : Sty.CommentStyle;
+
   return (
-    <DetailEditorArea id="detailEditorArea">
+    <Sty.DetailEditorArea id="detailEditorArea">
       {userLoaded ? (
-        <div className="profile">
-          <img src={user.profile} alt="이미지" className="userProfile" />
-        </div>
+        <Sty.ProfileStyle className="profile">
+          <Sty.UserProfileStyle
+            src={user.profile}
+            alt="이미지"
+            className="userProfile"
+          />
+        </Sty.ProfileStyle>
       ) : (
         <div></div>
       )}
-      <div className="editorArea">
+      <Sty.EditorAreaStyle className="editorArea">
         <Editor typingHandler={typingHandler}></Editor>
-        <DetailButtons id="detailButtons">
-          <button
+        <Sty.DetailButtonsStyle id="detailButtons">
+          <CloseBtnStyle
             className={issueOpened ? "closeIssue" : "hidden"}
             onClick={() => {
               setIssueOpened(false);
@@ -92,8 +94,8 @@ function DetailPageEditor(props) {
             }}
           >
             Close issue
-          </button>
-          <button
+          </CloseBtnStyle>
+          <ReOpenBtnStyle
             className={issueOpened ? "hidden" : "reopenIssue"}
             onClick={() => {
               setIssueOpened(true);
@@ -101,17 +103,17 @@ function DetailPageEditor(props) {
             }}
           >
             Reopen issue
-          </button>
-          <button
+          </ReOpenBtnStyle>
+          <CommentBtnStyle
             className={typed.length == 0 ? "comment nottype" : "comment"}
             disabled={typed.length == 0 ? true : false}
             onClick={(e) => commentHandelr(e)}
           >
             Comment
-          </button>
-        </DetailButtons>
-      </div>
-    </DetailEditorArea>
+          </CommentBtnStyle>
+        </Sty.DetailButtonsStyle>
+      </Sty.EditorAreaStyle>
+    </Sty.DetailEditorArea>
   );
 }
 
