@@ -1,14 +1,6 @@
 import React, { useState } from "react";
-
-import "./CommentEditorStyle.scss";
-
 import Editor from "../Editor";
-
 import styled from "styled-components";
-
-const CommentEditorArea = styled.div``;
-
-const CommentButtons = styled.div``;
 
 function CommentEditor(props) {
   const cancelClickHandler = props.cancelClickHandler;
@@ -22,21 +14,46 @@ function CommentEditor(props) {
   };
 
   return (
-    <CommentEditorArea>
+    <div>
       <Editor
         typingHandler={typingHandler}
         defaultValue={defaultValue}
       ></Editor>
       <CommentButtons id="commentButtonArea">
-        <button className="cancel" onClick={(e) => cancelClickHandler(e)}>
+        <CancelStyle className="cancel" onClick={(e) => cancelClickHandler(e)}>
           Cancel
-        </button>
-        <button className="update" onClick={() => submitClickHandler(typed)}>
+        </CancelStyle>
+        <UpdateStyle
+          className="update"
+          onClick={() => submitClickHandler(typed)}
+        >
           Update comment
-        </button>
+        </UpdateStyle>
       </CommentButtons>
-    </CommentEditorArea>
+    </div>
   );
 }
+
+const CommentButtons = styled.div`
+  display: flex;
+  width: 100%;
+  justify-items: flex-end;
+  align-items: center;
+`;
+
+const BtnStyle = styled.button`
+  border-radius: 2.5px;
+  font-weight: bold;
+  margin: 0 1%;
+  border: 1px solid #777777;
+`;
+const CancelStyle = styled(BtnStyle)`
+  background-color: #fafbfc;
+  color: red;
+`;
+const UpdateStyle = styled(BtnStyle)`
+  background-color: #2cbe4e;
+  color: white;
+`;
 
 export default CommentEditor;
