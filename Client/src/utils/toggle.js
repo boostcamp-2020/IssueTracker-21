@@ -1,4 +1,4 @@
-const isEqual = function (ob1, ob2) {
+export const isEqual = function (ob1, ob2) {
   // 인자값의 Type이 object가 아닐경우 false를 리턴한다.
   if (typeof ob1 !== "object" || typeof ob2 !== "object") return false;
   // Type을 String으로 변환한다.
