@@ -8,42 +8,47 @@ import CustomInput from "../CustomInput";
 import { LabelPageContext } from "../../views/LabelPage/LabelPage";
 import styled from "styled-components";
 
-function LabelNavBar() {
+function LabelNavBar(props) {
   const { toggleLabelEditArea } = useContext(LabelPageContext);
 
+  function labelsHandler() {
+    props.history.push("/labels");
+  }
+
+  function milestonesHandler() {
+    props.history.push("/milestone");
+  }
   return (
     <LabelNavBarContainer>
       <LinkButtonContainer>
         <div className="button__section">
-          <BtnAtagStyle href="/labels">
-            <CustomBtn
-              color="white"
-              bgColor="#0E66D6"
-              width="100%"
-              height="30px"
-              border="1px solid #e1e4e8"
-              borderRad="6px 0 0 6px"
-              padding="5px 13px"
-            >
-              <Icon width="18" height="18" icon={tagIcon} />
-              &nbsp;Labels
-            </CustomBtn>
-          </BtnAtagStyle>
+          <CustomBtn
+            color="white"
+            bgColor="#0E66D6"
+            width="100%"
+            height="30px"
+            border="1px solid #e1e4e8"
+            borderRad="6px 0 0 6px"
+            padding="5px 13px"
+            onClick={labelsHandler}
+          >
+            <Icon width="18" height="18" icon={tagIcon} />
+            &nbsp;Labels
+          </CustomBtn>
 
-          <BtnAtagStyle href="/milestone">
-            <CustomBtn
-              color="black"
-              bgColor="white"
-              width="100%"
-              height="30px"
-              border="1px solid #e1e4e8"
-              borderRad="0 6px 6px 0"
-              padding="5px 13px"
-            >
-              <Icon width="18" height="18" icon={milestone24} />
-              &nbsp;Milestones
-            </CustomBtn>
-          </BtnAtagStyle>
+          <CustomBtn
+            color="black"
+            bgColor="white"
+            width="100%"
+            height="30px"
+            border="1px solid #e1e4e8"
+            borderRad="0 6px 6px 0"
+            padding="5px 13px"
+            onClick={milestonesHandler}
+          >
+            <Icon width="18" height="18" icon={milestone24} />
+            &nbsp;Milestones
+          </CustomBtn>
         </div>
       </LinkButtonContainer>
 
