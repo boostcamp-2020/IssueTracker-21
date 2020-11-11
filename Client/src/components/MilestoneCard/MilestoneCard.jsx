@@ -11,10 +11,14 @@ function MilestoneCard(props) {
   const [Progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const percent = Math.floor(
-      (info.closeCount / (info.closeCount + info.openCount)) * 100
-    );
-    setProgress(percent);
+    if (info.closeCount === 0 && info.openCount === 0) {
+      setProgress(0);
+    } else {
+      const percent = Math.floor(
+        (info.closeCount / (info.closeCount + info.openCount)) * 100
+      );
+      setProgress(percent);
+    }
   });
 
   const editHandler = () => {
