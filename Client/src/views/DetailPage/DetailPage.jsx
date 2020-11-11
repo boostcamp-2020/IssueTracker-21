@@ -229,12 +229,6 @@ function DetailPage(props) {
   }, []);
 
   useEffect(() => {
-    assigneeList = curAssigneeList.slice();
-    // console.log("in cur Effect");
-    // console.log(assigneeList);
-  }, [curAssigneeList]);
-
-  useEffect(() => {
     labelList = curLabelList.slice();
   }, [curLabelList]);
 
