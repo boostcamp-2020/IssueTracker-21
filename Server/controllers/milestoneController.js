@@ -9,7 +9,7 @@ exports.getMilestone = async (req, res) => {
     return res.status(200).json({
       success: true,
       milestoneCount: milestoneCount,
-      milestones:milestones
+      milestones: milestones,
     });
   } catch (e) {
     return res.status(400).json({
@@ -49,6 +49,7 @@ exports.updateMilestone = async (req, res) => {
       success: true,
     });
   } catch (e) {
+    console.log(e);
     return res.status(400).json({
       success: false,
       e,
