@@ -50,14 +50,46 @@ function DetailPage(props) {
 
   /* TODO:  두 객체를 비교해서 DB에 추가하거나 삭제하도록 해야한다.*/
   const curAssigneeListHandler = () => {
-    const exsitingElementList = checkExistElement(
+    const addassigneetList = checkNonExistElement(
       assigneeList,
       curAssigneeList
     );
-    const nonExistingElementList = checkNonExistElement(
-      assigneeList,
-      curAssigneeList
+
+    const deleteassigneeList = checkNonExistElement(
+      curAssigneeList,
+      assigneeList
     );
+
+    if (addassigneetList.length) {
+      addassigneetList.map((e) => {
+        const body = {
+          issueId: issueData.issueDetail.id,
+          assigneeId: e.id,
+        };
+
+        axios.post("/api/issue/assignee", body).then((response) => {
+          if (response.data.success) {
+            console.log("insert work");
+          }
+        });
+      });
+    }
+
+    if (deleteassigneeList.length) {
+      deleteassigneeList.map((e) => {
+        const body = {
+          issueId: issueData.issueDetail.id,
+          assigneeId: e.id,
+        };
+
+        axios.delete("/api/issue/assignee", { data: body }).then((response) => {
+          if (response.data.success) {
+            console.log("delete work");
+          }
+        });
+      });
+    }
+
     setCurAssigneeList(assigneeList);
   };
 
@@ -66,6 +98,38 @@ function DetailPage(props) {
   };
 
   const curlabelListHandler = () => {
+    const addlabelList = checkNonExistElement(labelList, curLabelList);
+    const deletelabelList = checkNonExistElement(curLabelList, labelList);
+
+    if (addlabelList.length) {
+      addlabelList.map((e) => {
+        const body = {
+          issueId: issueData.issueDetail.id,
+          labelId: e.id,
+        };
+
+        axios.post("/api/issue/label", body).then((response) => {
+          if (response.data.success) {
+            console.log("insert work");
+          }
+        });
+      });
+    }
+
+    if (deletelabelList.length) {
+      deletelabelList.map((e) => {
+        const body = {
+          issueId: issueData.issueDetail.id,
+          labelId: e.id,
+        };
+
+        axios.delete("/api/issue/label", { data: body }).then((response) => {
+          if (response.data.success) {
+            console.log("delete work");
+          }
+        });
+      });
+    }
     setCurLabelList(labelList);
   };
 
@@ -74,6 +138,15 @@ function DetailPage(props) {
   };
 
   const curMilestoneListHandler = () => {
+    const body = {
+      issueId: issueData.issueDetail.id,
+      milestoneId: milestone ? milestone.id : null,
+    };
+
+    axios.put("/api/issue/milestone", body).then((response) => {
+      if (response.data.success) console.log("asdfasdf");
+    });
+
     setCurMilestoneList(milestone);
   };
 
@@ -123,8 +196,18 @@ function DetailPage(props) {
               })
             : []
         );
-
-        setCurLabelList(issueDetail.labels.length ? issueDetail.labels : []);
+        setCurLabelList(
+          issueDetail.labels.length
+            ? issueDetail.labels.map((e) => {
+                return {
+                  id: e.id,
+                  name: e.name,
+                  description: e.description,
+                  color: e.color,
+                };
+              })
+            : []
+        );
         setCurMilestoneList(
           issueDetail.milestone
             ? {
