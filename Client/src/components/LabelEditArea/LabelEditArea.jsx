@@ -71,7 +71,7 @@ function LabelEditArea(props) {
     setLabelColor(randColor);
   };
 
-  const Sty = IsEdit ? AddStyle : EditStyle;
+  const Sty = IsEdit ? EditStyle : AddStyle;
 
   return (
     <Sty.TopDiv
