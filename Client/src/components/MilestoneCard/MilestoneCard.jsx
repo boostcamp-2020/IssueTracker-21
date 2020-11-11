@@ -22,7 +22,7 @@ function MilestoneCard(props) {
   });
 
   const editHandler = () => {
-    props.history.push("/milestone/edit");
+    props.history.push(`/milestone/${info.id}`);
   };
 
   const statusHandler = (e) => {
