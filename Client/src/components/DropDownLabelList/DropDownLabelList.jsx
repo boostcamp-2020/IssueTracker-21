@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Router } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import "./DropDownLabelList.scss";
 import DropDownLabelCard from "../DropDownLabelCard";
+import styled from "styled-components";
 
 function DropDownLabelList() {
   const [Items, setItems] = useState([]);
@@ -36,11 +36,22 @@ function DropDownLabelList() {
   return (
   <div className="dropDownList">
     <div className="dropDownCardContainter">
-      <div className="notSelect">Unlabeled</div>
+      <NotSelect>Unlabeled</NotSelect>
       {renderCards}
     </div>
   </div>
   );
 }
+
+const NotSelect = styled.div`
+  border-top: 1px solid rgb(225, 228, 232);
+  padding: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  :hover {
+    background-color: #f6f8fa;
+  }
+`;
 
 export default DropDownLabelList;

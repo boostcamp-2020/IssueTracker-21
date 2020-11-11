@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import IssueList from "../../components/IssueList";
 import Navbar from "Components/Navbar";
@@ -10,9 +10,11 @@ export const LandingPageContext = React.createContext();
 
 function LandingPage(props) {
   //input에 입력되는 데이터를 관리
-  const [inputData, setInputData] = useState("");
+  const [inputData, setInputData] = useState("is:open is:issue");
   //이슈 리스트에 표시될 이슈 데이터를 관리
   const [Issues, setIssues] = useState([]);
+  const [isMounted, setisMounted] = useState(true);
+  const [clearBtnStatus, setclearBtnStatus] = useState(false);
 
   const issueHandler = (issueList) => {
     setIssues(issueList);
@@ -28,19 +30,39 @@ function LandingPage(props) {
     if (e.key === "Enter") {
       e.preventDefault();
       axios.get(inputDataToUrl(inputData)).then((response) => {
-        if (response.data.success) {
+        if (response.data.success && isMounted) {
           issueHandler(response.data.issues);
         } else {
           alert("Failed to get issues");
         }
       });
+      if (inputData !== "is:open is:issue") setclearBtnStatus(true);
     }
+  };
+
+  const clearBtnStatusHandler = () => {
+    setclearBtnStatus(false);
+    setInputData("is:open is:issue");
+    axios.get(inputDataToUrl("is:open is:issue")).then((response) => {
+      if (response.data.success && isMounted) {
+        issueHandler(response.data.issues);
+      } else {
+        alert("Failed to get issues");
+      }
+    });
   };
 
   //필터 버튼의 리스트가 눌렸을 때 동작
   const inputOnClickHandler = (e) => {
     setInputData(e.target.id);
   };
+
+  // useEffect(() => {
+  //   return () => {
+  //     setisMounted(false);
+  //   };
+  // });
+
   return (
     <LandingPageContext.Provider
       value={{
@@ -58,6 +80,12 @@ function LandingPage(props) {
         <br />
         <Navbar {...props} />
         <br />
+        {clearBtnStatus && (
+          <button onClick={clearBtnStatusHandler}>
+            Clear current search query, filters, and sorts
+          </button>
+        )}
+        {clearBtnStatus && <br />}
         <IssueList />
         <br />
 

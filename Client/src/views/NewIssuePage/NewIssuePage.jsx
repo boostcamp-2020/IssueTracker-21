@@ -5,12 +5,55 @@ import axios from "axios";
 import noprofile from "../../../public/img/noprofile.png";
 import "./style.scss";
 import CustomBtn from "../../components/CustomBtn";
+import Sidebar from "../../components/Sidebar";
+import { toggleArray, toggleObject } from "../../utils/toggle";
+
+export const NewIssuePageContext = React.createContext();
 
 function NewIssuePage(props) {
   const [User, setUser] = useState(null);
   const [Title, setTitle] = useState("");
   const [Contents, setContents] = useState("");
   const [BtnColor, setBtnColor] = useState("#ced2d7");
+
+  let assigneeList = [];
+  let milestone = null;
+  let labelList = [];
+  // const [assigneeList, setAssigneeList] = useState([]);
+  // const [milestone, setmilestone] = useState(null);
+  // const [labelList, setLabelList] = useState([]);
+
+  const [curAssigneeList, setCurAssigneeList] = useState([]);
+  const [curMilestone, setCurMilestoneList] = useState(null);
+  const [curLabelList, setCurLabelList] = useState([]);
+
+  const [progress, setProgress] = useState(0);
+
+  const [isMounted, setisMounted] = useState(true);
+
+  const assigneeListHandler = (data) => {
+    assigneeList = toggleArray(assigneeList, data).slice();
+  };
+
+  const curAssigneeListHandler = () => {
+    setCurAssigneeList(assigneeList);
+  };
+
+  const labelListHandler = (data) => {
+    labelList = toggleArray(labelList, data).slice();
+  };
+
+  const curlabelListHandler = () => {
+    setCurLabelList(labelList);
+  };
+
+  const milestoneListHandler = (data) => {
+    milestone = toggleObject(milestone, data);
+  };
+
+  const curMilestoneListHandler = () => {
+    setCurMilestoneList(milestone);
+  };
 
   //취소 버튼
   const cancelHandler = () => {
@@ -39,12 +82,13 @@ function NewIssuePage(props) {
     }
     const body = {
       title: Title,
-      authorId: User.user.userId,
+      amuthorId: User.user.userId,
       description: Contents,
-      milestoneId: 1,
-      assignees: ["test1", "test2"],
-      labels: [1, 2],
+      milestoneId: milestone ? milestone.id : "null",
+      assignees: assigneeList.length ? assigneeList.map((e) => e.id) : "null",
+      labels: labelList.length ? labelList.ap((e) => e.id) : "null",
     };
+
     axios.post("/api/issue", body).then((response) => {
       if (response.data.success) {
         props.history.push("/");
@@ -57,13 +101,49 @@ function NewIssuePage(props) {
   // 페이지 로딩시 유저정보를 불러오기
   useEffect(() => {
     axios.get("/api/user/userinfo").then((response) => {
-      if (response.data.success) {
+      if (response.data.success && isMounted) {
         setUser(response.data);
       } else {
         alert("Failed to get User info");
       }
     });
+    return () => {
+      setisMounted(false);
+    };
   }, []);
+
+  useEffect(async () => {
+    if (curMilestone) {
+      milestone = { ...curMilestone };
+      await axios.get("/api/milestone").then((response) => {
+        if (response.data.success) {
+          const milestoneData = response.data.milestones;
+          let openissueCount = 0;
+
+          const issueCount = milestoneData
+            .filter((e) => e.id === curMilestone.id)
+            .reduce((acc, cur) => {
+              if (cur.issueIsOpened) openissueCount += cur.count;
+              return acc + cur.count;
+            }, 0);
+
+          if (openissueCount) {
+            setProgress(Math.floor((openissueCount / issueCount) * 100));
+          } else setProgress(0);
+        } else {
+          alert("Failed to get User info");
+        }
+      });
+    } else milestone = null;
+  }, [curMilestone]);
+
+  useEffect(() => {
+    assigneeList = curAssigneeList.slice();
+  }, [curAssigneeList]);
+
+  useEffect(() => {
+    labelList = curLabelList.slice();
+  }, [curLabelList]);
 
   return (
     <div id="newIssueArea">
@@ -104,7 +184,24 @@ function NewIssuePage(props) {
           </CustomBtn>
         </div>
       </div>
-      <div id="sideBar">sidebar section</div>
+      <div id="sideBar">
+        <Sidebar
+          issueId={-1}
+          assigneeList={assigneeList}
+          labelList={labelList}
+          milestone={milestone}
+          progress={progress}
+          curAssigneeList={curAssigneeList}
+          curMilestone={curMilestone}
+          curLabelList={curLabelList}
+          curAssigneeListHandler={curAssigneeListHandler}
+          assigneeListHandler={assigneeListHandler}
+          labelListHandler={labelListHandler}
+          milestoneListHandler={milestoneListHandler}
+          curlabelListHandler={curlabelListHandler}
+          curMilestoneListHandler={curMilestoneListHandler}
+        />
+      </div>
     </div>
   );
 }

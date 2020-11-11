@@ -69,10 +69,19 @@ function Editor(props) {
   const [ShowNum, setShowNum] = useState(false);
   const defaultValue = props.defaultValue || "";
   const [Contents, setContents] = useState(defaultValue);
+  const [isMounted, setisMounted] = useState(true);
   const typingHandler = props.typingHandler || null;
-  console.log(defaultValue);
+
+  useEffect(() => {
+    return () => {
+      setisMounted(false);
+    };
+  }, []);
 
   function typeHandler(e) {
+    if (!isMounted) {
+      return;
+    }
     const text = e.target.value;
 
     // debounce

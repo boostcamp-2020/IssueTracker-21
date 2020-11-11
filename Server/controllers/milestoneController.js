@@ -3,10 +3,13 @@ const milestoneDao = require("../dao/milestoneDao");
 /* 모든 마일스톤 조회 */
 exports.getMilestone = async (req, res) => {
   try {
-    let milestones = await milestoneDao.getMilestone();
+    let data = await milestoneDao.getMilestone();
+    const milestones = data.milestones;
+    const milestoneCount = data.milestoneCount;
     return res.status(200).json({
       success: true,
-      milestones: milestones.milestones,
+      milestoneCount: milestoneCount,
+      milestones:milestones
     });
   } catch (e) {
     return res.status(400).json({

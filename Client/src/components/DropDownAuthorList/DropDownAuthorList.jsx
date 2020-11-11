@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Router } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import "./DropDownAuthorList.scss";
 import DropDownUserCard from "../DropDownUserCard";
+import styled from "styled-components";
 
 function DropDownAuthorList(props) {
   const [Items, setItems] = useState([]);

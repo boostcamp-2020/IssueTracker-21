@@ -6,6 +6,20 @@ function MilestoneCard(props) {
   const info = props.Milestone;
   const onRemoveMilestone = props.onRemoveMilestone;
   const onModifyMilestone = props.onModifyMilestone;
+  const onChangeMilestoneStatus = props.onChangeMilestoneStatus;
+
+  const [Progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    if (info.closeCount === 0 && info.openCount === 0) {
+      setProgress(0);
+    } else {
+      const percent = Math.floor(
+        (info.closeCount / (info.closeCount + info.openCount)) * 100
+      );
+      setProgress(percent);
+    }
+  });
 
   const editHandler = () => {
     props.history.push("/milestone/edit");
@@ -19,6 +33,7 @@ function MilestoneCard(props) {
     Axios.put("/api/milestone/status", body).then((response) => {
       if (response.data.success) {
         onModifyMilestone(info.id, status);
+        onChangeMilestoneStatus();
       } else {
         alert("Failed to update milestone status");
       }
@@ -49,16 +64,18 @@ function MilestoneCard(props) {
         </SubTitleAreaStyle>
       </ContentsArea>
       <OptArea>
-        <GraphStyle>=======================</GraphStyle>
+        <GraphStyle>
+          <ProgressBarStyle progress={Progress} />
+        </GraphStyle>
         <GraphInfoAreaStyle>
           <InfoStyle>
-            <b>33%</b> complete
+            <b>{Progress}%</b> complete
           </InfoStyle>
           <InfoStyle>
-            <b>2</b> open
+            <b>{info.openCount}</b> open
           </InfoStyle>
           <InfoStyle>
-            <b>1</b> closed
+            <b>{info.closeCount}</b> closed
           </InfoStyle>
         </GraphInfoAreaStyle>
         <GraphInfoAreaStyle>
@@ -87,10 +104,10 @@ const ContentsArea = styled.div`
   flex-direction: column;
 `;
 const TitleAreaStyle = styled.div`
-  font-size: 22px;
+  font-size: 20px;
 `;
 const SubTitleAreaStyle = styled.div`
-  font-size: 15px;
+  font-size: 13px;
   margin-top: 2px;
   color: #90969c;
 `;
@@ -103,9 +120,17 @@ const OptArea = styled.div`
 
 const GraphStyle = styled.div`
   width: 100%;
-  height: 33px;
-
+  height: 10px;
+  margin: 10px 0;
   background-color: #e9ecee;
+  border-radius: 10px;
+`;
+
+const ProgressBarStyle = styled.div`
+  width: ${(props) => props.progress}%;
+  height: 10px;
+  left: 0;
+  background-color: #28a745;
   border-radius: 10px;
 `;
 
@@ -114,22 +139,29 @@ const GraphInfoAreaStyle = styled.div`
   margin-top: 2px;
   display: flex;
   flex-direction: row;
+  font-size: 13px;
 `;
 
 const InfoStyle = styled.div`
   margin-right: 15px;
-  font-size: 15px;
+  font-size: 13px;
   color: #6e737d;
 `;
 
 const InfoBlueBtnStyle = styled.div`
   color: #4788df;
   margin-right: 10px;
+  cursor: pointer;
+  :hover {
+    color: #a8cefa;
+  }
 `;
 const InfoRedBtnStyle = styled.div`
   color: #d95b66;
+  cursor: pointer;
+  :hover {
+    color: #e7beb9;
+  }
 `;
-
-InfoRedBtnStyle;
 
 export default MilestoneCard;

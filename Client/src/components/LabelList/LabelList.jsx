@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import "./LabelList.scss";
 import LabelCard from "../LabelCard";
 import LabelEditArea from "../LabelEditArea";
 import getRandomColor from "../../utils/getRandomColor";
@@ -81,14 +80,34 @@ const refreshLabelCards = () => {
 
 
   return (
-    <div id="labelListArea">
+    <LabelListArea>
       {displayLabelEditArea? <LabelEditArea refreshFunction={refreshLabelCards} isEdit={false} labelName="" labelDescription="" labelColor={getRandomColor()} />: ''}
-      <div id="labelCardCountArea">{LabelsCount} labels</div>
+      <LabelCardCountArea>{LabelsCount} labels</LabelCardCountArea>
       <div id="labelCardArea">
         {Labels.length === 0 ? renderNoResult : renderLabelCards}
       </div>
-    </div>
+    </LabelListArea>
   );
 }
+
+const LabelCardCountArea = styled.div`
+color: #586069;
+padding: 15px 10px;
+background-color: #fafbfc;
+display: flex;
+flex-direction: row;
+align-items: center;
+border: 1px solid rgb(225, 228, 232);
+border-radius: 6px 6px 0 0;
+padding: 20px;
+font-size: 13px;
+font-weight: 700;
+`;
+
+const LabelListArea = styled.div`
+width: 80%;
+display: flex;
+flex-flow: column;
+`
 
 export default LabelList;
