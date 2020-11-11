@@ -196,13 +196,11 @@ exports.updateIssueStatus = async function (req, res, next) {
       userId,
       issueId
     );
-    console.log(updatedStatus);
     if (updatedStatus.success) {
       return res.status(200).json({ success: true });
     }
     return res.status(400).json(updatedStatus);
   } catch (e) {
-    console.log(e);
     return res
       .status(400)
       .json({ success: false, status: 400, message: e.message });

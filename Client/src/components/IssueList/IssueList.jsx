@@ -4,6 +4,8 @@ import axios from "axios";
 import IssueCard from "../IssueCard";
 import loadingImg from "../../../public/loading.gif";
 import { LandingPageContext } from "../../views/LandingPage";
+import DropDownStatus from "../DropDownStatus";
+import DropDown from "../DropDown";
 
 let items = new Map();
 
@@ -11,6 +13,8 @@ function IssueList(props) {
   const [ChkNum, setChkNum] = useState(0);
   const [Loading, setLoading] = useState(true);
   const [isMounted, setisMounted] = useState(true);
+  const [ChkIssueId, setChkIssueId] = useState([]);
+  const [StatusDropDownVisible, setStatusDropDownVisible] = useState(false);
 
   //Context API를 통해 가져옴
   const { Issues, issueHandler } = useContext(LandingPageContext);
@@ -53,21 +57,35 @@ function IssueList(props) {
   // issue cards에게 넘겨줄 checkBox handler
   const cardsCheckHandler = (id, bool) => {
     if (bool && ChkNum.num + 1 === Issues.length - 1) {
+      const newArr = ChkIssueId.concat(id);
+      setChkIssueId(newArr);
+
       setChkNum({
         condition: "chkBox checkedAll",
         num: ChkNum.num + 1,
       });
     } else if (!bool && ChkNum.num - 1 === 0) {
+      let newArr = [...ChkIssueId];
+      newArr.splice(newArr.indexOf(id), 1);
+      setChkIssueId(newArr);
+
       setChkNum({
         condition: "chkBox",
         num: ChkNum.num - 1,
       });
     } else if (bool) {
+      const newArr = ChkIssueId.concat(id);
+      setChkIssueId(newArr);
+
       setChkNum({
         condition: "chkBox checked",
         num: ChkNum.num + 1,
       });
     } else if (!bool) {
+      let newArr = [...ChkIssueId];
+      newArr.splice(newArr.indexOf(id), 1);
+      setChkIssueId(newArr);
+
       setChkNum({
         condition: "chkBox checked",
         num: ChkNum.num - 1,
@@ -123,6 +141,7 @@ function IssueList(props) {
   //issue list에서 사용할 checkBox handler
   function chkBox() {
     if (ChkNum.condition !== "chkBox") {
+      setChkIssueId([]);
       setChkNum({
         condition: "chkBox",
         num: 0,
@@ -137,11 +156,26 @@ function IssueList(props) {
     }
   }
 
+  //드롭다운 visibility 관리
+  const openStatusDropDown = () => {
+    setStatusDropDownVisible(true);
+  };
+  const closeStatusDropDown = () => {
+    setStatusDropDownVisible(false);
+  };
+
   const markAsOpt = (
     <RightMenuStyle id="rightMenu">
-      <OptBtnStyle className="optBtn" id="markAs">
+      <OptBtnStyle className="optBtn" id="markAs" onClick={openStatusDropDown}>
         Mark as ▾
       </OptBtnStyle>
+      {StatusDropDownVisible && (
+        <DropDownStatus
+          visible={StatusDropDownVisible}
+          issueIdArr={ChkIssueId}
+          onClose={closeStatusDropDown}
+        />
+      )}
     </RightMenuStyle>
   );
 
