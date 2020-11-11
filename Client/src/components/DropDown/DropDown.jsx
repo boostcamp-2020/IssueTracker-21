@@ -14,13 +14,15 @@ function DropDown(props) {
   const dropDownRef = useRef();
   const { onCardClicked, status, handler, filter } = props;
   const {
-    curAssigneeListHandler,
-    curlabelListHandler,
-    curMilestoneListHandler,
-    labelList,
-    milestone,
-    assigneeList,
-  } = useContext(SidebarContext);
+      curAssigneeListHandler,
+      curlabelListHandler,
+      curMilestoneListHandler,
+      labelList,
+      milestone,
+      assigneeList,
+    } = useContext(SidebarContext);
+  
+
   const [Items, setItems] = useState([]);
 
   const handleClickOutside = ({ target }) => {
@@ -74,6 +76,8 @@ function DropDown(props) {
 }
 
 const DropDownContainter = styled.div`
+  position: absolute;
+  background-color:#ffffff;
   width: 200px;
   border-radius: 6px;
   border: 1px solid rgb(225, 228, 232);

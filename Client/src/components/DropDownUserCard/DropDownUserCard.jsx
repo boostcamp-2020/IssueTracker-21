@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 import { DropDownContext } from "../DropDown";
-import { DropDownFilterContext } from "../DropDownFilter";
 
 const DropDownprofilePicture = styled.img`
   width: 22px;
@@ -14,12 +13,7 @@ const DropDownprofilePicture = styled.img`
 
 function DropDownUserCard(props) {
   const { id, profile } = props;
-  const {isFilter} = useContext(DropDownFilterContext);
-  if(isFilter) {
-    const { onCardClicked } = useContext(DropDownFilterContext);
-  }else {
-    const { onCardClicked } = useContext(DropDownContext);
-  } 
+  const { onCardClicked } = useContext(DropDownContext);
 
   return (
     <DropDownUserCardContainer
