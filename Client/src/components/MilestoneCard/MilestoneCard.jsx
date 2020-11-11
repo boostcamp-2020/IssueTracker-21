@@ -87,7 +87,6 @@ function MilestoneCard(props) {
 }
 
 const MilestoneCardStyle = styled.div`
-cursor:pointer;
   width: 100%;
   padding: 20px 30px;
   display: flex;
@@ -148,16 +147,16 @@ const InfoStyle = styled.div`
 const InfoBlueBtnStyle = styled.div`
   color: #4788df;
   margin-right: 10px;
-  cursor:pointer;
-  :hover{
-    color: #A8CEFA;
+  cursor: pointer;
+  :hover {
+    color: #a8cefa;
   }
 `;
 const InfoRedBtnStyle = styled.div`
   color: #d95b66;
-  cursor:pointer;
-  :hover{
-    color: #E7BEB9;
+  cursor: pointer;
+  :hover {
+    color: #e7beb9;
   }
 `;
 
