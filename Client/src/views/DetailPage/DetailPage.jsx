@@ -232,6 +232,35 @@ function DetailPage(props) {
     labelList = curLabelList.slice();
   }, [curLabelList]);
 
+  useEffect(() => {
+    assigneeList = curAssigneeList.slice();
+  }, [curAssigneeList]);
+
+  useEffect(async () => {
+    if (curMilestone) {
+      milestone = { ...curMilestone };
+      await axios.get("/api/milestone").then((response) => {
+        if (response.data.success) {
+          const milestoneData = response.data.milestones;
+          let openissueCount = 0;
+
+          const issueCount = milestoneData
+            .filter((e) => e.id === curMilestone.id)
+            .reduce((acc, cur) => {
+              if (cur.issueIsOpened) openissueCount += cur.count;
+              return acc + cur.count;
+            }, 0);
+
+          if (openissueCount) {
+            setProgress(Math.floor((openissueCount / issueCount) * 100));
+          } else setProgress(0);
+        } else {
+          alert("Failed to get User info");
+        }
+      });
+    } else milestone = null;
+  }, [curMilestone]);
+
   const renderLoading = (
     <div className="emptyList" id="loading">
       <img id="loadingImg" src={loadingImg} alt="loading..." />
