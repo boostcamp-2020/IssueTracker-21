@@ -11,7 +11,8 @@ export const checkExistElement = (array, compareArray) => {
 export const checkNonExistElement = (array, compareArray) => {
   return array.filter((element) => {
     for (let i = 0; i < compareArray.length; i++) {
-      if (!isEqual(element, compareArray[i])) return element;
+      if (isEqual(element, compareArray[i])) return;
     }
+    return element;
   });
 };
