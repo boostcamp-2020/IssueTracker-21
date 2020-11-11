@@ -23,8 +23,12 @@ router.put("/status", issueController.updateIssueStatus);
 /* 이슈에 라벨 추가 */
 router.post("/label", issueController.insertNewLabel);
 
+router.delete("/label", issueController.deleteLabel);
+
 /* 이슈에 담당자 추가 */
 router.post("/assignee", issueController.insertNewAssignee);
+
+router.delete("/assignee", issueController.deleteAssignee);
 
 /* 이슈에 마일스톤 추가 */
 router.put("/milestone", issueController.insertNewMilestone);
