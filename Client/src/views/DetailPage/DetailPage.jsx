@@ -27,6 +27,14 @@ function DetailPage(props) {
 
   const [isMounted, setisMounted] = useState(true);
 
+  let assigneeList = [];
+  let milestone = null;
+  let labelList = [];
+
+  const [curAssigneeList, setCurAssigneeList] = useState([]);
+  const [curMilestone, setCurMilestoneList] = useState(null);
+  const [curLabelList, setCurLabelList] = useState([]);
+
   const addingInfoHandler = (data) => {
     setIssueData({
       issueDetail: issueData.issueDetail,
@@ -60,8 +68,32 @@ function DetailPage(props) {
   useEffect(() => {
     axios.get(`/api/issue/${params.issueId}`).then(async (response) => {
       if (response.data.success && isMounted) {
-        setIssueData(response.data.issueDetail);
-        setIssueOpened(response.data.issueDetail.issueDetail.isOpened);
+        const {
+          data: { issueDetail: issueDbData },
+        } = response;
+        const { issueDetail } = issueDbData;
+        console.log(issueDetail);
+        setIssueData(issueDbData);
+        setIssueOpened(issueDetail.isOpened);
+        setCurAssigneeList(
+          issueDetail.users.length
+            ? issueDetail.users.map((e) => {
+                return { id: e.id, profile: e.profile };
+              })
+            : []
+        );
+        //         milestone: {title: "Back End22"}
+        // milestoneId: 4
+        setCurLabelList(issueDetail.labels.length ? issueDetail.labels : []);
+        setCurMilestoneList(
+          issueDetail.milestone
+            ? {
+                id: issueDetail.milestoneId,
+                title: issueDetail.milestone.title,
+              }
+            : null
+        );
+
         setHeaderLoading(false);
         setCommentLoading(false);
       } else {

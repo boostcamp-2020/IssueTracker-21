@@ -19,9 +19,6 @@ function NewIssuePage(props) {
   let assigneeList = [];
   let milestone = null;
   let labelList = [];
-  // const [assigneeList, setAssigneeList] = useState([]);
-  // const [milestone, setmilestone] = useState(null);
-  // const [labelList, setLabelList] = useState([]);
 
   const [curAssigneeList, setCurAssigneeList] = useState([]);
   const [curMilestone, setCurMilestoneList] = useState(null);
