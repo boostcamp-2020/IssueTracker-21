@@ -1,9 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-import NewMilestoneHeader from "../../components/NewMilestoneHeader";
-import NewMilestoneBtn from "../../components/NewMilestoneBtn";
+import ChangeMilestoneBtn from "../../components/ChangeMilestoneBtn";
+import CancelMilestoneBtn from "../../components/CancelMilestoneBtn";
 import MilestoneEditor from "../../components/MilestoneEditor";
+import MilestoneStatusBtn from "../../components/MilestoneStatusBtn";
+import { Icon, InlineIcon } from "@iconify/react";
+import CustomBtn from "../../components/CustomBtn";
+import tagIcon from "@iconify/icons-octicon/tag";
+import milestone24 from "@iconify/icons-octicon/milestone-24";
 
 import styled from "styled-components";
 
@@ -16,11 +21,36 @@ const ButtonArea = styled.div`
   justify-content: flex-end;
 `;
 
+const TopNavStyle = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 60px;
+`;
+
 function MilestoneModifyPage(props) {
   const milestoneId = props.match.params.milestoneId;
   const [title, setTitle] = useState(null);
   const [dueDate, setDueDate] = useState(null);
   const [description, setDescription] = useState("");
+  const [status, setStatus] = useState(true);
+
+  function labelsHandler() {
+    props.history.push("/labels");
+  }
+
+  function milestonesHandler() {
+    props.history.push("/milestone");
+  }
+
+  function cancelHandler() {
+    props.history.push("/milestone");
+  }
+
+  function statusHandler() {
+    console.log("상태변경 추가");
+  }
 
   const titleHandler = (value) => {
     setTitle(value);
@@ -34,7 +64,7 @@ function MilestoneModifyPage(props) {
     setDescription(value);
   };
 
-  const postNewMilestone = () => {
+  const putNewMilestone = () => {
     if (title == null || title == "") {
       alert("Title을 입력하세요");
       return;
@@ -46,14 +76,14 @@ function MilestoneModifyPage(props) {
       description: description,
     };
     axios
-      .put("api/milestone", data, {
+      .put("/api/milestone", data, {
         "Content-Type": "application/json",
         withCredentials: true,
         credentials: "include",
       })
       .then((response) => {
-        if (response.success) {
-          console.log("성공");
+        if (response.data.success) {
+          props.history.push("/milestone");
         } else {
           console.log(response);
         }
@@ -62,7 +92,37 @@ function MilestoneModifyPage(props) {
 
   return (
     <MilestoneAddArea>
-      <NewMilestoneHeader />
+      <TopNavStyle id="topNav">
+        <div className="button__section">
+          <CustomBtn
+            color="black"
+            bgColor="white"
+            width="100%"
+            height="30px"
+            border="1px solid #e1e4e8"
+            borderRad="6px 0 0 6px"
+            padding="5px 13px"
+            onClick={labelsHandler}
+          >
+            <Icon width="18" height="18" icon={tagIcon} />
+            &nbsp;Labels
+          </CustomBtn>
+
+          <CustomBtn
+            color="white"
+            bgColor="#0E66D6"
+            width="100%"
+            height="30px"
+            border="1px solid #e1e4e8"
+            borderRad="0 6px 6px 0"
+            padding="5px 13px"
+            onClick={milestonesHandler}
+          >
+            <Icon width="18" height="18" icon={milestone24} />
+            &nbsp;Milestones
+          </CustomBtn>
+        </div>
+      </TopNavStyle>
       <hr />
       <MilestoneEditor
         titleHandler={titleHandler}
@@ -71,9 +131,14 @@ function MilestoneModifyPage(props) {
       />
       <hr />
       <ButtonArea>
-        <NewMilestoneBtn
-          value="Create milestone"
-          postNewMilestone={postNewMilestone}
+        <CancelMilestoneBtn cancelHandler={cancelHandler} />
+        <MilestoneStatusBtn
+          statusHandler={statusHandler}
+          value={status ? "Close milestone" : "Reopen milestone"}
+        />
+        <ChangeMilestoneBtn
+          value="Save changes"
+          putNewMilestone={putNewMilestone}
         />
       </ButtonArea>
     </MilestoneAddArea>
