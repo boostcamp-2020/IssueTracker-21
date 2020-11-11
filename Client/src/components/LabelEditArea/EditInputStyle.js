@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 const TopDiv = styled.div`
   display: flex;
@@ -112,11 +112,12 @@ const LabelCreateButtonStyle = styled.button`
   margin-left: 2px;
 
   ${(props) =>
-    props.disabled &&
-    css`
-      background-color: #2ea44f7e;
-      border: 1px solid #647c6ba2;
-    `};
+    props.disabled
+      ? css`
+          background-color: #2ea44f7e;
+          border: 1px solid #647c6ba2;
+        `
+      : css``};
 `;
 
 export default {
