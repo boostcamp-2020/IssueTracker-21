@@ -168,7 +168,7 @@ function IssueList(props) {
     setAuthorDropDownVisible(true);
   };
   const openAssigneeDropDown = () => {
-    setnAssigneeDropDownVisible(true);
+    setAssigneeDropDownVisible(true);
   };
   const openLabelDropDown = () => {
     setLabelDropDownVisible(true);
@@ -181,9 +181,9 @@ function IssueList(props) {
   };
   const closeFilterDropDown = () => {
     setAuthorDropDownVisible(false);
-    setLabelDropDownVisible(false);
-    setMilestoneDropDownVisible(false);
-    setAssigneeDropDownVisible(false);
+    // setLabelDropDownVisible(false);
+    // setMilestoneDropDownVisible(false);
+    // setAssigneeDropDownVisible(false);
   };
 
   const markAsOpt = (
