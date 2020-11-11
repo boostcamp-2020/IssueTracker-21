@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
 import Progressbar from "../Progressbar";
-import { NewIssuePageContext } from "../../views/NewIssuePage";
+import { SidebarContext } from "../Sidebar";
 
 function MilestoneSideCard({ title }) {
-  const { progress } = useContext(NewIssuePageContext);
+  const { progress } = useContext(SidebarContext);
 
   return (
     <div>

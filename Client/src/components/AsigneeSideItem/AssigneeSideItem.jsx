@@ -3,10 +3,10 @@ import { Icon, InlineIcon } from "@iconify/react";
 import gear16 from "@iconify/icons-octicon/gear-16";
 import DropDown from "../DropDown";
 import AsigneeSideCard from "../AssigneeSideCard";
-import { NewIssuePageContext } from "../../views/NewIssuePage";
+import { SidebarContext } from "../Sidebar";
 
 function AssigneeSideItem() {
-  const { assigneeList, assigneeListHandler } = useContext(NewIssuePageContext);
+  const { assigneeListHandler, curAssigneeList } = useContext(SidebarContext);
   const [DropdownStatus, setDropdownStatus] = useState(false);
 
   const showDropDown = () => {
@@ -31,8 +31,8 @@ function AssigneeSideItem() {
           onCardClicked={assigneeListHandler}
         />
       ) : null}
-      {assigneeList.length ? (
-        assigneeList.map((element) => {
+      {curAssigneeList.length ? (
+        curAssigneeList.map((element) => {
           return (
             <AsigneeSideCard
               key={element.id}

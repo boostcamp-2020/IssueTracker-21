@@ -3,10 +3,13 @@ import { Icon, InlineIcon } from "@iconify/react";
 import gear16 from "@iconify/icons-octicon/gear-16";
 import DropDown from "../DropDown";
 import LabelTag from "../LabelTag";
-import { NewIssuePageContext } from "../../views/NewIssuePage";
+import { SidebarContext } from "../Sidebar";
+import axios from "axios";
 
 function LabelSideItem() {
-  const { labelList, labelListHandler } = useContext(NewIssuePageContext);
+  const { curLabelList, labelListHandler, issueID } = useContext(
+    SidebarContext
+  );
   const [DropdownStatus, setDropdownStatus] = useState(false);
 
   const showDropDown = () => {
@@ -30,9 +33,8 @@ function LabelSideItem() {
           onCardClicked={labelListHandler}
         />
       ) : null}
-      {labelList.length ? (
-        labelList.map((element) => {
-          console.log(element.color);
+      {curLabelList.length ? (
+        curLabelList.map((element) => {
           return (
             <LabelTag
               key={element.id}

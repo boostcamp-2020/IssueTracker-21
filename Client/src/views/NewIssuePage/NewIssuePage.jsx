@@ -16,23 +16,43 @@ function NewIssuePage(props) {
   const [Contents, setContents] = useState("");
   const [BtnColor, setBtnColor] = useState("#ced2d7");
 
-  const [assigneeList, setAssigneeList] = useState([]);
-  const [milestone, setmilestone] = useState(null);
-  const [labelList, setLabelList] = useState([]);
+  let assigneeList = [];
+  let milestone = null;
+  let labelList = [];
+  // const [assigneeList, setAssigneeList] = useState([]);
+  // const [milestone, setmilestone] = useState(null);
+  // const [labelList, setLabelList] = useState([]);
+
+  const [curAssigneeList, setCurAssigneeList] = useState([]);
+  const [curMilestone, setCurMilestoneList] = useState(null);
+  const [curLabelList, setCurLabelList] = useState([]);
+
   const [progress, setProgress] = useState(0);
 
   const [isMounted, setisMounted] = useState(true);
 
   const assigneeListHandler = (data) => {
-    setAssigneeList(toggleArray(assigneeList, data));
+    assigneeList = toggleArray(assigneeList, data).slice();
+  };
+
+  const curAssigneeListHandler = () => {
+    setCurAssigneeList(assigneeList);
   };
 
   const labelListHandler = (data) => {
-    setLabelList(toggleArray(labelList, data));
+    labelList = toggleArray(labelList, data).slice();
+  };
+
+  const curlabelListHandler = () => {
+    setCurLabelList(labelList);
   };
 
   const milestoneListHandler = (data) => {
-    setmilestone(toggleObject(milestone, data));
+    milestone = toggleObject(milestone, data);
+  };
+
+  const curMilestoneListHandler = () => {
+    setCurMilestoneList(milestone);
   };
 
   //취소 버튼
@@ -62,11 +82,11 @@ function NewIssuePage(props) {
     }
     const body = {
       title: Title,
-      authorId: User.user.userId,
+      amuthorId: User.user.userId,
       description: Contents,
       milestoneId: milestone ? milestone.id : "null",
       assignees: assigneeList.length ? assigneeList.map((e) => e.id) : "null",
-      labels: labelList.length ? labelList.map((e) => e.id) : "null",
+      labels: labelList.length ? labelList.ap((e) => e.id) : "null",
     };
 
     axios.post("/api/issue", body).then((response) => {
@@ -93,14 +113,15 @@ function NewIssuePage(props) {
   }, []);
 
   useEffect(async () => {
-    if (milestone) {
+    if (curMilestone) {
+      milestone = { ...curMilestone };
       await axios.get("/api/milestone").then((response) => {
         if (response.data.success) {
           const milestoneData = response.data.milestones;
           let openissueCount = 0;
 
           const issueCount = milestoneData
-            .filter((e) => e.id === milestone.id)
+            .filter((e) => e.id === curMilestone.id)
             .reduce((acc, cur) => {
               if (cur.issueIsOpened) openissueCount += cur.count;
               return acc + cur.count;
@@ -113,64 +134,75 @@ function NewIssuePage(props) {
           alert("Failed to get User info");
         }
       });
-    }
-  }, [milestone]);
+    } else milestone = null;
+  }, [curMilestone]);
+
+  useEffect(() => {
+    assigneeList = curAssigneeList.slice();
+  }, [curAssigneeList]);
+
+  useEffect(() => {
+    labelList = curLabelList.slice();
+  }, [curLabelList]);
 
   return (
-    <NewIssuePageContext.Provider
-      value={{
-        assigneeList,
-        labelList,
-        milestone,
-        progress,
-        assigneeListHandler,
-        labelListHandler,
-        milestoneListHandler,
-      }}
-    >
-      <div id="newIssueArea">
-        <div id="profileArea">
-          <img
-            src={User ? User.user.profile : noprofile}
-            alt="profile"
-            id="issueProfile"
-          />
+    <div id="newIssueArea">
+      <div id="profileArea">
+        <img
+          src={User ? User.user.profile : noprofile}
+          alt="profile"
+          id="issueProfile"
+        />
+      </div>
+      <div id="editorArea">
+        <input
+          id="newIssueTitle"
+          type="text"
+          placeholder="Title"
+          onChange={titleHandler}
+          value={Title}
+        />
+        <div id="newIssueOpt">
+          <div id="writeBtn">Write</div>
         </div>
-        <div id="editorArea">
-          <input
-            id="newIssueTitle"
-            type="text"
-            placeholder="Title"
-            onChange={titleHandler}
-            value={Title}
-          />
-          <div id="newIssueOpt">
-            <div id="writeBtn">Write</div>
+        <Editor typingHandler={typingHandler} />
+        <div id="btnArea">
+          <div id="cancelBtn" onClick={cancelHandler}>
+            cancel
           </div>
-          <Editor typingHandler={typingHandler} />
-          <div id="btnArea">
-            <div id="cancelBtn" onClick={cancelHandler}>
-              cancel
-            </div>
-            <CustomBtn
-              color="white"
-              bgColor={BtnColor}
-              width="150px"
-              borderRad="6px"
-              height="35px"
-              border="0"
-              id="submitBtn"
-              onClick={submitHandler}
-            >
-              Submit new issue
-            </CustomBtn>
-          </div>
-        </div>
-        <div id="sideBar">
-          <Sidebar />
+          <CustomBtn
+            color="white"
+            bgColor={BtnColor}
+            width="150px"
+            borderRad="6px"
+            height="35px"
+            border="0"
+            id="submitBtn"
+            onClick={submitHandler}
+          >
+            Submit new issue
+          </CustomBtn>
         </div>
       </div>
-    </NewIssuePageContext.Provider>
+      <div id="sideBar">
+        <Sidebar
+          issueId={-1}
+          assigneeList={assigneeList}
+          labelList={labelList}
+          milestone={milestone}
+          progress={progress}
+          curAssigneeList={curAssigneeList}
+          curMilestone={curMilestone}
+          curLabelList={curLabelList}
+          curAssigneeListHandler={curAssigneeListHandler}
+          assigneeListHandler={assigneeListHandler}
+          labelListHandler={labelListHandler}
+          milestoneListHandler={milestoneListHandler}
+          curlabelListHandler={curlabelListHandler}
+          curMilestoneListHandler={curMilestoneListHandler}
+        />
+      </div>
+    </div>
   );
 }
 

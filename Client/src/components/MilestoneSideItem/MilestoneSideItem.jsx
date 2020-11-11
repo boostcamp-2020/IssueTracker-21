@@ -3,9 +3,9 @@ import { Icon } from "@iconify/react";
 import gear16 from "@iconify/icons-octicon/gear-16";
 import DropDown from "../DropDown";
 import MilestoneSideCard from "../MilestoneSideCard";
-import { NewIssuePageContext } from "../../views/NewIssuePage";
+import { SidebarContext } from "../Sidebar";
 function MilestoneSideItem() {
-  const { milestone, milestoneListHandler } = useContext(NewIssuePageContext);
+  const { curMilestone, milestoneListHandler } = useContext(SidebarContext);
   const [DropdownStatus, setDropdownStatus] = useState(false);
 
   const showDropDown = () => {
@@ -29,8 +29,8 @@ function MilestoneSideItem() {
           onCardClicked={milestoneListHandler}
         />
       ) : null}
-      {milestone ? (
-        <MilestoneSideCard title={milestone.title} />
+      {curMilestone ? (
+        <MilestoneSideCard title={curMilestone.title} />
       ) : (
         <span>None yet</span>
       )}
