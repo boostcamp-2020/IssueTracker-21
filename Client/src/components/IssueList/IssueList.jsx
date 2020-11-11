@@ -1,15 +1,9 @@
 import React, { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import "./IssueList.scss";
 import IssueCard from "../IssueCard";
 import loadingImg from "../../../public/loading.gif";
 import { LandingPageContext } from "../../views/LandingPage";
-
-const MenuStyle = styled.div`
-  color: black;
-`;
 
 let items = new Map();
 
@@ -41,17 +35,19 @@ function IssueList(props) {
 
   // issue 로딩시 보여질 로딩 이미지
   const renderLoading = (
-    <div className="emptyList" id="loading">
-      <img id="loadingImg" src={loadingImg} alt="loading..." />
-    </div>
+    <EmptyListStyle className="emptyList" id="loading">
+      <LoadingImgStyle id="loadingImg" src={loadingImg} alt="loading..." />
+    </EmptyListStyle>
   );
 
   // issue 결과 값이 없을때 보여질 화면
   const renderNoResult = (
-    <div className="emptyList" id="noResult">
-      <div id="noResultIcon">❕</div>
-      <div id="noResultmsg">No results matched your search.</div>
-    </div>
+    <NoResultStyle className="emptyList" id="noResult">
+      <NoResultIconStyle id="noResultIcon">❕</NoResultIconStyle>
+      <NoResultmsgStyle id="noResultmsg">
+        No results matched your search.
+      </NoResultmsgStyle>
+    </NoResultStyle>
   );
 
   // issue cards에게 넘겨줄 checkBox handler
@@ -142,52 +138,167 @@ function IssueList(props) {
   }
 
   const markAsOpt = (
-    <div id="rightMenu">
-      <div className="optBtn" id="markAs">
+    <RightMenuStyle id="rightMenu">
+      <OptBtnStyle className="optBtn" id="markAs">
         Mark as ▾
-      </div>
-    </div>
+      </OptBtnStyle>
+    </RightMenuStyle>
   );
 
   const filterOpt = (
-    <div id="rightMenu">
-      <div className="optBtn" id="authorOpt">
+    <RightMenuStyle id="rightMenu">
+      <OptBtnStyle className="optBtn" id="authorOpt">
         Author ▾
-      </div>
-      <div className="optBtn" id="labelOpt">
+      </OptBtnStyle>
+      <OptBtnStyle className="optBtn" id="labelOpt">
         Label ▾
-      </div>
-      <div className="optBtn" id="milestonesOpt">
+      </OptBtnStyle>
+      <OptBtnStyle className="optBtn" id="milestonesOpt">
         Milestones ▾
-      </div>
-      <div className="optBtn" id="assigneeOpt">
+      </OptBtnStyle>
+      <OptBtnStyle className="optBtn" id="assigneeOpt">
         Assignee ▾
-      </div>
-    </div>
+      </OptBtnStyle>
+    </RightMenuStyle>
   );
 
+  const CheckBoxStyles =
+    ChkNum.condition === "chkBox"
+      ? ChkBoxStyle
+      : ChkNum.condition === "chkBox checkedAll"
+      ? CheckedAllStyle
+      : CheckedStyle;
+
   return (
-    <div id="issueListArea">
-      <MenuStyle id="filterArea">
-        <div id="leftMenu">
+    <IssueListAreaStyle id="issueListArea">
+      <FilterAreaStyle id="filterArea">
+        <LeftMenuStyle id="leftMenu">
           <div
             id="issueAllChkBox"
             onClick={chkBox}
             className={ChkNum.condition}
           />
           {ChkNum.num !== 0 && <div>{ChkNum.num} selected</div>}
-        </div>
+        </LeftMenuStyle>
         {ChkNum.num === 0 ? filterOpt : markAsOpt}
-      </MenuStyle>
-      <div id="issueCardArea">
+      </FilterAreaStyle>
+      <IssueCardAreaStyle id="issueCardArea">
         {Loading
           ? renderLoading
           : Issues.length === 0
           ? renderNoResult
           : renderIssueCards}
-      </div>
-    </div>
+      </IssueCardAreaStyle>
+    </IssueListAreaStyle>
   );
 }
+
+const IssueListAreaStyle = styled.div` width: 80%;
+}`;
+
+const FilterAreaStyle = styled.div`
+  width: 100%;
+  color: #586069;
+  padding: 15px 10px;
+  background-color: #fafbfc;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  justify-items: center;
+  border: 1px solid rgb(225, 228, 232);
+  border-radius: 6px 6px 0 0;
+`;
+
+const LeftMenuStyle = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+const ChkBoxStyle = styled.div`
+  width: 12px;
+  height: 12px;
+  border: 1px solid black;
+  border-radius: 3px;
+  margin-right: 15px;
+  cursor: pointer;
+`;
+
+const CheckedStyle = styled(ChkBoxStyle)`
+  text-align: center;
+  color: white;
+  font-size: 12px;
+  background-color: #3a79fe;
+  &:before {
+    content: "━";
+    font-weight: bold;
+  }
+`;
+
+const CheckedAllStyle = styled(ChkBoxStyle)`
+  text-align: center;
+  color: white;
+  font-size: 12px;
+  background-color: #3a79fe;
+  &:before {
+    content: "✔";
+  }
+`;
+
+const RightMenuStyle = styled.div`
+  width: 45%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+`;
+
+const OptBtnStyle = styled.div`
+  cursor: pointer;
+  width: auto;
+  &:hover {
+    color: #24292e;
+  }
+`;
+
+const IssueCardAreaStyle = styled.div`
+  width: 100%;
+  min-height: 200px;
+`;
+
+const EmptyListStyle = styled.div`
+  width: 100%;
+  min-height: 200px;
+  padding: 7px 10px;
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+  border: 1px solid rgb(225, 228, 232);
+  border-top: 0;
+  align-items: center;
+`;
+
+const NoResultStyle = styled(EmptyListStyle)`
+  display: flex;
+  flex-direction: column;
+`;
+
+const NoResultIconStyle = styled.div`
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  line-height: 48px;
+  padding-left: 2px;
+  font-size: 40px;
+  margin-bottom: 20px;
+`;
+
+const NoResultmsgStyle = styled.div`
+  font-size: 25px;
+  font-weight: 800;
+`;
+
+const LoadingImgStyle = styled.img`
+  width: 50px;
+  height: 50px;
+`;
 
 export default IssueList;
