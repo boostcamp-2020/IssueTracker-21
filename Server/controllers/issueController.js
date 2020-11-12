@@ -33,21 +33,23 @@ exports.getIssues = async function (req, res, next) {
       filteredIssues =
         milestone === undefined
           ? filteredIssues
-          : filteredIssues.filter((e) => e.milestone.title == milestone);
+          : filteredIssues.filter((e) => {
+              if (e.milestone) return e.milestone.title == milestone;
+            });
 
       if (assigneeId instanceof Array) {
         filteredIssues =
-        assigneeId === undefined
+          assigneeId === undefined
             ? filteredIssues
-            : filteredIssues.filter((e) => assigneeId.every
-            (a => e.users.map((u) => u.id).includes(a))
+            : filteredIssues.filter((e) =>
+                assigneeId.every((a) => e.users.map((u) => u.id).includes(a))
               );
       } else {
         filteredIssues =
-        assigneeId === undefined
+          assigneeId === undefined
             ? filteredIssues
             : filteredIssues.filter((e) =>
-            e.users.map((u) => u.id).includes(assigneeId)
+                e.users.map((u) => u.id).includes(assigneeId)
               );
       }
 
@@ -62,8 +64,10 @@ exports.getIssues = async function (req, res, next) {
         filteredIssues =
           label === undefined
             ? filteredIssues
-            : filteredIssues.filter((e) => label.every
-            (label => e.labels.map((l) => l.name).includes(label))
+            : filteredIssues.filter((e) =>
+                label.every((label) =>
+                  e.labels.map((l) => l.name).includes(label)
+                )
               );
       } else {
         filteredIssues =
