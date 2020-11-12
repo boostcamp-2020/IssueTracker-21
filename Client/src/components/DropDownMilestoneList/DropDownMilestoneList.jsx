@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Router } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import DropDownMilestoneCard from "../DropDownMilestoneCard";
 import styled from "styled-components";
+import { DropDownContext } from "../DropDown";
 
 function DropDownMilestoneList() {
   const [Items, setItems] = useState([]);
   const [SelectedItems, setSelectedItems] = useState([]);
-
+  const { milestoneNothingHandler, handler } = useContext(DropDownContext);
   /* get data */
   useEffect(() => {
     axios.get("/api/milestone").then((response) => {
@@ -61,7 +62,14 @@ function DropDownMilestoneList() {
   return (
     <div className="dropDownList">
       <div className="dropDownCardContainter">
-        <NotSelect>Issues with no milestones</NotSelect>
+        <NotSelect
+          onClick={(e) => {
+            milestoneNothingHandler();
+            handler(false);
+          }}
+        >
+          Issues with no milestones
+        </NotSelect>
         {renderCards}
       </div>
     </div>

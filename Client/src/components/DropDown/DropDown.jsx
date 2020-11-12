@@ -20,11 +20,15 @@ function DropDown(props) {
     labelList,
     milestone,
     assigneeList,
+    assignNobodyHandler,
+    labelNothingHandler,
+    milestoneNothingHandler,
   } = useContext(SidebarContext);
 
   const [Items, setItems] = useState([]);
 
   const handleClickOutside = ({ target }) => {
+    if (!dropDownRef.current) return;
     if (status && !dropDownRef.current.contains(target)) {
       switch (filter) {
         case "assignee":
@@ -62,7 +66,15 @@ function DropDown(props) {
   };
 
   return (
-    <DropDownContext.Provider value={{ onCardClicked }}>
+    <DropDownContext.Provider
+      value={{
+        onCardClicked,
+        assignNobodyHandler,
+        handler,
+        labelNothingHandler,
+        milestoneNothingHandler,
+      }}
+    >
       {status && (
         <DropDownContainter ref={dropDownRef}>
           <DropDownBarContainter>Filter by {filter}</DropDownBarContainter>

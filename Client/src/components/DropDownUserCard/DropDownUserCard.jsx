@@ -28,24 +28,26 @@ function DropDownUserCard(props) {
   );
 }
 
-const DropDownUserCardContainer=styled.div`
-border-top: 1px solid rgb(225, 228, 232);
-padding: 7px;
-display: flex;
-flex: 1;
+const DropDownUserCardContainer = styled.div`
+  border-top: 1px solid rgb(225, 228, 232);
+  padding: 7px;
+  display: flex;
+  flex: 1;
 
-:hover {
+  :hover {
     background-color: #f6f8fa;
-  }`
+  }
+`;
 
-
-const DropDownprofilePictureContainer=styled.div`
+const DropDownprofilePictureContainer = styled.div`
   display: flex;
   padding-left: 30px;
-  flex: 1;`
+  flex: 1;
+`;
 
 const DropDownUserIdContainer = styled.div`
-display: flex;
-flex: 3;`
+  display: flex;
+  flex: 3;
+`;
 
 export default DropDownUserCard;
