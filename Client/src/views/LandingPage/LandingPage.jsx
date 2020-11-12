@@ -13,7 +13,7 @@ export const LandingPageContext = React.createContext();
 
 function LandingPage(props) {
   //input에 입력되는 데이터를 관리
-  const [inputData, setInputData] = useState("is:open is:issue\u00A0");
+  const [inputData, setInputData] = useState("is:open is:issue");
   //이슈 리스트에 표시될 이슈 데이터를 관리
   const [Issues, setIssues] = useState([]);
   const [isMounted, setisMounted] = useState(true);
@@ -49,7 +49,7 @@ function LandingPage(props) {
 
   const clearBtnStatusHandler = () => {
     setclearBtnStatus(false);
-    setInputData("is:open is:issue\u00A0");
+    setInputData("is:open is:issue");
     setInputAssignee([]);
     setInputAuthor(null);
     setInputLabel([]);
@@ -84,7 +84,7 @@ function LandingPage(props) {
   //양 옆으로 white space가 있는 String을 반환
   const stringWithWhiteSpace = (str) => {
     const whiteSpace = "\u00A0";
-    return str.concat(whiteSpace);
+    return whiteSpace.concat(str);
   }
 
   const inputOnClickFilterHandler = (str) => {
@@ -104,7 +104,7 @@ function LandingPage(props) {
         switch(notSelect[0]){
           case "label":
             if(InputLabel !== []){
-              InputLabel.forEach(e=>inputDataCopy = inputDataCopy.replace(e,''));
+              InputLabel.forEach(e=>inputDataCopy = inputDataCopy.replace(`\u00A0${e}`,''));
             }
             setInputLabel([str]);
             inputDataCopy = inputDataCopy
@@ -112,7 +112,7 @@ function LandingPage(props) {
             break;
           case "milestone":
             if(InputMilestone !== null){
-              inputDataCopy = inputDataCopy.replace(InputMilestone,'');
+              inputDataCopy = inputDataCopy.replace(`\u00A0${InputMilestone}`,'');
             }
             setInputMilestone(str);
             inputDataCopy = inputDataCopy
@@ -120,7 +120,7 @@ function LandingPage(props) {
             break;
           case "assignee":
             if(InputAssignee !== []){
-              InputAssignee.forEach(e=>inputDataCopy = inputDataCopy.replace(e,''));
+              InputAssignee.forEach(e=>inputDataCopy = inputDataCopy.replace(`\u00A0${e}`,''));
             }
             setInputAssignee([str]);
             inputDataCopy = inputDataCopy
@@ -149,7 +149,7 @@ function LandingPage(props) {
       } else if(newLabel !== null){
         if(InputLabel.includes("no:label")){
           setInputLabel([str]);
-          inputDataCopy = inputDataCopy.replace("no:label\u00A0",'');
+          inputDataCopy = inputDataCopy.replace("\u00A0no:label",'');
         }
         setInputLabel([...InputLabel,str]);
         inputDataCopy = inputDataCopy
@@ -157,7 +157,7 @@ function LandingPage(props) {
       } else if (newAssignee !== null){
         if(InputAssignee.includes("no:assignee")){
           setInputAssignee([str]);
-          inputDataCopy = inputDataCopy.replace("no:assignee\u00A0",'');
+          inputDataCopy = inputDataCopy.replace("\u00A0no:assignee",'');
         }
         setInputAssignee([...InputAssignee,str]);
         inputDataCopy = inputDataCopy
