@@ -37,7 +37,9 @@ function IssueList(props) {
     axios.get("/api/issue").then((response) => {
       if (response.data.success && isMounted) {
         setLoading(false);
-        issueHandler(response.data.issues);
+        issueHandler(
+          response.data.issues.filter((issue) => issue.isOpened == true)
+        );
       } else {
         alert("Failed to get issues");
       }
@@ -126,11 +128,6 @@ function IssueList(props) {
 
   //issue card 렌더링 부분
   const renderIssueCards = Issues.map((issue, index) => {
-    //임시로 4개 카드만 렌더링 되도록 설정
-    if (index > 10) {
-      return "";
-    }
-
     return (
       <IssueCard
         key={issue.id}
