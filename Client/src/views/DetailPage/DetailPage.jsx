@@ -183,6 +183,15 @@ function DetailPage(props) {
 
   const assignMeHandler = () => {
     setCurAssigneeList([{ id: User.user.userId, profile: User.user.profile }]);
+    const body = {
+      issueId: issueData.issueDetail.id,
+      assigneeId: User.user.userId,
+    };
+    axios.post("/api/issue/assignee", body).then((response) => {
+      if (response.data.success) {
+        console.log("insert work");
+      }
+    });
   };
 
   useEffect(() => {
