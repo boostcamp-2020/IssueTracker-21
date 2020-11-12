@@ -57,9 +57,11 @@ function MilestoneEditor(props) {
   }
 
   useEffect(() => {
-    titleHandler(info.title);
-    dueDateHandler(info.dueDate.split("T")[0]);
-    descriptionHandler(info.description);
+    if (info !== undefined) {
+      titleHandler(info.title);
+      dueDateHandler(info.dueDate.split("T")[0]);
+      descriptionHandler(info.description);
+    }
   }, []);
 
   return (
@@ -69,7 +71,7 @@ function MilestoneEditor(props) {
         <MilestoneInput
           placeholder="Title"
           color={"#fafbfc"}
-          defaultValue={info.title}
+          defaultValue={info && info.title}
           onChange={(e) => titleHandler(e.target.value)}
         />
       </div>
@@ -79,14 +81,14 @@ function MilestoneEditor(props) {
           placeholder="연도-월-일"
           className={dateColor == "red" ? "redInput" : "blackInput"}
           color={dateColor}
-          defaultValue={info.dueDate.split("T")[0]}
+          defaultValue={info && info.dueDate.split("T")[0]}
           onChange={(e) => validateDate(e)}
         />
       </div>
       <div className="descriptionArea">
         <MilestoneLabel>Description (optional)</MilestoneLabel>
         <MilestoneTextArea
-          defaultValue={info.description}
+          defaultValue={info && info.description}
           onChange={(e) => descriptionHandler(e.target.value)}
         />
       </div>
