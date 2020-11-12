@@ -5,7 +5,7 @@ import styled from "styled-components";
 import CommentEditor from "../CommentEditor";
 
 function IssueComment(props) {
-  const { id, issueId, authorId, owner, content, createdAt } = props;
+  const { id, issueId, authorId, owner, content, createdAt, userId } = props;
 
   const [contentValue, setContentValue] = useState(content);
   const [isEditClicked, setIsEditClicked] = useState(false);
@@ -58,7 +58,7 @@ function IssueComment(props) {
 
   const TopAreaStyle = authorId == owner ? TopStyle : OtherTopStyle;
   const OwnerBtnStyle = owner == authorId ? OwnerStyle : OwnerDisabledStyle;
-  const EditBtnStyle = owner == authorId ? EditStyle : EditDisabledStyle;
+  const EditBtnStyle = userId == authorId ? EditStyle : EditDisabledStyle;
 
   return (
     <ContainerDiv id="containerArea">
@@ -87,7 +87,7 @@ function IssueComment(props) {
             </OwnerBtnStyle>
             <div className="imogi">&#128008;</div>
             <EditBtnStyle
-              className={owner == authorId ? "edit" : "edit disabled"}
+              className={userId == authorId ? "edit" : "edit disabled"}
               onClick={(e) => editClickHandler(e)}
             >
               Edit

@@ -33,6 +33,7 @@ let labelList = [];
 
 function DetailPage(props) {
   const { params } = props.match;
+  const [isUserLoading, setIsUserLoading] = useState(true);
   const [issueData, setIssueData] = useState({
     issueDetail: {},
     comments: { rows: [] },
@@ -250,7 +251,9 @@ function DetailPage(props) {
   useEffect(() => {
     axios.get("/api/user/userinfo").then((response) => {
       if (response.data.success && isMounted) {
-        setUser(response.data);
+        console.log(response.data);
+        setUser(response.data.user);
+        setIsUserLoading(false);
       } else {
         alert("Failed to get User info");
       }
@@ -372,6 +375,7 @@ function DetailPage(props) {
         owner={issueData.issueDetail.authorId}
         content={comment.content}
         createdAt={comment.createdAt}
+        userId={User.userId}
       />
     );
   });
@@ -383,7 +387,7 @@ function DetailPage(props) {
       </div>
       <IssueContentBodyArea>
         <IssueComponentsDiv id="issueComponentsArea">
-          {commentsLoading ? (
+          {isUserLoading ? (
             renderLoading
           ) : (
             <IssueComment
@@ -393,11 +397,16 @@ function DetailPage(props) {
               owner={issueData.issueDetail.authorId}
               content={issueData.issueDetail.description}
               createdAt={issueData.issueDetail.createdAt}
+              userId={User.userId}
             />
           )}
 
-          {commentsLoading ? renderLoading : renderIssueComment}
-          {commentsLoading ? renderLoading : renderIssueCommentEditor}
+          {commentsLoading && isUserLoading
+            ? renderLoading
+            : renderIssueComment}
+          {commentsLoading && isUserLoading
+            ? renderLoading
+            : renderIssueCommentEditor}
         </IssueComponentsDiv>
         <div className="sideBar">
           <Sidebar
