@@ -3,16 +3,17 @@ import { Router } from "react-router-dom";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
+import inputDataToUrl from "../../utils/searchRegex";
 import { LandingPageContext } from "../../views/LandingPage";
 
 function DropDownStatus(props) {
-  const { Issues, issueHandler } = useContext(LandingPageContext);
+  const { Issues, issueHandler, inputData } = useContext(LandingPageContext);
   const issueIdArr = props.issueIdArr;
 
   const renderIssues = () => {
-    axios.get("/api/issue").then((response) => {
+    axios.get(inputDataToUrl(inputData)).then((response) => {
       if (response.data.success) {
-        issueHandler(response.data.issues.filter((e) => e.isOpened))
+        issueHandler(response.data.issues);
       } else {
         alert("Failed to get issues");
       }
