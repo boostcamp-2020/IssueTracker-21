@@ -23,8 +23,8 @@ function LabelNavBar(props) {
       <LinkButtonContainer>
         <ButtonSectionStyle>
           <CustomBtn
-            color="black"
-            bgColor="white"
+            color="white"
+            bgColor="#0E66D6"
             width="100%"
             height="30px"
             border="1px solid #e1e4e8"
