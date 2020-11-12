@@ -55,27 +55,23 @@ exports.getIssues = async function (req, res, next) {
               e.comments.map((u) => u.authorId).some((i) => i === commentorId)
             );
 
-            console.log(label instanceof Array);
+      console.log(label instanceof Array);
 
-      if(label instanceof Array){
+      if (label instanceof Array) {
         filteredIssues =
-        label === undefined
-          ? filteredIssues
-          : filteredIssues.filter((e) =>
-              e.labels.map((l) => l.name).includes(...label)
-            );
-      }else{
+          label === undefined
+            ? filteredIssues
+            : filteredIssues.filter((e) =>
+                e.labels.map((l) => l.name).includes(...label)
+              );
+      } else {
         filteredIssues =
-        label === undefined
-          ? filteredIssues
-          : filteredIssues.filter((e) =>
-              e.labels.map((l) => l.name).includes(label)
-            );
+          label === undefined
+            ? filteredIssues
+            : filteredIssues.filter((e) =>
+                e.labels.map((l) => l.name).includes(label)
+              );
       }
-
-
-
-            
 
       return res.status(200).json({
         success: true,
@@ -184,7 +180,9 @@ exports.updateIssueDescription = async function (req, res, next) {
 
 /* 이슈 수정- status */
 exports.updateIssueStatus = async function (req, res, next) {
-  const { issueId, newStatus, userId } = req.body;
+  const { newStatus, userId } = req.body;
+  let issueId = req.body.issueId;
+  if (typeof issueId === "number") issueId = [issueId];
   try {
     let updatedStatus = await issueDao.updateIssueStatus(
       newStatus,

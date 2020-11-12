@@ -32,32 +32,28 @@ function DropDownStatus(props) {
   };
 
   const openIssueHandler = (e) => {
-    issueIdArr.forEach((id) => {
-      axios
-        .put("/api/issue/status", { issueId: id, newStatus: true })
-        .then((response) => {
-          if (response.data.success) {
-            renderIssues();
-          } else {
-            alert("Failed to update status of issues");
-          }
-        });
-    });
+    axios
+      .put("/api/issue/status", { issueId: issueIdArr, newStatus: true })
+      .then((response) => {
+        if (response.data.success) {
+          renderIssues();
+        } else {
+          alert("Failed to update status of issues");
+        }
+      });
     close(e);
   };
 
   const closeIssueHandler = (e) => {
-    issueIdArr.forEach((id) => {
-      axios
-        .put("/api/issue/status", { issueId: id, newStatus: false })
-        .then((response) => {
-          if (response.data.success) {
-            renderIssues();
-          } else {
-            alert("Failed to update status of issues");
-          }
-        });
-    });
+    axios
+      .put("/api/issue/status", { issueId: issueIdArr, newStatus: false })
+      .then((response) => {
+        if (response.data.success) {
+          renderIssues();
+        } else {
+          alert("Failed to update status of issues");
+        }
+      });
     close(e);
   };
 
