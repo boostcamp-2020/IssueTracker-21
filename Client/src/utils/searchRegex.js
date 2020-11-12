@@ -1,6 +1,6 @@
 const inputDataToUrl = (inputData) => {
   if (!inputData.length) return "api/issue";
-  const searchRegex = /is\:(open|closed)|(milestone\:"([^"]*)")|(milestone\:([^\s]*))|(label\:"([^"]*)")|(label\:([^\s]*))|(author\:([^\s]*))|(commentor\:([^\s]*)|(assignee\:([^\s]*)))/g;
+  const searchRegex = /is\:(open|closed)|(milestone\:"([^"]*)")|(milestone\:([^\s]*))|(label\:"([^"]*)")|(label\:([^\s]*))|(author\:([^\s]*))|(commentor\:([^\s]*)|(assignee\:([^\s]*))|(no\:([^\s]*)))/g;
   const parsedData = inputData.match(searchRegex);
   if (!parsedData) return;
 

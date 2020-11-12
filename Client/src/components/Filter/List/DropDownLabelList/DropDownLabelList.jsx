@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Router } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import DropDownLabelCard from "../../Card/DropDownLabelCard";
 import styled from "styled-components";
+import {LandingPageContext} from "../../../../views/LandingPage"
 
 function DropDownLabelList() {
   const [Items, setItems] = useState([]);
-  const [SelectedItems, setSelectedItems] = useState([]);
+  const { inputOnClickFilterHandler } = useContext(LandingPageContext);
 
     /* get data */
     useEffect(() => {
@@ -36,7 +37,9 @@ function DropDownLabelList() {
   return (
   <div className="dropDownList">
     <div className="dropDownCardContainter">
-      <NotSelect>Unlabeled</NotSelect>
+      <NotSelect
+            onClick={() => inputOnClickFilterHandler(`no:label`)}>
+              Unlabeled</NotSelect>
       {renderCards}
     </div>
   </div>
