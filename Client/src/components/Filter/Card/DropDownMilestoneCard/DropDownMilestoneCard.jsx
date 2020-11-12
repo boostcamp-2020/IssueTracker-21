@@ -11,7 +11,7 @@ function DropDownMilestoneCard(props) {
   return (
     <DropDownMilestoneName
       data-milestoneid={id}
-      onClick={() => inputOnClickFilterHandler(`milestone:${title}`)}
+      onClick={() => inputOnClickFilterHandler(`milestone:"${title}"`)}
     >
       <div className="dropDownMilestoneName">{title}</div>
     </DropDownMilestoneName>

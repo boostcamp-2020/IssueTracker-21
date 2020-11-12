@@ -11,7 +11,7 @@ function DropDownLabelCard(props) {
   return (
     <DropDownLabelCardContainer
       data-labelid={id}
-      onClick={() => inputOnClickFilterHandler(`label:${name}`)}
+      onClick={() => inputOnClickFilterHandler(`label:"${name}"`)}
     >
       <DropDownLabelColorNameContainer>
         <DropDownLabelColorContainer>
