@@ -194,6 +194,54 @@ function DetailPage(props) {
     });
   };
 
+  const assignNobodyHandler = () => {
+    if (curAssigneeList.length) {
+      curAssigneeList.map((e) => {
+        const body = {
+          issueId: issueData.issueDetail.id,
+          assigneeId: e.id,
+        };
+
+        axios.delete("/api/issue/assignee", { data: body }).then((response) => {
+          if (response.data.success) {
+            console.log("delete work");
+          }
+        });
+      });
+    }
+    setCurAssigneeList([]);
+  };
+
+  const labelNothingHandler = () => {
+    if (curLabelList.length) {
+      curLabelList.map((e) => {
+        const body = {
+          issueId: issueData.issueDetail.id,
+          labelId: e.id,
+        };
+
+        axios.delete("/api/issue/label", { data: body }).then((response) => {
+          if (response.data.success) {
+            console.log("delete work");
+          }
+        });
+      });
+    }
+    setCurLabelList([]);
+  };
+
+  const milestoneNothingHandler = () => {
+    const body = {
+      issueId: issueData.issueDetail.id,
+      milestoneId: null,
+    };
+
+    axios.put("/api/issue/milestone", body).then((response) => {
+      if (response.data.success) console.log("asdfasdf");
+    });
+    setCurMilestoneList(null);
+  };
+
   useEffect(() => {
     axios.get("/api/user/userinfo").then((response) => {
       if (response.data.success && isMounted) {
@@ -361,6 +409,9 @@ function DetailPage(props) {
           curlabelListHandler={curlabelListHandler}
           curMilestoneListHandler={curMilestoneListHandler}
           assignMeHandler={assignMeHandler}
+          assignNobodyHandler={assignNobodyHandler}
+          labelNothingHandler={labelNothingHandler}
+          milestoneNothingHandler={milestoneNothingHandler}
         />
       </div>
     </div>
