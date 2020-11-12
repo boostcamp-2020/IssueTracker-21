@@ -56,6 +56,18 @@ function NewIssuePage(props) {
     setCurAssigneeList([{ id: User.user.userId, profile: User.user.profile }]);
   };
 
+  const assignNobodyHandler = () => {
+    setCurAssigneeList([]);
+  };
+
+  const labelNothingHandler = () => {
+    setCurLabelList([]);
+  };
+
+  const milestoneNothingHandler = () => {
+    setCurMilestoneList(null);
+  };
+
   //취소 버튼
   const cancelHandler = () => {
     props.history.push("/");
@@ -204,6 +216,9 @@ function NewIssuePage(props) {
           curlabelListHandler={curlabelListHandler}
           curMilestoneListHandler={curMilestoneListHandler}
           assignMeHandler={assignMeHandler}
+          assignNobodyHandler={assignNobodyHandler}
+          labelNothingHandler={labelNothingHandler}
+          milestoneNothingHandler={milestoneNothingHandler}
         />
       </div>
     </div>

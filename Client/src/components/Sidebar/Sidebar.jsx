@@ -19,6 +19,9 @@ function Sidebar({
   labelListHandler,
   milestoneListHandler,
   assignMeHandler,
+  assignNobodyHandler,
+  labelNothingHandler,
+  milestoneNothingHandler,
 }) {
   return (
     <SidebarContext.Provider
@@ -37,6 +40,9 @@ function Sidebar({
         curlabelListHandler,
         curMilestoneListHandler,
         assignMeHandler,
+        assignNobodyHandler,
+        labelNothingHandler,
+        milestoneNothingHandler,
       }}
     >
       <div>
