@@ -143,6 +143,7 @@ const OtherTopStyle = styled.div`
 const ProfileStyle = styled.div`
   width: 5%;
   margin-right: 3%;
+  border-radius: 5px;
 `;
 
 const UserProfileStyle = styled.img`
