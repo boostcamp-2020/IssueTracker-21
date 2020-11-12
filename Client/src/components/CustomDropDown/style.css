@@ -47,3 +47,10 @@
   background-color: #f3f4f6;
   border: 1px solid #e1e4e8;
 }
+
+#closeBtn {
+  width: auto;
+}
+#closeBtn:hover {
+  background-color: rgba(0, 0, 0, 0);
+}
