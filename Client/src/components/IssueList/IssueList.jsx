@@ -37,9 +37,7 @@ function IssueList(props) {
     axios.get("/api/issue").then((response) => {
       if (response.data.success && isMounted) {
         setLoading(false);
-        issueHandler(
-          response.data.issues.filter((issue) => issue.isOpened == true)
-        );
+        issueHandler(response.data.issues.filter((e) => e.isOpened));
       } else {
         alert("Failed to get issues");
       }
