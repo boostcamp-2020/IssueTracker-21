@@ -19,9 +19,9 @@ function CustomDropDown(props) {
     >
       <Dropdown.Header className="dropdown__header">
         Filter issues
-        <CustomBtn bgColor="white" border="none  ">
+        <Dropdown.Item id="closeBtn">
           <Icon icon={x24} />
-        </CustomBtn>
+        </Dropdown.Item>
       </Dropdown.Header>
       <Dropdown.Item id="is:open" onClick={inputOnClickHandler}>
         Open issues and pull requests
