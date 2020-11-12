@@ -13,6 +13,7 @@ exports.getIssues = async function (req, res, next) {
       author,
       commentor,
       milestone,
+      no
     } = req.query;
 
     const authorId = meOrNot(req.user, author);
@@ -30,27 +31,40 @@ exports.getIssues = async function (req, res, next) {
           ? filteredIssues
           : filteredIssues.filter((e) => e.isOpened == isOpened);
 
-      filteredIssues =
-        milestone === undefined
-          ? filteredIssues
-          : filteredIssues.filter((e) => {
-              if (e.milestone) return e.milestone.title == milestone;
-            });
 
-      if (assigneeId instanceof Array) {
+          if(no !== undefined && no.includes('milestone')){
+            filteredIssues =
+            filteredIssues.filter((e) => e.milestone===null);
+          } else {
+            filteredIssues =
+            milestone === undefined
+              ? filteredIssues
+              : filteredIssues.filter((e) => {
+                  if (e.milestone) return e.milestone.title == milestone;
+                });
+          }
+
+      if(no !== undefined && no.includes('assignee')){
         filteredIssues =
-          assigneeId === undefined
-            ? filteredIssues
-            : filteredIssues.filter((e) =>
-                assigneeId.every((a) => e.users.map((u) => u.id).includes(a))
-              );
+        filteredIssues.filter((e) =>
+              e.users.length === 0
+            );
       } else {
-        filteredIssues =
-          assigneeId === undefined
-            ? filteredIssues
-            : filteredIssues.filter((e) =>
-                e.users.map((u) => u.id).includes(assigneeId)
-              );
+        if (assigneeId instanceof Array) {
+          filteredIssues =
+            assigneeId === undefined
+              ? filteredIssues
+              : filteredIssues.filter((e) =>
+                  assigneeId.every((a) => e.users.map((u) => u.id).includes(a))
+                );
+        } else {
+          filteredIssues =
+            assigneeId === undefined
+              ? filteredIssues
+              : filteredIssues.filter((e) =>
+                  e.users.map((u) => u.id).includes(assigneeId)
+                );
+        }
       }
 
       filteredIssues =
@@ -60,23 +74,28 @@ exports.getIssues = async function (req, res, next) {
               e.comments.map((u) => u.authorId).some((i) => i === commentorId)
             );
 
-      if (label instanceof Array) {
-        filteredIssues =
-          label === undefined
-            ? filteredIssues
-            : filteredIssues.filter((e) =>
-                label.every((label) =>
-                  e.labels.map((l) => l.name).includes(label)
-                )
-              );
-      } else {
-        filteredIssues =
-          label === undefined
-            ? filteredIssues
-            : filteredIssues.filter((e) =>
-                e.labels.map((l) => l.name).includes(label)
-              );
-      }
+            if(no !== undefined && no.includes('label')){
+              filteredIssues =
+              filteredIssues.filter((e) => e.labels.length === 0);
+            } else {
+              if (label instanceof Array) {
+                filteredIssues =
+                  label === undefined
+                    ? filteredIssues
+                    : filteredIssues.filter((e) =>
+                        label.every((label) =>
+                          e.labels.map((l) => l.name).includes(label)
+                        )
+                      );
+              } else {
+                filteredIssues =
+                  label === undefined
+                    ? filteredIssues
+                    : filteredIssues.filter((e) =>
+                        e.labels.map((l) => l.name).includes(label)
+                      );
+              }
+            }
 
       return res.status(200).json({
         success: true,
