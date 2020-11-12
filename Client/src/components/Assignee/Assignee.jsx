@@ -16,14 +16,14 @@ const AssigneeStyle = styled.div`
 function Assignee(props) {
   const { assignee } = props;
 
-  const [Move, setMove] = useState("-15px");
+  const [Move, setMove] = useState(false);
 
   function MouseEnterHandler() {
-    setMove("2px");
+    setMove(true);
   }
 
   function MouseLeaveHandler() {
-    setMove("-15px");
+    setMove(false);
   }
 
   const assigneeCard = assignee.map((user, idx) => {
@@ -32,7 +32,7 @@ function Assignee(props) {
         key={idx}
         userInfo={user}
         idx={idx}
-        marginVal={idx !== 0 ? Move : "-15px"}
+        marginVal={idx !== 0 ? Move : false}
       ></AssigneeCard>
     );
   });
