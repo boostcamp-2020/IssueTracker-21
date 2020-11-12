@@ -61,7 +61,9 @@ function MilestoneCard(props) {
     <MilestoneCardStyle>
       <ContentsArea>
         <TitleAreaStyle id="title">{info.title}</TitleAreaStyle>
-        <SubTitleAreaStyle id="date">🗓 {info.dueDate}</SubTitleAreaStyle>
+        <SubTitleAreaStyle id="date">
+          🗓 {info.dueDate.split("T")[0]}
+        </SubTitleAreaStyle>
         <SubTitleAreaStyle id="contents">
           {info.description || "No description"}
         </SubTitleAreaStyle>
