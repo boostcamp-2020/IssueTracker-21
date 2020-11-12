@@ -177,7 +177,9 @@ exports.updateIssueStatus = async (newStatus, userId, issueId) => {
         },
         {
           where: {
-            id: issueId,
+            id: {
+              [Op.or]: issueId,
+            },
           },
         }
       );
