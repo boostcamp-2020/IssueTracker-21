@@ -253,7 +253,6 @@ function DetailPage(props) {
       if (response.data.success && isMounted) {
         console.log(response.data);
         setUser(response.data.user);
-        setIsUserLoading(false);
       } else {
         alert("Failed to get User info");
       }
@@ -297,6 +296,7 @@ function DetailPage(props) {
 
         setHeaderLoading(false);
         setCommentLoading(false);
+        setIsUserLoading(false);
       } else {
         alert("Failed to get issues");
       }
