@@ -52,6 +52,11 @@ function NewIssuePage(props) {
     setCurMilestoneList(milestone);
   };
 
+  const assignMeHandler = () => {
+    console.log("work!");
+    setCurAssigneeList([{ id: User.user.userId, profile: User.user.profile }]);
+  };
+
   //취소 버튼
   const cancelHandler = () => {
     props.history.push("/");
@@ -186,7 +191,6 @@ function NewIssuePage(props) {
       </div>
       <div id="sideBar">
         <Sidebar
-          issueId={-1}
           assigneeList={assigneeList}
           labelList={labelList}
           milestone={milestone}
@@ -200,6 +204,7 @@ function NewIssuePage(props) {
           milestoneListHandler={milestoneListHandler}
           curlabelListHandler={curlabelListHandler}
           curMilestoneListHandler={curMilestoneListHandler}
+          assignMeHandler={assignMeHandler}
         />
       </div>
     </div>

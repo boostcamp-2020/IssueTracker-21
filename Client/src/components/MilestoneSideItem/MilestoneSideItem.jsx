@@ -3,6 +3,7 @@ import { Icon } from "@iconify/react";
 import gear16 from "@iconify/icons-octicon/gear-16";
 import DropDown from "../DropDown";
 import MilestoneSideCard from "../MilestoneSideCard";
+import styled from "styled-components";
 import { SidebarContext } from "../Sidebar";
 function MilestoneSideItem() {
   const { curMilestone, milestoneListHandler } = useContext(SidebarContext);
@@ -17,10 +18,10 @@ function MilestoneSideItem() {
     setDropdownStatus(status);
   };
   return (
-    <div>
-      <button onClick={showDropDown}>
+    <SideItemContainer>
+      <SideItemButton onClick={showDropDown}>
         Milestones <Icon icon={gear16} />
-      </button>
+      </SideItemButton>
       {DropdownStatus ? (
         <DropDown
           filter="milestone"
@@ -34,8 +35,26 @@ function MilestoneSideItem() {
       ) : (
         <span>None yet</span>
       )}
-    </div>
+    </SideItemContainer>
   );
 }
+
+
+const SideItemContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const SideItemButton = styled.button`
+  &:hover {
+    color: #0366d6;
+  }
+  color: #586069;
+  display: flex;
+  justify-content: space-between;
+  border: none;
+  background-color: white;
+  padding: 0px;
+`;
 
 export default MilestoneSideItem;

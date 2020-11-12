@@ -3,10 +3,13 @@ import { Icon, InlineIcon } from "@iconify/react";
 import gear16 from "@iconify/icons-octicon/gear-16";
 import DropDown from "../DropDown";
 import AsigneeSideCard from "../AssigneeSideCard";
+import styled from "styled-components";
 import { SidebarContext } from "../Sidebar";
 
 function AssigneeSideItem() {
-  const { assigneeListHandler, curAssigneeList } = useContext(SidebarContext);
+  const { assigneeListHandler, curAssigneeList, assignMeHandler } = useContext(
+    SidebarContext
+  );
   const [DropdownStatus, setDropdownStatus] = useState(false);
 
   const showDropDown = () => {
@@ -19,10 +22,10 @@ function AssigneeSideItem() {
   };
 
   return (
-    <div>
-      <button onClick={showDropDown}>
-        Assignee <Icon icon={gear16} />
-      </button>
+    <SideItemContainer>
+      <SideItemButton onClick={showDropDown}>
+        Assignees <Icon icon={gear16} />
+      </SideItemButton>
       {DropdownStatus ? (
         <DropDown
           filter="assignee"
@@ -42,10 +45,32 @@ function AssigneeSideItem() {
           );
         })
       ) : (
-        <span>No one-assign yourself</span>
+        <AssignMeArea>
+          No one-
+          <SideItemButton onClick={assignMeHandler}>yourself</SideItemButton>
+        </AssignMeArea>
       )}
-    </div>
+    </SideItemContainer>
   );
 }
 
+const AssignMeArea = styled.div`
+  display: flex;
+`;
+const SideItemContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const SideItemButton = styled.button`
+  &:hover {
+    color: #0366d6;
+  }
+  color: #586069;
+  display: flex;
+  justify-content: space-between;
+  border: none;
+  background-color: white;
+  padding: 0px;
+`;
 export default AssigneeSideItem;

@@ -37,6 +37,7 @@ function DetailPage(props) {
   const [issueOpened, setIssueOpened] = useState(true);
 
   const [isMounted, setisMounted] = useState(true);
+  const [User, setUser] = useState(null);
 
   const [curAssigneeList, setCurAssigneeList] = useState([]);
   const [curMilestone, setCurMilestoneList] = useState(null);
@@ -180,7 +181,19 @@ function DetailPage(props) {
     });
   };
 
+  const assignMeHandler = () => {
+    setCurAssigneeList([{ id: User.user.userId, profile: User.user.profile }]);
+  };
+
   useEffect(() => {
+    axios.get("/api/user/userinfo").then((response) => {
+      if (response.data.success && isMounted) {
+        setUser(response.data);
+      } else {
+        alert("Failed to get User info");
+      }
+    });
+
     axios.get(`/api/issue/${params.issueId}`).then(async (response) => {
       if (response.data.success && isMounted) {
         const {
@@ -302,28 +315,29 @@ function DetailPage(props) {
   });
 
   return (
-    <div>
+    <div className="editIssueArea">
       <div className="issueHeaderArea">
         {headerLoading ? renderLoading : renderIssueHeader}
-      </div>
-      <IssueComponentsDiv id="issueComponentsArea">
-        {commentsLoading ? (
-          renderLoading
-        ) : (
-          <IssueComment
-            id={issueData.issueDetail.authorId}
-            issueId={issueData.issueDetail.id}
-            authorId={issueData.issueDetail.authorId}
-            owner={issueData.issueDetail.authorId}
-            content={issueData.issueDetail.description}
-            createdAt={issueData.issueDetail.createdAt}
-          />
-        )}
+        <IssueComponentsDiv id="issueComponentsArea">
+          {commentsLoading ? (
+            renderLoading
+          ) : (
+            <IssueComment
+              id={issueData.issueDetail.authorId}
+              issueId={issueData.issueDetail.id}
+              authorId={issueData.issueDetail.authorId}
+              owner={issueData.issueDetail.authorId}
+              content={issueData.issueDetail.description}
+              createdAt={issueData.issueDetail.createdAt}
+            />
+          )}
 
-        {commentsLoading ? renderLoading : renderIssueComment}
-        {commentsLoading ? renderLoading : renderIssueCommentEditor}
+          {commentsLoading ? renderLoading : renderIssueComment}
+          {commentsLoading ? renderLoading : renderIssueCommentEditor}
+        </IssueComponentsDiv>
+      </div>
+      <div className="sideBar">
         <Sidebar
-          issueId={issueData.issueDetail.id}
           assigneeList={assigneeList}
           labelList={labelList}
           milestone={milestone}
@@ -337,8 +351,9 @@ function DetailPage(props) {
           milestoneListHandler={milestoneListHandler}
           curlabelListHandler={curlabelListHandler}
           curMilestoneListHandler={curMilestoneListHandler}
+          assignMeHandler={assignMeHandler}
         />
-      </IssueComponentsDiv>
+      </div>
     </div>
   );
 }

@@ -5,7 +5,6 @@ import MilestoneSideItem from "../MilestoneSideItem";
 
 export const SidebarContext = React.createContext();
 function Sidebar({
-  issueId,
   assigneeList,
   curAssigneeList,
   labelList,
@@ -19,11 +18,11 @@ function Sidebar({
   curAssigneeListHandler,
   labelListHandler,
   milestoneListHandler,
+  assignMeHandler,
 }) {
   return (
     <SidebarContext.Provider
       value={{
-        issueId,
         assigneeList,
         labelList,
         milestone,
@@ -37,6 +36,7 @@ function Sidebar({
         curMilestone,
         curlabelListHandler,
         curMilestoneListHandler,
+        assignMeHandler,
       }}
     >
       <div>

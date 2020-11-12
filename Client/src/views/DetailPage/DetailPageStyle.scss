@@ -1,4 +1,18 @@
-#issueComponentsArea {
-  width: 80%;
-  padding: 0 4%;
+#editIssueArea {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+
+  #sideBar {
+    width: 20%;
+  }
+
+  #issueComponentsArea {
+    width: 80%;
+    // padding: 0 4%;
+  }
+
+  #issueHeaderArea {
+    width: 80%;
+  }
 }
