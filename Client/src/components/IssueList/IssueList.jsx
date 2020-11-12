@@ -18,7 +18,9 @@ function IssueList(props) {
   const [AssigneeDropDownVisible, setAssigneeDropDownVisible] = useState(false);
   const [AuthorDropDownVisible, setAuthorDropDownVisible] = useState(false);
   const [LabelDropDownVisible, setLabelDropDownVisible] = useState(false);
-  const [MilestoneDropDownVisible, setMilestoneDropDownVisible] = useState(false);
+  const [MilestoneDropDownVisible, setMilestoneDropDownVisible] = useState(
+    false
+  );
 
   //Context API를 통해 가져옴
   const { Issues, issueHandler } = useContext(LandingPageContext);
@@ -152,6 +154,7 @@ function IssueList(props) {
       });
       useStateHandler(false);
     } else {
+      setChkIssueId(Issues.map((el) => el.id));
       setChkNum({
         condition: "chkBox checkedAll",
         num: Issues.length - 1,
@@ -203,25 +206,53 @@ function IssueList(props) {
 
   const filterOpt = (
     <RightMenuStyle id="rightMenu">
-      <OptBtnStyle className="optBtn" id="authorOpt" onClick={openAuthorDropDown}>
+      <OptBtnStyle
+        className="optBtn"
+        id="authorOpt"
+        onClick={openAuthorDropDown}
+      >
         Author ▾
-        {AuthorDropDownVisible&&
-        (<DropDownFilter visible={AuthorDropDownVisible} onClose={closeFilterDropDown} filter="author"/>)}
+        {AuthorDropDownVisible && (
+          <DropDownFilter
+            visible={AuthorDropDownVisible}
+            onClose={closeFilterDropDown}
+            filter="author"
+          />
+        )}
       </OptBtnStyle>
       <div className="optBtn" id="labelOpt" onClick={openLabelDropDown}>
         Label ▾
-        {LabelDropDownVisible&&
-        (<DropDownFilter visible={LabelDropDownVisible} onClose={closeFilterDropDown} filter="label"/>)}
+        {LabelDropDownVisible && (
+          <DropDownFilter
+            visible={LabelDropDownVisible}
+            onClose={closeFilterDropDown}
+            filter="label"
+          />
+        )}
       </div>
-      <div className="optBtn" id="milestonesOpt" onClick={openMilestoneDropDown}>
+      <div
+        className="optBtn"
+        id="milestonesOpt"
+        onClick={openMilestoneDropDown}
+      >
         Milestones ▾
-        {MilestoneDropDownVisible&&
-        (<DropDownFilter visible={MilestoneDropDownVisible} onClose={closeFilterDropDown} filter="milestone"/>)}
+        {MilestoneDropDownVisible && (
+          <DropDownFilter
+            visible={MilestoneDropDownVisible}
+            onClose={closeFilterDropDown}
+            filter="milestone"
+          />
+        )}
       </div>
       <div className="optBtn" id="assigneeOpt" onClick={openAssigneeDropDown}>
         Assignee ▾
-        {AssigneeDropDownVisible&&
-        (<DropDownFilter visible={AssigneeDropDownVisible} onClose={closeFilterDropDown} filter="assignee"/>)}
+        {AssigneeDropDownVisible && (
+          <DropDownFilter
+            visible={AssigneeDropDownVisible}
+            onClose={closeFilterDropDown}
+            filter="assignee"
+          />
+        )}
       </div>
     </RightMenuStyle>
   );
