@@ -36,7 +36,6 @@ function LandingPage(props) {
   const inputSubmitHandler = (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      console.log(inputDataToUrl(inputData));
       axios.get(inputDataToUrl(inputData)).then((response) => {
         if (response.data.success && isMounted) {
           issueHandler(response.data.issues);
@@ -72,7 +71,6 @@ function LandingPage(props) {
   //필터 드롭다운 클릭시 자동으로 제출
   const inputFilterSubmitHandler = (newInputData) => {
     //e.preventDefault();
-    console.log(inputDataToUrl(newInputData));
     axios.get(inputDataToUrl(newInputData)).then((response) => {
       if (response.data.success && isMounted) {
         issueHandler(response.data.issues);
@@ -109,7 +107,6 @@ function LandingPage(props) {
               InputLabel.forEach(e=>inputDataCopy = inputDataCopy.replace(e,''));
             }
             setInputLabel([str]);
-            console.log(InputLabel)
             inputDataCopy = inputDataCopy
         .concat(stringWithWhiteSpace(str));
             break;

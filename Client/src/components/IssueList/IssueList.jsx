@@ -233,7 +233,7 @@ function IssueList(props) {
           />
         )}
       </OptBtnStyle>
-      <div className="optBtn" id="labelOpt" onClick={openLabelDropDown}>
+      <OptBtnStyle className="optBtn" id="labelOpt" onClick={openLabelDropDown}>
         Label ▾
         {LabelDropDownVisible && (
           <DropDownFilter
@@ -242,8 +242,8 @@ function IssueList(props) {
             filter="label"
           />
         )}
-      </div>
-      <div
+      </OptBtnStyle>
+      <OptBtnStyle
         className="optBtn"
         id="milestonesOpt"
         onClick={openMilestoneDropDown}
@@ -256,8 +256,8 @@ function IssueList(props) {
             filter="milestone"
           />
         )}
-      </div>
-      <div className="optBtn" id="assigneeOpt" onClick={openAssigneeDropDown}>
+      </OptBtnStyle>
+      <OptBtnStyle className="optBtn" id="assigneeOpt" onClick={openAssigneeDropDown}>
         Assignee ▾
         {AssigneeDropDownVisible && (
           <DropDownFilter
@@ -266,7 +266,7 @@ function IssueList(props) {
             filter="assignee"
           />
         )}
-      </div>
+      </OptBtnStyle>
     </RightMenuStyle>
   );
 
