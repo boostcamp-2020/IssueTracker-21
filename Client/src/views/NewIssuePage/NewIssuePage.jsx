@@ -53,7 +53,6 @@ function NewIssuePage(props) {
   };
 
   const assignMeHandler = () => {
-    console.log("work!");
     setCurAssigneeList([{ id: User.user.userId, profile: User.user.profile }]);
   };
 
