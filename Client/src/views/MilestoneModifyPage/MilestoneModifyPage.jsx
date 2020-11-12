@@ -34,6 +34,7 @@ function MilestoneModifyPage(props) {
   const [title, setTitle] = useState(null);
   const [dueDate, setDueDate] = useState(null);
   const [description, setDescription] = useState("");
+  const [isDateForm, setIsDateForm] = useState(true);
   const [status, setStatus] = useState(true);
 
   function labelsHandler() {
@@ -60,6 +61,10 @@ function MilestoneModifyPage(props) {
     setDueDate(value);
   };
 
+  const dateFormHandler = (value) => {
+    setIsDateForm(value);
+  };
+
   const descriptionHandler = (value) => {
     setDescription(value);
   };
@@ -67,6 +72,10 @@ function MilestoneModifyPage(props) {
   const putNewMilestone = () => {
     if (title == null || title == "") {
       alert("Title을 입력하세요");
+      return;
+    }
+    if (!isDateForm) {
+      alert("잘못된 날짜 형식입니다");
       return;
     }
     let data = {
@@ -128,6 +137,7 @@ function MilestoneModifyPage(props) {
         titleHandler={titleHandler}
         dueDateHandler={dueDateHandler}
         descriptionHandler={descriptionHandler}
+        dateFormHandler={dateFormHandler}
       />
       <hr />
       <ButtonArea>

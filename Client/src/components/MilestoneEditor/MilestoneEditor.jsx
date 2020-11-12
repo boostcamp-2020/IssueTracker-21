@@ -40,13 +40,16 @@ function MilestoneEditor(props) {
   const titleHandler = props.titleHandler;
   const dueDateHandler = props.dueDateHandler;
   const descriptionHandler = props.descriptionHandler;
+  const dateFormHandler = props.dateFormHandler;
 
   function validateDate(e) {
     let date = e.target.value;
     let date_pattern = /^(19|20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])$/;
     if (!date_pattern.test(date)) {
+      dateFormHandler(false);
       setDateColor("red");
     } else {
+      dateFormHandler(true);
       setDateColor("black");
       dueDateHandler(date);
     }
