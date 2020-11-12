@@ -98,11 +98,11 @@ function NewIssuePage(props) {
       title: Title,
       authorId: User.user.userId,
       description: Contents,
-      milestoneId: curMilestone ? curMilestone.id : "null",
+      milestoneId: curMilestone ? curMilestone.id : null,
       assignees: curAssigneeList.length
         ? curAssigneeList.map((e) => e.id)
-        : "null",
-      labels: curLabelList.length ? curLabelList.map((e) => e.id) : "null",
+        : [],
+      labels: curLabelList.length ? curLabelList.map((e) => e.id) : [],
     };
 
     axios.post("/api/issue", body).then((response) => {

@@ -134,7 +134,7 @@ function IssueList(props) {
         isOpen={issue.isOpened ? "true" : null}
         time={issue.updatedAt}
         authorId={issue.authorId}
-        milestoneTitle={issue.milestone.title}
+        milestoneTitle={issue.milestone?issue.milestone.title:""}
         comments={issue.comments}
         assignee={issue.users}
         labels={issue.labels}

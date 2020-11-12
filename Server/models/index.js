@@ -108,7 +108,7 @@ db.issue.hasMany(db.image, {
 
 // milestone - issue (1:N)
 db.milestone.hasMany(db.issue, {
-  foreignKey: { name: "milestoneId", allowNull: false },
+  foreignKey: { name: "milestoneId", allowNull: true },
   onDelete: "cascade",
 });
 db.issue.belongsTo(db.milestone, {
