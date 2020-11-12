@@ -42,7 +42,7 @@ function MilestoneSideItem() {
 }
 const ContentsArea = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 `;
 
 const SideItemContainer = styled.div`
