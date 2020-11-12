@@ -1,17 +1,11 @@
 import issueDao from "../dao/issueDao";
 import meOrNot from "../utils/meOrNot";
-// import {
-//   issueFilter,
-//   issueFilterUsingSome,
-//   issueFilterUsingIncludes,
-// } from "../utils/issueFilter";
 
 //localhost:5000/api/issue?is=open&label=Back-End&label=Bug&assignee=2-one-week&author=mingd1023&label=Feature&mentions=me&milestone=BE+개발
 /* 모든 이슈 조회 */
 exports.getIssues = async function (req, res, next) {
   try {
     const issues = await issueDao.getAllIssues();
-    console.log(req.query);
     const {
       isOpened,
       label,
@@ -41,12 +35,21 @@ exports.getIssues = async function (req, res, next) {
           ? filteredIssues
           : filteredIssues.filter((e) => e.milestone.title == milestone);
 
-      filteredIssues =
+      if (assigneeId instanceof Array) {
+        filteredIssues =
         assigneeId === undefined
-          ? filteredIssues
-          : filteredIssues.filter((e) =>
-              e.users.map((u) => u.id).some((i) => i === assigneeId)
-            );
+            ? filteredIssues
+            : filteredIssues.filter((e) => assigneeId.every
+            (a => e.users.map((u) => u.id).includes(a))
+              );
+      } else {
+        filteredIssues =
+        assigneeId === undefined
+            ? filteredIssues
+            : filteredIssues.filter((e) =>
+            e.users.map((u) => u.id).includes(assigneeId)
+              );
+      }
 
       filteredIssues =
         commentorId === undefined
@@ -55,14 +58,12 @@ exports.getIssues = async function (req, res, next) {
               e.comments.map((u) => u.authorId).some((i) => i === commentorId)
             );
 
-      console.log(label instanceof Array);
-
       if (label instanceof Array) {
         filteredIssues =
           label === undefined
             ? filteredIssues
-            : filteredIssues.filter((e) =>
-                e.labels.map((l) => l.name).includes(...label)
+            : filteredIssues.filter((e) => label.every
+            (label => e.labels.map((l) => l.name).includes(label))
               );
       } else {
         filteredIssues =
@@ -254,7 +255,6 @@ exports.insertNewAssignee = async function (req, res, next) {
 exports.deleteAssignee = async function (req, res, next) {
   const { issueId, assigneeId } = req.body;
   try {
-    console.log(issueId, assigneeId);
     let deletedAssigneeResult = await issueDao.deleteAssignee(
       issueId,
       assigneeId
