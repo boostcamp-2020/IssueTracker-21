@@ -25,30 +25,37 @@ function LabelSideItem() {
       <SideItemButton onClick={showDropDown}>
         Labels <Icon icon={gear16} />
       </SideItemButton>
-      {DropdownStatus ? (
-        <DropDown
-          filter="label"
-          handler={dropDownHandler}
-          status={DropdownStatus}
-          onCardClicked={labelListHandler}
-        />
-      ) : null}
-      {curLabelList.length ? (
-        curLabelList.map((element) => {
-          return (
-            <LabelTag
-              key={element.id}
-              labelName={element.name}
-              color={element.color}
-            />
-          );
-        })
-      ) : (
-        <span>None yet</span>
-      )}
+      <ContentsArea id="contentsArea">
+        {DropdownStatus ? (
+          <DropDown
+            filter="label"
+            handler={dropDownHandler}
+            status={DropdownStatus}
+            onCardClicked={labelListHandler}
+          />
+        ) : null}
+        {curLabelList.length ? (
+          curLabelList.map((element) => {
+            return (
+              <LabelTag
+                key={element.id}
+                labelName={element.name}
+                color={element.color}
+              />
+            );
+          })
+        ) : (
+          <span>None yet</span>
+        )}
+      </ContentsArea>
     </SideItemContainer>
   );
 }
+
+const ContentsArea = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
 
 const SideItemContainer = styled.div`
   display: flex;
