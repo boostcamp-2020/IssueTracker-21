@@ -188,10 +188,11 @@ function DetailPage(props) {
   };
 
   const assignMeHandler = () => {
-    setCurAssigneeList([{ id: User.user.userId, profile: User.user.profile }]);
+    console.log(User);
+    setCurAssigneeList([{ id: User.userId, profile: User.profile }]);
     const body = {
       issueId: issueData.issueDetail.id,
-      assigneeId: User.user.userId,
+      assigneeId: User.userId,
     };
     axios.post("/api/issue/assignee", body).then((response) => {
       if (response.data.success) {
@@ -251,8 +252,8 @@ function DetailPage(props) {
   useEffect(() => {
     axios.get("/api/user/userinfo").then((response) => {
       if (response.data.success && isMounted) {
-        console.log(response.data);
         setUser(response.data.user);
+        console.log(response.data.user);
       } else {
         alert("Failed to get User info");
       }
