@@ -92,7 +92,7 @@ function MilestoneCard(props) {
 
 const MilestoneCardStyle = styled.div`
   width: 100%;
-  padding: 20px 30px;
+  padding: 12px 15px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -104,7 +104,7 @@ const ContentsArea = styled.div`
   flex-direction: column;
 `;
 const TitleAreaStyle = styled.div`
-  font-size: 20px;
+  font-size: 17px;
 `;
 const SubTitleAreaStyle = styled.div`
   font-size: 13px;

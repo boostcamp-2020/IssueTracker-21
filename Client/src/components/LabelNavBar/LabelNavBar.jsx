@@ -84,13 +84,15 @@ const NewLabelButtonContainer = styled.div`
 const NewLabelButton = styled.button`
   display: flex;
   background-color: #2ea44f;
-  border: 1px solid #647c6b;
-  border-radius: 2px;
+  border: 0;
+  border-radius: 6px;
   align-items: center;
   justify-content: center;
   color: white;
-  font-size: 13px;
+  font-size: 14px;
   padding: 3px 5px;
+  width: 110px;
+  height: 30px;
 `;
 
 const BtnAtagStyle = styled.a`
