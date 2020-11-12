@@ -170,7 +170,6 @@ function IssueList(props) {
 
   //드롭다운 visibility 관리
   const openStatusDropDown = () => {
-    console.log("openStatusDropDown", StatusDropDownVisible);
     closeFilterDropDown();
     setStatusDropDownVisible(!StatusDropDownVisible);
   };
@@ -277,15 +276,7 @@ function IssueList(props) {
   );
 
   const handleClickOutside = ({ target }) => {
-    console.log(
-      "handler",
-      StatusDropDownVisible,
-      target,
-      issueRef.current.contains(target)
-    );
     if (!issueRef.current.contains(target)) {
-      //setStatusDropDownVisible(false);
-      console.log("꺼짐");
       closeFilterDropDown();
     }
   };
