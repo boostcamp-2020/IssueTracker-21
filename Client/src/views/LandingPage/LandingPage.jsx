@@ -13,12 +13,15 @@ export const LandingPageContext = React.createContext();
 
 function LandingPage(props) {
   //input에 입력되는 데이터를 관리
-  const [inputData, setInputData] = useState("is:open is:issue");
+  const [inputData, setInputData] = useState("is:open is:issue\u00A0");
   //이슈 리스트에 표시될 이슈 데이터를 관리
   const [Issues, setIssues] = useState([]);
   const [isMounted, setisMounted] = useState(true);
   const [clearBtnStatus, setclearBtnStatus] = useState(false);
   const [InputMilestone, setInputMilestone] = useState(null);
+  const [InputAuthor, setInputAuthor] = useState(null);
+  const [InputLabel, setInputLabel] = useState([]);
+  const [InputAssignee, setInputAssignee] = useState([]);
 
   const issueHandler = (issueList) => {
     setIssues(issueList);
@@ -47,7 +50,11 @@ function LandingPage(props) {
 
   const clearBtnStatusHandler = () => {
     setclearBtnStatus(false);
-    setInputData("is:open is:issue");
+    setInputData("is:open is:issue\u00A0");
+    setInputAssignee([]);
+    setInputAuthor(null);
+    setInputLabel([]);
+    setInputMilestone(null);
     axios.get(inputDataToUrl("is:open is:issue")).then((response) => {
       if (response.data.success && isMounted) {
         issueHandler(response.data.issues);
@@ -76,44 +83,94 @@ function LandingPage(props) {
     if (newInputData !== "is:open is:issue") setclearBtnStatus(true);
   };
 
-  const inputOnClickFilterHandler = (str) => {
-    let inputDataCopy = inputData;
+  //양 옆으로 white space가 있는 String을 반환
+  const stringWithWhiteSpace = (str) => {
+    const whiteSpace = "\u00A0";
+    return str.concat(whiteSpace);
+  }
 
-    let prevAuthor = inputDataCopy.match(/[author:\S]+/g)[0];
+  const inputOnClickFilterHandler = (str) => {
+
+    
+    const notSelect = str.match(/(?<=no:)[\S]+/g);
+    let inputDataCopy = inputData;
 
     const newAuthor = str.match(/(?<=author:)[\S]+/g);
     const newMilestone = str.match(/(?<=milestone:)[\S\s]+/g);
+    const newLabel = str.match(/(?<=label:)[\S]+/g);
+    const newAssignee = str.match(/(?<=assignee:)[\S]+/g);
 
-    if(newMilestone !== null){
-      if(InputMilestone !== null){
-        inputDataCopy = inputDataCopy.replace(InputMilestone, str);
-        setInputMilestone(str);
-      }else{
-        setInputMilestone(str);
-        inputDataCopy = inputDataCopy
-      .concat("\u00A0")
-      .concat(str)
-      .concat("\u00A0");
+    if(inputDataCopy.match(str) === null){
+
+      if(notSelect != null) {
+        switch(notSelect[0]){
+          case "label":
+            if(InputLabel !== []){
+              InputLabel.forEach(e=>inputDataCopy = inputDataCopy.replace(e,''));
+            }
+            setInputLabel([str]);
+            console.log(InputLabel)
+            inputDataCopy = inputDataCopy
+        .concat(stringWithWhiteSpace(str));
+            break;
+          case "milestone":
+            if(InputMilestone !== null){
+              inputDataCopy = inputDataCopy.replace(InputMilestone,'');
+            }
+            setInputMilestone(str);
+            inputDataCopy = inputDataCopy
+        .concat(stringWithWhiteSpace(str));
+            break;
+          case "assignee":
+            if(InputAssignee !== []){
+              InputAssignee.forEach(e=>inputDataCopy = inputDataCopy.replace(e,''));
+            }
+            setInputAssignee([str]);
+            inputDataCopy = inputDataCopy
+        .concat(stringWithWhiteSpace(str));
+            break;
+        }
       }
-    } else if(newAuthor !== null){
-      if(prevAuthor !== null){
-        inputDataCopy = inputDataCopy.replace(prevAuthor,str);
-      }else{
-        prevAuthor = str.match(/[author:\S]+/g)[0];
+  
+      if(newMilestone !== null){
+        if(InputMilestone !== null){
+          inputDataCopy = inputDataCopy.replace(InputMilestone, str);
+          setInputMilestone(str);
+        }else{
+          setInputMilestone(str);
+          inputDataCopy = inputDataCopy.concat(stringWithWhiteSpace(str));
+        }
+      } else if(newAuthor !== null){
+        if(InputAuthor !== null){
+          inputDataCopy = inputDataCopy.replace(InputAuthor,str);
+          setInputAuthor(str);
+        }else{
+          setInputAuthor(str);
+          inputDataCopy = inputDataCopy
+        .concat(stringWithWhiteSpace(str));
+        }
+      } else if(newLabel !== null){
+        if(InputLabel.includes("no:label")){
+          setInputLabel([str]);
+          inputDataCopy = inputDataCopy.replace("no:label\u00A0",'');
+        }
+        setInputLabel([...InputLabel,str]);
         inputDataCopy = inputDataCopy
-      .concat("\u00A0")
-      .concat(str)
-      .concat("\u00A0");
+        .concat(stringWithWhiteSpace(str));
+      } else if (newAssignee !== null){
+        if(InputAssignee.includes("no:assignee")){
+          setInputAssignee([str]);
+          inputDataCopy = inputDataCopy.replace("no:assignee\u00A0",'');
+        }
+        setInputAssignee([...InputAssignee,str]);
+        inputDataCopy = inputDataCopy
+        .concat(stringWithWhiteSpace(str));
       }
-    } else {
-      inputDataCopy = inputDataCopy
-      .concat("\u00A0")
-      .concat(str)
-      .concat("\u00A0");
+  
+      setInputData(inputDataCopy);
+      inputFilterSubmitHandler(inputDataCopy);
+
     }
-
-    setInputData(inputDataCopy);
-    inputFilterSubmitHandler(inputDataCopy);
   };
 
 

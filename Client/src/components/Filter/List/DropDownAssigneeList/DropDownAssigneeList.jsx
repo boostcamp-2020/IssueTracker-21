@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Router } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import DropDownUserCard from "../../Card/DropDownUserCard";
 import styled from "styled-components";
+import {LandingPageContext} from "../../../../views/LandingPage"
 
 function DropDownAssigneeList() {
   const [Items, setItems] = useState([]);
-  const [SelectedItems, setSelectedItems] = useState([]);
+  const { inputOnClickFilterHandler } = useContext(LandingPageContext);
 
     /* get data */
     useEffect(() => {
@@ -35,7 +36,9 @@ function DropDownAssigneeList() {
   return (
   <div className="dropDownList">
     <div className="dropDownCardContainter">
-      <NotSelect>Assigned to Nobody</NotSelect>
+      <NotSelect
+      onClick={() => inputOnClickFilterHandler(`no:assignee`)}
+      >Assigned to Nobody</NotSelect>
       {renderCards}
     </div>
   </div>
