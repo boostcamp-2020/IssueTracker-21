@@ -30,14 +30,14 @@ const TopNavStyle = styled.div`
 `;
 
 function MilestoneModifyPage(props) {
+  const info = props.location.state.info;
+
   const milestoneId = props.match.params.milestoneId;
   const [title, setTitle] = useState(null);
   const [dueDate, setDueDate] = useState(null);
   const [description, setDescription] = useState("");
   const [isDateForm, setIsDateForm] = useState(true);
-  const [status, setStatus] = useState(true);
-
-  const info = props.location.state.info;
+  const [status, setStatus] = useState(info.isOpend);
 
   function labelsHandler() {
     props.history.push("/labels");
@@ -52,7 +52,15 @@ function MilestoneModifyPage(props) {
   }
 
   function statusHandler() {
-    console.log("상태변경 추가");
+    const body = { milestoneId: info.id, newStatus: !status };
+    axios.put("/api/milestone/status", body).then((response) => {
+      if (response.data.success) {
+        // setStatus(!status);
+        props.history.push("/milestone");
+      } else {
+        alert("Failed to update milestone status");
+      }
+    });
   }
 
   const titleHandler = (value) => {
