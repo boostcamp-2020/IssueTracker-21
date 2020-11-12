@@ -134,7 +134,7 @@ function IssueList(props) {
         isOpen={issue.isOpened ? "true" : null}
         time={issue.updatedAt}
         authorId={issue.authorId}
-        milestoneTitle={issue.milestone?issue.milestone.title:""}
+        milestoneTitle={issue.milestone ? issue.milestone.title : ""}
         comments={issue.comments}
         assignee={issue.users}
         labels={issue.labels}
@@ -340,21 +340,27 @@ const ChkBoxStyle = styled.div`
 const CheckedStyle = styled(ChkBoxStyle)`
   text-align: center;
   color: white;
-  font-size: 12px;
+  font-size: 5px;
   background-color: #3a79fe;
   &:before {
+    position: absolute;
     content: "━";
-    font-weight: bold;
+    margin-left: -5px;
+    margin-top: -2px;
   }
 `;
 
 const CheckedAllStyle = styled(ChkBoxStyle)`
   text-align: center;
   color: white;
-  font-size: 12px;
+  font-size: 10px;
   background-color: #3a79fe;
   &:before {
+    position: absolute;
     content: "✔";
+    color: white;
+    margin-left: -6px;
+    margin-top: -2px;
   }
 `;
 

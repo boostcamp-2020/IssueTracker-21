@@ -124,10 +124,14 @@ const ChkBoxStyle = styled.div`
 const CheckedStyle = styled(ChkBoxStyle)`
   text-align: center;
   color: white;
-  font-size: 12px;
+  font-size: 10px;
   background-color: #3a79fe;
   &:before {
+    position: absolute;
     content: "✔";
+    color: white;
+    margin-left: -6px;
+    margin-top: -2px;
   }
 `;
 
