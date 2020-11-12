@@ -26,36 +26,43 @@ function AssigneeSideItem() {
       <SideItemButton onClick={showDropDown}>
         Assignees <Icon icon={gear16} />
       </SideItemButton>
-      {DropdownStatus ? (
-        <DropDown
-          filter="assignee"
-          handler={dropDownHandler}
-          status={DropdownStatus}
-          onCardClicked={assigneeListHandler}
-        />
-      ) : null}
-      {curAssigneeList.length ? (
-        curAssigneeList.map((element) => {
-          return (
-            <AsigneeSideCard
-              key={element.id}
-              id={element.id}
-              profile={element.profile}
-            />
-          );
-        })
-      ) : (
-        <AssignMeArea>
-          No one-
-          <SideItemButton onClick={assignMeHandler}>yourself</SideItemButton>
-        </AssignMeArea>
-      )}
+      <ContentsArea>
+        {DropdownStatus ? (
+          <DropDown
+            filter="assignee"
+            handler={dropDownHandler}
+            status={DropdownStatus}
+            onCardClicked={assigneeListHandler}
+          />
+        ) : null}
+        {curAssigneeList.length ? (
+          curAssigneeList.map((element) => {
+            return (
+              <AsigneeSideCard
+                key={element.id}
+                id={element.id}
+                profile={element.profile}
+              />
+            );
+          })
+        ) : (
+          <AssignMeArea>
+            No one-
+            <SideItemButton onClick={assignMeHandler}>yourself</SideItemButton>
+          </AssignMeArea>
+        )}
+      </ContentsArea>
     </SideItemContainer>
   );
 }
 
 const AssignMeArea = styled.div`
   display: flex;
+`;
+
+const ContentsArea = styled.div`
+  display: flex;
+  flex-direction: row;
 `;
 const SideItemContainer = styled.div`
   display: flex;

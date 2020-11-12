@@ -22,23 +22,28 @@ function MilestoneSideItem() {
       <SideItemButton onClick={showDropDown}>
         Milestones <Icon icon={gear16} />
       </SideItemButton>
-      {DropdownStatus ? (
-        <DropDown
-          filter="milestone"
-          handler={dropDownHandler}
-          status={DropdownStatus}
-          onCardClicked={milestoneListHandler}
-        />
-      ) : null}
-      {curMilestone ? (
-        <MilestoneSideCard title={curMilestone.title} />
-      ) : (
-        <span>None yet</span>
-      )}
+      <ContentsArea>
+        {DropdownStatus ? (
+          <DropDown
+            filter="milestone"
+            handler={dropDownHandler}
+            status={DropdownStatus}
+            onCardClicked={milestoneListHandler}
+          />
+        ) : null}
+        {curMilestone ? (
+          <MilestoneSideCard title={curMilestone.title} />
+        ) : (
+          <span>None yet</span>
+        )}
+      </ContentsArea>
     </SideItemContainer>
   );
 }
-
+const ContentsArea = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
 
 const SideItemContainer = styled.div`
   display: flex;
