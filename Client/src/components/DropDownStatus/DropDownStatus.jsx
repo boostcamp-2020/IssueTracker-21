@@ -91,7 +91,7 @@ const DropDownStatusCard = styled.div`
 let DropDownContainter = styled.div`
   display: ${(props) => (props.visible ? "block" : "none")};
   position: absolute;
-  top: 250px;
+  margin-top: 30px;
   width: 200px;
   border-radius: 6px;
   border: 1px solid rgb(225, 228, 232);
