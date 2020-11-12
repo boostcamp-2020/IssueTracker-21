@@ -125,8 +125,8 @@ const ListStyle = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  border: 2px solid #e9ecee;
-  border-radius: 7px;
+  border: 1px solid rgb(225, 228, 232);
+  border-radius: 6px;
   margin-top: 20px;
   margin-bottom: 50px;
 `;
@@ -138,7 +138,11 @@ const ListTopStyle = styled.div`
   justify-content: flex-start;
   align-items: center;
   background-color: #fafbfc;
-  padding: 10px 20px;
+  border-radius: 6px 6px 0 0;
+  padding: 18px 15px;
+  border-width: 0px 0px 1px 0px;
+  border-color: rgb(225, 228, 232);
+  border-style: solid;
 `;
 
 const BtnStyle = styled.div`
@@ -148,7 +152,7 @@ const BtnStyle = styled.div`
   justify-content: flex-start;
   align-items: center;
   margin-right: 20px;
-  font-size: 14px;
+  font-size: 13px;
 `;
 
 export default MilestoneList;
