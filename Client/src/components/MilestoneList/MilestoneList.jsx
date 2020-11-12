@@ -137,7 +137,7 @@ const ListTopStyle = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  background-color: #f5f8fa;
+  background-color: #fafbfc;
   padding: 10px 20px;
 `;
 

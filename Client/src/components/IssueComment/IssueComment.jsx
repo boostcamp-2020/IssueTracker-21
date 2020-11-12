@@ -128,14 +128,16 @@ const TopStyle = styled.div`
   border: 1.2px solid lightblue;
   padding: 0.5% 1%;
   background-color: #f1f8ff;
+  border-radius: 5px 5px 0px 0px;
 `;
 
 const OtherTopStyle = styled.div`
   display: flex;
   justify-content: space-between;
-  border: 1.2px solid #777777;
+  border: 1.2px solid rgb(225, 228, 232);
   padding: 0.5% 1%;
-  background-color: #d1d3d4;
+  background-color: #fafbfc;
+  border-radius: 5px 5px 0px 0px;
 `;
 
 const ProfileStyle = styled.div`
@@ -146,6 +148,9 @@ const ProfileStyle = styled.div`
 const UserProfileStyle = styled.img`
   max-width: 100%;
   max-height: 100%;
+  width: 50px;
+  height: 50px;
+  border-radius: 5px;
 `;
 
 const ContentStyle = styled.div`
@@ -153,10 +158,13 @@ const ContentStyle = styled.div`
 `;
 
 const ContentbodyStyle = styled.div`
-  border: 1.2px solid lightblue;
+  border-width: 0 1.2px 1.2px 1.2px;
+  border-style: solid;
+  border-color: lightblue;
   background-color: white;
   padding: 2%;
   text-align: left;
+  border-radius: 0px 0px 5px 5px;
 `;
 
 const CommentorAreaStyle = styled.div`
@@ -197,8 +205,9 @@ const VerticalDiv = styled.div`
   background-color: none;
   width: 90%;
   border-left: 1.5px solid #d1d3d4;
-  height: 15px;
+  height: 40px;
   margin: 0 15%;
+  z-index: -1;
 `;
 
 export default IssueComment;
