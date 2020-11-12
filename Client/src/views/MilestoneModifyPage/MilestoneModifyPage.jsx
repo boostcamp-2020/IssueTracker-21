@@ -37,6 +37,8 @@ function MilestoneModifyPage(props) {
   const [isDateForm, setIsDateForm] = useState(true);
   const [status, setStatus] = useState(true);
 
+  const info = props.location.state.info;
+
   function labelsHandler() {
     props.history.push("/labels");
   }
@@ -138,6 +140,7 @@ function MilestoneModifyPage(props) {
         dueDateHandler={dueDateHandler}
         descriptionHandler={descriptionHandler}
         dateFormHandler={dateFormHandler}
+        info={info}
       />
       <hr />
       <ButtonArea>

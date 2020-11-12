@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import styled from "styled-components";
 
@@ -41,6 +41,7 @@ function MilestoneEditor(props) {
   const dueDateHandler = props.dueDateHandler;
   const descriptionHandler = props.descriptionHandler;
   const dateFormHandler = props.dateFormHandler;
+  const info = props.info;
 
   function validateDate(e) {
     let date = e.target.value;
@@ -55,6 +56,12 @@ function MilestoneEditor(props) {
     }
   }
 
+  useEffect(() => {
+    titleHandler(info.title);
+    dueDateHandler(info.dueDate.split("T")[0]);
+    descriptionHandler(info.description);
+  }, []);
+
   return (
     <MileStoneEditorArea id="milestoneEditorArea">
       <div className="titleArea">
@@ -62,6 +69,7 @@ function MilestoneEditor(props) {
         <MilestoneInput
           placeholder="Title"
           color={"#fafbfc"}
+          defaultValue={info.title}
           onChange={(e) => titleHandler(e.target.value)}
         />
       </div>
@@ -71,12 +79,14 @@ function MilestoneEditor(props) {
           placeholder="연도-월-일"
           className={dateColor == "red" ? "redInput" : "blackInput"}
           color={dateColor}
+          defaultValue={info.dueDate.split("T")[0]}
           onChange={(e) => validateDate(e)}
         />
       </div>
       <div className="descriptionArea">
         <MilestoneLabel>Description (optional)</MilestoneLabel>
         <MilestoneTextArea
+          defaultValue={info.description}
           onChange={(e) => descriptionHandler(e.target.value)}
         />
       </div>
