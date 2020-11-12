@@ -21,10 +21,10 @@ function LabelNavBar(props) {
   return (
     <LabelNavBarContainer>
       <LinkButtonContainer>
-        <div className="button__section">
+        <ButtonSectionStyle>
           <CustomBtn
-            color="white"
-            bgColor="#0E66D6"
+            color="black"
+            bgColor="white"
             width="100%"
             height="30px"
             border="1px solid #e1e4e8"
@@ -49,7 +49,7 @@ function LabelNavBar(props) {
             <Icon width="18" height="18" icon={milestone24} />
             &nbsp;Milestones
           </CustomBtn>
-        </div>
+        </ButtonSectionStyle>
       </LinkButtonContainer>
 
       <NewLabelButtonContainer>
@@ -62,11 +62,16 @@ function LabelNavBar(props) {
 const LabelNavBarContainer = styled.div`
   width: 80%;
   display: flex;
+  margin-top: 12px;
   align-items: center;
-  justify-content: center;
   *:focus {
     outline: none;
   }
+`;
+
+const ButtonSectionStyle = styled.div`
+display: flex;
+width: 60%;
 `;
 
 const LinkButtonContainer = styled.div`
