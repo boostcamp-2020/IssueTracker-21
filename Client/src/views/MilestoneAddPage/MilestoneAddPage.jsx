@@ -16,10 +16,11 @@ const ButtonArea = styled.div`
   justify-content: flex-end;
 `;
 
-function MilestoneAddPage() {
+function MilestoneAddPage(props) {
   const [title, setTitle] = useState(null);
   const [dueDate, setDueDate] = useState(null);
   const [description, setDescription] = useState("");
+  const [isDateForm, setIsDateForm] = useState(true);
 
   const titleHandler = (value) => {
     setTitle(value);
@@ -33,9 +34,17 @@ function MilestoneAddPage() {
     setDescription(value);
   };
 
+  const dateFormHandler = (value) => {
+    setIsDateForm(value);
+  };
+
   const postNewMilestone = () => {
     if (title == null || title == "") {
       alert("Title을 입력하세요");
+      return;
+    }
+    if (!isDateForm) {
+      alert("날짜의 형식이 맞지 않습니다");
       return;
     }
     let data = {
@@ -50,8 +59,8 @@ function MilestoneAddPage() {
         credentials: "include",
       })
       .then((response) => {
-        if (response.success) {
-          console.log("성공");
+        if (response.data.success) {
+          props.history.push("/milestone");
         } else {
           console.log(response);
         }
@@ -66,6 +75,7 @@ function MilestoneAddPage() {
         titleHandler={titleHandler}
         dueDateHandler={dueDateHandler}
         descriptionHandler={descriptionHandler}
+        dateFormHandler={dateFormHandler}
       />
       <hr />
       <ButtonArea>

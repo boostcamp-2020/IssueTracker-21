@@ -19,7 +19,12 @@ import DetailPageEditor from "../../components/DetailPageEditor";
 import styled from "styled-components";
 
 const IssueComponentsDiv = styled.div`
-  display: 70%;
+  width: 72%;
+`;
+
+const IssueContentBodyArea = styled.div`
+  display: flex;
+  padding: 2%;
 `;
 
 let assigneeList = [];
@@ -375,6 +380,8 @@ function DetailPage(props) {
     <div className="editIssueArea">
       <div className="issueHeaderArea">
         {headerLoading ? renderLoading : renderIssueHeader}
+      </div>
+      <IssueContentBodyArea>
         <IssueComponentsDiv id="issueComponentsArea">
           {commentsLoading ? (
             renderLoading
@@ -392,28 +399,28 @@ function DetailPage(props) {
           {commentsLoading ? renderLoading : renderIssueComment}
           {commentsLoading ? renderLoading : renderIssueCommentEditor}
         </IssueComponentsDiv>
-      </div>
-      <div className="sideBar">
-        <Sidebar
-          assigneeList={assigneeList}
-          labelList={labelList}
-          milestone={milestone}
-          progress={progress}
-          curAssigneeList={curAssigneeList}
-          curMilestone={curMilestone}
-          curLabelList={curLabelList}
-          curAssigneeListHandler={curAssigneeListHandler}
-          assigneeListHandler={assigneeListHandler}
-          labelListHandler={labelListHandler}
-          milestoneListHandler={milestoneListHandler}
-          curlabelListHandler={curlabelListHandler}
-          curMilestoneListHandler={curMilestoneListHandler}
-          assignMeHandler={assignMeHandler}
-          assignNobodyHandler={assignNobodyHandler}
-          labelNothingHandler={labelNothingHandler}
-          milestoneNothingHandler={milestoneNothingHandler}
-        />
-      </div>
+        <div className="sideBar">
+          <Sidebar
+            assigneeList={assigneeList}
+            labelList={labelList}
+            milestone={milestone}
+            progress={progress}
+            curAssigneeList={curAssigneeList}
+            curMilestone={curMilestone}
+            curLabelList={curLabelList}
+            curAssigneeListHandler={curAssigneeListHandler}
+            assigneeListHandler={assigneeListHandler}
+            labelListHandler={labelListHandler}
+            milestoneListHandler={milestoneListHandler}
+            curlabelListHandler={curlabelListHandler}
+            curMilestoneListHandler={curMilestoneListHandler}
+            assignMeHandler={assignMeHandler}
+            assignNobodyHandler={assignNobodyHandler}
+            labelNothingHandler={labelNothingHandler}
+            milestoneNothingHandler={milestoneNothingHandler}
+          />
+        </div>
+      </IssueContentBodyArea>
     </div>
   );
 }
