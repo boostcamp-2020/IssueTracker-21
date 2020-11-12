@@ -12,7 +12,7 @@ function DropDownStatus(props) {
   const renderIssues = () => {
     axios.get("/api/issue").then((response) => {
       if (response.data.success) {
-        issueHandler(response.data.issues);
+        issueHandler(response.data.issues.filter((e) => e.isOpened))
       } else {
         alert("Failed to get issues");
       }
