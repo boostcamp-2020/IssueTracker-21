@@ -18,6 +18,7 @@ function LandingPage(props) {
   const [Issues, setIssues] = useState([]);
   const [isMounted, setisMounted] = useState(true);
   const [clearBtnStatus, setclearBtnStatus] = useState(false);
+  const [InputMilestone, setInputMilestone] = useState(null);
 
   const issueHandler = (issueList) => {
     setIssues(issueList);
@@ -76,13 +77,45 @@ function LandingPage(props) {
   };
 
   const inputOnClickFilterHandler = (str) => {
-    const newInputData = inputData
+    let inputDataCopy = inputData;
+
+    let prevAuthor = inputDataCopy.match(/[author:\S]+/g)[0];
+
+    const newAuthor = str.match(/(?<=author:)[\S]+/g);
+    const newMilestone = str.match(/(?<=milestone:)[\S\s]+/g);
+
+    if(newMilestone !== null){
+      if(InputMilestone !== null){
+        inputDataCopy = inputDataCopy.replace(InputMilestone, str);
+        setInputMilestone(str);
+      }else{
+        setInputMilestone(str);
+        inputDataCopy = inputDataCopy
       .concat("\u00A0")
       .concat(str)
       .concat("\u00A0");
-    setInputData(newInputData);
-    inputFilterSubmitHandler(newInputData);
+      }
+    } else if(newAuthor !== null){
+      if(prevAuthor !== null){
+        inputDataCopy = inputDataCopy.replace(prevAuthor,str);
+      }else{
+        prevAuthor = str.match(/[author:\S]+/g)[0];
+        inputDataCopy = inputDataCopy
+      .concat("\u00A0")
+      .concat(str)
+      .concat("\u00A0");
+      }
+    } else {
+      inputDataCopy = inputDataCopy
+      .concat("\u00A0")
+      .concat(str)
+      .concat("\u00A0");
+    }
+
+    setInputData(inputDataCopy);
+    inputFilterSubmitHandler(inputDataCopy);
   };
+
 
   // useEffect(() => {
   //   return () => {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import IssueCard from "../IssueCard";
@@ -25,7 +25,11 @@ function IssueList(props) {
   //Context API를 통해 가져옴
   const { Issues, issueHandler } = useContext(LandingPageContext);
 
+  const issueRef = useRef();
+
   useEffect(() => {
+    window.addEventListener("click", handleClickOutside);
+
     setChkNum({
       condition: "chkBox",
       num: 0,
@@ -40,6 +44,7 @@ function IssueList(props) {
     });
     return () => {
       setisMounted(false);
+      window.removeEventListener("click", handleClickOutside);
     };
   }, []);
 
@@ -165,47 +170,60 @@ function IssueList(props) {
 
   //드롭다운 visibility 관리
   const openStatusDropDown = () => {
-    setStatusDropDownVisible(true);
+    closeFilterDropDown();
+    setStatusDropDownVisible(!StatusDropDownVisible);
   };
   const openAuthorDropDown = () => {
-    setAuthorDropDownVisible(true);
+    closeFilterDropDown();
+    setAuthorDropDownVisible(!AuthorDropDownVisible);
   };
   const openAssigneeDropDown = () => {
-    setAssigneeDropDownVisible(true);
+    closeFilterDropDown();
+    setAssigneeDropDownVisible(!AssigneeDropDownVisible);
   };
   const openLabelDropDown = () => {
-    setLabelDropDownVisible(true);
+    closeFilterDropDown();
+    setLabelDropDownVisible(!LabelDropDownVisible);
   };
   const openMilestoneDropDown = () => {
-    setMilestoneDropDownVisible(true);
+    closeFilterDropDown();
+    setMilestoneDropDownVisible(!MilestoneDropDownVisible);
   };
+
   const closeStatusDropDown = () => {
     setStatusDropDownVisible(false);
   };
   const closeFilterDropDown = () => {
     setAuthorDropDownVisible(false);
-    // setLabelDropDownVisible(false);
-    // setMilestoneDropDownVisible(false);
-    // setAssigneeDropDownVisible(false);
+    setLabelDropDownVisible(false);
+    setMilestoneDropDownVisible(false);
+    setAssigneeDropDownVisible(false);
+    setStatusDropDownVisible(false);
   };
 
   const markAsOpt = (
     <RightMenuStyle id="rightMenu">
-      <OptBtnStyle className="optBtn" id="markAs" onClick={openStatusDropDown}>
-        Mark as ▾
-      </OptBtnStyle>
-      {StatusDropDownVisible && (
-        <DropDownStatus
-          visible={StatusDropDownVisible}
-          issueIdArr={ChkIssueId}
-          onClose={closeStatusDropDown}
-        />
-      )}
+      <div ref={issueRef}>
+        <OptBtnStyle
+          className="optBtn"
+          id="markAs"
+          onClick={openStatusDropDown}
+        >
+          Mark as ▾
+        </OptBtnStyle>
+        {StatusDropDownVisible && (
+          <DropDownStatus
+            visible={StatusDropDownVisible}
+            issueIdArr={ChkIssueId}
+            onClose={closeStatusDropDown}
+          />
+        )}
+      </div>
     </RightMenuStyle>
   );
 
   const filterOpt = (
-    <RightMenuStyle id="rightMenu">
+    <RightMenuStyle id="rightMenu" ref={issueRef}>
       <OptBtnStyle
         className="optBtn"
         id="authorOpt"
@@ -256,6 +274,12 @@ function IssueList(props) {
       </div>
     </RightMenuStyle>
   );
+
+  const handleClickOutside = ({ target }) => {
+    if (!issueRef.current.contains(target)) {
+      closeFilterDropDown();
+    }
+  };
 
   const CheckBoxStyles =
     ChkNum.condition === "chkBox"
