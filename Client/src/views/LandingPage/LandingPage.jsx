@@ -4,6 +4,9 @@ import IssueList from "../../components/IssueList";
 import Navbar from "Components/Navbar";
 import inputDataToUrl from "../../utils/searchRegex";
 import axios from "axios";
+import { Icon, InlineIcon } from "@iconify/react";
+import xCircleFill24 from "@iconify/icons-octicon/x-circle-fill-24";
+import styled from "styled-components";
 import "./LandingPageStyle.scss";
 
 export const LandingPageContext = React.createContext();
@@ -58,22 +61,25 @@ function LandingPage(props) {
     setInputData(e.target.id);
   };
 
-    //필터 드롭다운 클릭시 자동으로 제출
-    const inputFilterSubmitHandler = (newInputData) => {
-        //e.preventDefault();
-        console.log(inputDataToUrl(newInputData));
-        axios.get(inputDataToUrl(newInputData)).then((response) => {
-          if (response.data.success && isMounted) {
-            issueHandler(response.data.issues);
-          } else {
-            alert("Failed to get issues");
-          }
-        });
-        if (newInputData !== "is:open is:issue") setclearBtnStatus(true);
-    };
+  //필터 드롭다운 클릭시 자동으로 제출
+  const inputFilterSubmitHandler = (newInputData) => {
+    //e.preventDefault();
+    console.log(inputDataToUrl(newInputData));
+    axios.get(inputDataToUrl(newInputData)).then((response) => {
+      if (response.data.success && isMounted) {
+        issueHandler(response.data.issues);
+      } else {
+        alert("Failed to get issues");
+      }
+    });
+    if (newInputData !== "is:open is:issue") setclearBtnStatus(true);
+  };
 
   const inputOnClickFilterHandler = (str) => {
-    const newInputData = inputData.concat('\u00A0').concat(str).concat('\u00A0');
+    const newInputData = inputData
+      .concat("\u00A0")
+      .concat(str)
+      .concat("\u00A0");
     setInputData(newInputData);
     inputFilterSubmitHandler(newInputData);
   };
@@ -93,7 +99,7 @@ function LandingPage(props) {
         inputOnChangeHandler,
         inputOnClickHandler,
         inputSubmitHandler,
-        inputOnClickFilterHandler
+        inputOnClickFilterHandler,
       }}
     >
       <div id="landingArea">
@@ -101,19 +107,34 @@ function LandingPage(props) {
         <br />
         <Navbar {...props} />
         <br />
-        {clearBtnStatus && (
-          <button onClick={clearBtnStatusHandler}>
-            Clear current search query, filters, and sorts
-          </button>
-        )}
+        <div id="clearBtnArea">
+          {clearBtnStatus && (
+            <ClearBtn onClick={clearBtnStatusHandler}>
+              <Icon width={"4%"} icon={xCircleFill24} />
+              Clear current search query, filters, and sorts
+            </ClearBtn>
+          )}
+        </div>
         {clearBtnStatus && <br />}
         <IssueList />
         <br />
-
         <br />
       </div>
     </LandingPageContext.Provider>
   );
 }
+
+const ClearBtn = styled.button`
+  &:hover {
+    color: #0366d6;
+  }
+  padding: 0px;
+  display: flex;
+  justify-content: flex-start;
+  font-weight: 600;
+  border: none;
+  background-color: white;
+  color: #586069;
+`;
 
 export default LandingPage;
