@@ -331,7 +331,7 @@ function DetailPage(props) {
             }, 0);
 
           if (openissueCount) {
-            setProgress(Math.floor((openissueCount / issueCount) * 100));
+            setProgress(Math.floor(((issueCount - openissueCount) / issueCount) * 100));
           } else setProgress(0);
         } else {
           alert("Failed to get User info");
