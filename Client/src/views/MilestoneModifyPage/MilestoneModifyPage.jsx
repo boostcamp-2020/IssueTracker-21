@@ -37,7 +37,7 @@ function MilestoneModifyPage(props) {
   const [dueDate, setDueDate] = useState(null);
   const [description, setDescription] = useState("");
   const [isDateForm, setIsDateForm] = useState(true);
-  const [status, setStatus] = useState(info.isOpend);
+  const [status, setStatus] = useState(info.isOpened);
 
   function labelsHandler() {
     props.history.push("/labels");
@@ -155,7 +155,7 @@ function MilestoneModifyPage(props) {
         <CancelMilestoneBtn cancelHandler={cancelHandler} />
         <MilestoneStatusBtn
           statusHandler={statusHandler}
-          value={status ? "Close milestone" : "Reopen milestone"}
+          value={info.isOpened ? "Close milestone" : "Reopen milestone"}
         />
         <ChangeMilestoneBtn
           value="Save changes"
