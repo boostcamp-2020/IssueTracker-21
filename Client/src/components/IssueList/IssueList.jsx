@@ -28,8 +28,15 @@ function IssueList(props) {
   const issueRef = useRef();
 
   useEffect(() => {
-    window.addEventListener("click", handleClickOutside);
+    setChkIssueId([]);
+    setChkNum({
+      condition: "chkBox",
+      num: 0,
+    });
+  }, [Issues]);
 
+  useEffect(() => {
+    window.addEventListener("click", handleClickOutside);
     setChkNum({
       condition: "chkBox",
       num: 0,
