@@ -72,7 +72,7 @@ Issue-Itsue is a project that clones IssueTracker which manages Github issue ser
 
 <br/>
 
-## 수1산시장 팀의 <이슈잇슈> 에 대해 더 많이 알 싶다면⁉️
+## 수1산시장 팀의 <이슈잇슈> 에 대해 더 많이 알고  싶다면⁉️
 [위키](https://github.com/boostcamp-2020/IssueTracker-21/wiki)를 읽어주세요😇
 
 
