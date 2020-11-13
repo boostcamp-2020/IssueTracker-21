@@ -257,7 +257,11 @@ function IssueList(props) {
           />
         )}
       </OptBtnStyle>
-      <OptBtnStyle className="optBtn" id="assigneeOpt" onClick={openAssigneeDropDown}>
+      <OptBtnStyle
+        className="optBtn"
+        id="assigneeOpt"
+        onClick={openAssigneeDropDown}
+      >
         Assignee ▾
         {AssigneeDropDownVisible && (
           <DropDownFilter
@@ -292,7 +296,7 @@ function IssueList(props) {
             onClick={chkBox}
             className={ChkNum.condition}
           />
-          {ChkNum.num !== 0 && <div>{ChkNum.num} selected</div>}
+          {ChkNum.num !== 0 && <div>{ChkIssueId.length} selected</div>}
         </LeftMenuStyle>
         {ChkNum.num === 0 ? filterOpt : markAsOpt}
       </FilterAreaStyle>
